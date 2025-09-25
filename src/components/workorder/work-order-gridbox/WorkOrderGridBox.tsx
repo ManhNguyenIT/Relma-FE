@@ -1,6 +1,6 @@
-import GridBox from "./ui/GridBox";
-import { useModal } from "../../../hooks/useModal";
-import ModalGridBox from "../../modal/ModalGridBox";
+import GridBox from './ui/GridBox';
+import { useModal } from '../../../hooks/useModal';
+import ModalGridBox from '../../modal/ModalGridBox';
 
 export default function WorkOrderGridBox() {
   const {
@@ -11,28 +11,28 @@ export default function WorkOrderGridBox() {
 
   const workOrders = [
     {
-      woNumber: "WO #001",
-      statusText: "Đang hoạt động",
-      statusColor: "#73D13D",
-      statusBg: "#F6FFED",
+      woNumber: 'WO #001',
+      statusText: 'Đang hoạt động',
+      statusColor: '#73D13D',
+      statusBg: '#F6FFED',
     },
     {
-      woNumber: "WO #002",
-      statusText: "Đang bảo dưỡng",
-      statusColor: "#1890FF",
-      statusBg: "#E6F7FF",
+      woNumber: 'WO #002',
+      statusText: 'Đang bảo dưỡng',
+      statusColor: '#1890FF',
+      statusBg: '#E6F7FF',
     },
     {
-      woNumber: "WO #003",
-      statusText: "Đang kiểm tra",
-      statusColor: "#FAAD14",
-      statusBg: "#FFFBE6",
+      woNumber: 'WO #003',
+      statusText: 'Đang kiểm tra',
+      statusColor: '#FAAD14',
+      statusBg: '#FFFBE6',
     },
     {
-      woNumber: "WO #004",
-      statusText: "Quá tải",
-      statusColor: "#FF4D4F",
-      statusBg: "#FFF1F0",
+      woNumber: 'WO #004',
+      statusText: 'Quá tải',
+      statusColor: '#FF4D4F',
+      statusBg: '#FFF1F0',
     },
   ];
 
@@ -41,11 +41,7 @@ export default function WorkOrderGridBox() {
       {Array.from({ length: 10 }).map((_, index) => {
         const wo = workOrders[index % workOrders.length];
         return (
-          <div
-            key={index}
-            onClick={openModalGridBox}
-            className="cursor-pointer h-full"
-          >
+          <div key={index} onClick={openModalGridBox} className="cursor-pointer h-full">
             <GridBox
               woNumber={wo.woNumber}
               statusText={wo.statusText}

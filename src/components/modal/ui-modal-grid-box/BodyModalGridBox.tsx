@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import { useState } from 'react';
+import { FaEdit } from 'react-icons/fa';
 
 interface DataType {
   location: string;
@@ -12,40 +12,38 @@ interface DataType {
 type FieldKey = keyof DataType;
 
 export default function BodyModalGridBox() {
-  const [status, setStatus] = useState<
-    "Operational" | "In Progress" | "Completed"
-  >("Operational");
-  const [priority, setPriority] = useState<"High" | "Medium" | "Low">("Medium");
+  const [status, setStatus] = useState<'Operational' | 'In Progress' | 'Completed'>('Operational');
+  const [priority, setPriority] = useState<'High' | 'Medium' | 'Low'>('Medium');
   const [hoveredRow, setHoveredRow] = useState<FieldKey | null>(null);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
-  const [editField, setEditField] = useState<FieldKey | "">("");
-  const [editValue, setEditValue] = useState<string>("");
+  const [editField, setEditField] = useState<FieldKey | ''>('');
+  const [editValue, setEditValue] = useState<string>('');
 
   const [data, setData] = useState<DataType>({
-    location: "Suite B",
-    closeoutNotes: "N/A",
-    category: "Preventative",
-    estimatedDuration: "10",
-    primaryAssignee: "Trần Linh",
+    location: 'Suite B',
+    closeoutNotes: 'N/A',
+    category: 'Preventative',
+    estimatedDuration: '10',
+    primaryAssignee: 'Trần Linh',
   });
 
   const fieldNames: Record<FieldKey, string> = {
-    location: "Location",
-    closeoutNotes: "Closeout Notes",
-    category: "Category",
-    estimatedDuration: "Estimated Duration",
-    primaryAssignee: "Primary Assignee",
+    location: 'Location',
+    closeoutNotes: 'Closeout Notes',
+    category: 'Category',
+    estimatedDuration: 'Estimated Duration',
+    primaryAssignee: 'Primary Assignee',
   };
 
   const getPriorityColor = () => {
     switch (priority) {
-      case "High":
-        return "bg-orange-500";
-      case "Low":
-        return "bg-red-500";
-      case "Medium":
+      case 'High':
+        return 'bg-orange-500';
+      case 'Low':
+        return 'bg-red-500';
+      case 'Medium':
       default:
-        return "bg-green-500";
+        return 'bg-green-500';
     }
   };
 
@@ -66,31 +64,27 @@ export default function BodyModalGridBox() {
     <div className="w-full border border-[#F3F3F3] bg-white rounded-[8px] px-[24px] py-[24px]">
       <div className="flex flex-col md:gap-2 gap-4">
         <p>HVAC Monthly Preventive Maintenance - AC</p>
-        <p>
-          Monthy HVAC preventative maintenance, specifically for AC function
-        </p>
+        <p>Monthy HVAC preventative maintenance, specifically for AC function</p>
       </div>
       <div className="w-full border-b border-[#F3F3F3] md:mt-4 mt-3"></div>
       <div className="flex flex-col md:gap-4 gap-5">
         <div className="space-y-4 text-sm md:mt-3 mt-3">
-
           <div
             className="flex items-start relative"
-            onMouseEnter={() => setHoveredRow("location")}
+            onMouseEnter={() => setHoveredRow('location')}
             onMouseLeave={() => setHoveredRow(null)}
           >
             <span className="w-40 text-gray-500">Location</span>
             <a href="#" className="text-blue-500 hover:underline">
               {data.location}
             </a>
-            {hoveredRow === "location" && (
+            {hoveredRow === 'location' && (
               <FaEdit
                 className="absolute right-0 cursor-pointer"
-                onClick={() => handleEditClick("location", data.location)}
+                onClick={() => handleEditClick('location', data.location)}
               />
             )}
           </div>
-
 
           <div className="flex items-center w-full md:gap-4">
             <div className="w-40 text-gray-500">Asset</div>
@@ -113,13 +107,10 @@ export default function BodyModalGridBox() {
           </div>
         </div>
 
-
         <div className="flex items-start">
           <span className="w-40 text-gray-500">Priority</span>
           <div className="flex items-center space-x-2">
-            <span
-              className={`w-2 h-2 rounded-full ${getPriorityColor()}`}
-            ></span>
+            <span className={`w-2 h-2 rounded-full ${getPriorityColor()}`}></span>
             <select
               value={priority}
               onChange={(e) => setPriority(e.target.value as typeof priority)}
@@ -132,80 +123,70 @@ export default function BodyModalGridBox() {
           </div>
         </div>
 
-
         <div
           className="flex items-start relative"
-          onMouseEnter={() => setHoveredRow("closeoutNotes")}
+          onMouseEnter={() => setHoveredRow('closeoutNotes')}
           onMouseLeave={() => setHoveredRow(null)}
         >
           <span className="w-40 text-gray-500">Closeout Notes</span>
           <span className="text-gray-700">{data.closeoutNotes}</span>
-          {hoveredRow === "closeoutNotes" && (
+          {hoveredRow === 'closeoutNotes' && (
             <FaEdit
               className="absolute right-0 cursor-pointer"
-              onClick={() =>
-                handleEditClick("closeoutNotes", data.closeoutNotes)
-              }
+              onClick={() => handleEditClick('closeoutNotes', data.closeoutNotes)}
             />
           )}
         </div>
 
-
         <div
           className="flex items-start relative"
-          onMouseEnter={() => setHoveredRow("category")}
+          onMouseEnter={() => setHoveredRow('category')}
           onMouseLeave={() => setHoveredRow(null)}
         >
           <span className="w-40 text-gray-500">Category</span>
           <span className="text-gray-700">{data.category}</span>
-          {hoveredRow === "category" && (
+          {hoveredRow === 'category' && (
             <FaEdit
               className="absolute right-0 cursor-pointer"
-              onClick={() => handleEditClick("category", data.category)}
+              onClick={() => handleEditClick('category', data.category)}
             />
           )}
         </div>
 
-
         <div
           className="flex items-start relative"
-          onMouseEnter={() => setHoveredRow("estimatedDuration")}
+          onMouseEnter={() => setHoveredRow('estimatedDuration')}
           onMouseLeave={() => setHoveredRow(null)}
         >
           <span className="w-40 text-gray-500">Estimated Duration</span>
           <span className="text-gray-700">{data.estimatedDuration}</span>
-          {hoveredRow === "estimatedDuration" && (
+          {hoveredRow === 'estimatedDuration' && (
             <FaEdit
               className="absolute right-0 cursor-pointer"
-              onClick={() =>
-                handleEditClick("estimatedDuration", data.estimatedDuration)
-              }
+              onClick={() => handleEditClick('estimatedDuration', data.estimatedDuration)}
             />
           )}
         </div>
 
-
         <div className="flex items-start">
           <span className="w-40 text-gray-500">Created</span>
           <span>
-            Jul 02, 2025 11:00 AM by{" "}
+            Jul 02, 2025 11:00 AM by{' '}
             <a href="#" className="text-blue-500 hover:underline">
               Trần Linh
             </a>
           </span>
         </div>
-
 
         <div className="flex items-start">
           <span className="w-40 text-gray-500">Last Update</span>
           <span>
-            Jul 02, 2025 11:00 AM by{" "}
+            Jul 02, 2025 11:00 AM by{' '}
             <a href="#" className="text-blue-500 hover:underline">
               Trần Linh
             </a>
           </span>
         </div>
-
 
         <div className="flex items-start">
           <span className="w-40 text-gray-500">Due Date</span>
@@ -214,24 +195,21 @@ export default function BodyModalGridBox() {
 
         <div
           className="flex items-start relative"
-          onMouseEnter={() => setHoveredRow("primaryAssignee")}
+          onMouseEnter={() => setHoveredRow('primaryAssignee')}
           onMouseLeave={() => setHoveredRow(null)}
         >
           <span className="w-40 text-gray-500">Primary Assignee</span>
           <a href="#" className="text-blue-500 hover:underline">
             {data.primaryAssignee}
           </a>
-          {hoveredRow === "primaryAssignee" && (
+          {hoveredRow === 'primaryAssignee' && (
             <FaEdit
               className="absolute right-0 cursor-pointer"
-              onClick={() =>
-                handleEditClick("primaryAssignee", data.primaryAssignee)
-              }
+              onClick={() => handleEditClick('primaryAssignee', data.primaryAssignee)}
             />
           )}
         </div>
       </div>
-
 
       {editModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300">

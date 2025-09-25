@@ -1,31 +1,23 @@
+import { useState } from 'react';
 
-import { useState } from "react";
+import { Modal } from '../ui/modal';
 
-import { Modal } from "../ui/modal";
-
-import FlTable from "../tables/FlTable";
-import { FaSearch } from "react-icons/fa";
-
+import FlTable from '../tables/FlTable';
+import { FaSearch } from 'react-icons/fa';
 
 interface ModalPmAddPartProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function ModalPmAddPart({
-  isOpen,
-  onClose,
-}: ModalPmAddPartProps) {
-
-  const [activeTab, setActiveTab] = useState("start");
+export default function ModalPmAddPart({ isOpen, onClose }: ModalPmAddPartProps) {
+  const [activeTab, setActiveTab] = useState('start');
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-[900px] m-4">
       <div className="no-scrollbar relative w-full max-w-[900px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
         <div className="px-2 pr-14">
-          <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-            Add Time
-          </h4>
+          <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">Add Time</h4>
         </div>
         <div className="w-full border-b border-[#F3F3F3]"></div>
 
@@ -43,40 +35,40 @@ export default function ModalPmAddPart({
                 </div>
               </div>
               <div className="w-full max-w-4xl mx-auto">
-
                 <div className="flex flex-wrap border-b border-gray-200 w-full">
                   <button
                     type="button"
-                    onClick={() => setActiveTab("part")}
-                    className={`px-4 py-2 text-sm font-medium ${activeTab === "part"
-                      ? "text-blue-500 border-b-2 border-blue-500"
-                      : "text-gray-500 hover:text-gray-700"
-                      }`}
+                    onClick={() => setActiveTab('part')}
+                    className={`px-4 py-2 text-sm font-medium ${
+                      activeTab === 'part'
+                        ? 'text-blue-500 border-b-2 border-blue-500'
+                        : 'text-gray-500 hover:text-gray-700'
+                    }`}
                   >
                     Part
                   </button>
 
                   <button
                     type="button"
-                    onClick={() => setActiveTab("sets")}
-                    className={`px-4 py-2 text-sm font-medium ${activeTab === "sets"
-                      ? "text-blue-500 border-b-2 border-blue-500"
-                      : "text-gray-500 hover:text-gray-700"
-                      }`}
+                    onClick={() => setActiveTab('sets')}
+                    className={`px-4 py-2 text-sm font-medium ${
+                      activeTab === 'sets'
+                        ? 'text-blue-500 border-b-2 border-blue-500'
+                        : 'text-gray-500 hover:text-gray-700'
+                    }`}
                   >
                     Sets
                   </button>
                 </div>
 
-
                 <div className="mt-4 p-4 border rounded-lg bg-gray-50">
-                  {activeTab === "part" && (
+                  {activeTab === 'part' && (
                     <div>
                       <FlTable />
                     </div>
                   )}
 
-                  {activeTab === "sets" && <div>Content</div>}
+                  {activeTab === 'sets' && <div>Content</div>}
                 </div>
               </div>
             </div>

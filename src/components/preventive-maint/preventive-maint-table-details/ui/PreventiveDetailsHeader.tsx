@@ -1,8 +1,8 @@
-import { MoreIcon } from "../../../../icons";
-import { IoIosArrowRoundBack } from "react-icons/io";
-import { useNavigate } from "react-router";
-import { useModal } from "../../../../hooks/useModal";
-import ModalAddAsset from "../../../modal/ModalAddAsset";
+import { MoreIcon } from '../../../../icons';
+import { IoIosArrowRoundBack } from 'react-icons/io';
+import { useNavigate } from 'react-router';
+import { useModal } from '../../../../hooks/useModal';
+import ModalAddAsset from '../../../modal/ModalAddAsset';
 
 export default function PreventiveDetailsHeader() {
   const {
@@ -17,7 +17,7 @@ export default function PreventiveDetailsHeader() {
         <div className="text-[20px] font-medium flex items-center md:gap-2 gap-2 w-full">
           <IoIosArrowRoundBack
             size={25}
-            onClick={() => navigate("/preventivemaint")}
+            onClick={() => navigate('/preventivemaint')}
             className="cursor-pointer"
           />
           Kiểm tra máy điều hòa
@@ -36,10 +36,7 @@ export default function PreventiveDetailsHeader() {
           <MoreIcon className="cursor-pointer" />
         </div>
       </div>
-      <ModalAddAsset
-        isOpen={isModalAddAssetOpen}
-        onClose={closeModalAddAsset}
-      />
+      <ModalAddAsset isOpen={isModalAddAssetOpen} onClose={closeModalAddAsset} />
     </div>
   );
 }

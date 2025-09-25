@@ -1,6 +1,6 @@
-import type React from "react";
-import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import type React from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 interface Option {
   value: string;
@@ -22,8 +22,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   onChange,
   disabled = false,
 }) => {
-  const [selectedOptions, setSelectedOptions] =
-    useState<string[]>(defaultSelected);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>(defaultSelected);
   const [isOpen, setIsOpen] = useState(false);
 
   const triggerRef = useRef<HTMLDivElement | null>(null);
@@ -48,11 +47,11 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
     if (!isOpen) return;
     updateDropdownPosition();
     const onScrollOrResize = () => updateDropdownPosition();
-    window.addEventListener("scroll", onScrollOrResize, true);
-    window.addEventListener("resize", onScrollOrResize);
+    window.addEventListener('scroll', onScrollOrResize, true);
+    window.addEventListener('resize', onScrollOrResize);
     return () => {
-      window.removeEventListener("scroll", onScrollOrResize, true);
-      window.removeEventListener("resize", onScrollOrResize);
+      window.removeEventListener('scroll', onScrollOrResize, true);
+      window.removeEventListener('resize', onScrollOrResize);
     };
   }, [isOpen]);
 
@@ -76,7 +75,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   };
 
   const selectedValuesText = selectedOptions.map(
-    (value) => options.find((option) => option.value === value)?.text || ""
+    (value) => options.find((option) => option.value === value)?.text || '',
   );
 
   return (
@@ -88,7 +87,10 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
       <div className="relative z-20 inline-block w-full">
         <div className="relative flex flex-col items-center">
           <div onClick={toggleDropdown} className="w-full">
-            <div ref={triggerRef} className="mb-2 flex h-11 rounded-lg border border-gray-300 py-1.5 pl-3 pr-3 shadow-theme-xs outline-hidden transition focus:border-brand-300 focus:shadow-focus-ring dark:border-gray-700 dark:bg-gray-900 dark:focus:border-brand-300">
+            <div
+              ref={triggerRef}
+              className="mb-2 flex h-11 rounded-lg border border-gray-300 py-1.5 pl-3 pr-3 shadow-theme-xs outline-hidden transition focus:border-brand-300 focus:shadow-focus-ring dark:border-gray-700 dark:bg-gray-900 dark:focus:border-brand-300"
+            >
               <div className="flex flex-wrap flex-auto gap-2">
                 {selectedValuesText.length > 0 ? (
                   selectedValuesText.map((text, index) => (
@@ -139,7 +141,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                   className="w-5 h-5 text-gray-700 outline-hidden cursor-pointer focus:outline-hidden dark:text-gray-400"
                 >
                   <svg
-                    className={`stroke-current ${isOpen ? "rotate-180" : ""}`}
+                    className={`stroke-current ${isOpen ? 'rotate-180' : ''}`}
                     width="20"
                     height="20"
                     viewBox="0 0 20 20"
@@ -163,7 +165,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
             createPortal(
               <div
                 style={{
-                  position: "fixed",
+                  position: 'fixed',
                   top: dropdownPosition.top,
                   left: dropdownPosition.left,
                   width: dropdownPosition.width,
@@ -180,10 +182,9 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                       onClick={() => handleSelect(option.value)}
                     >
                       <div
-                        className={`relative flex w-full items-center p-2 pl-2 ${selectedOptions.includes(option.value)
-                          ? "bg-primary/10"
-                          : ""
-                          }`}
+                        className={`relative flex w-full items-center p-2 pl-2 ${
+                          selectedOptions.includes(option.value) ? 'bg-primary/10' : ''
+                        }`}
                       >
                         <div className="mx-2 leading-6 text-gray-800 dark:text-white/90">
                           {option.text}
@@ -193,7 +194,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                   ))}
                 </div>
               </div>,
-              document.body
+              document.body,
             )}
         </div>
       </div>

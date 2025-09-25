@@ -1,16 +1,11 @@
-
-import { Modal } from "../ui/modal";
-
+import { Modal } from '../ui/modal';
 
 interface ModalDeletePersonProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function ModalDeletePerson({
-  isOpen,
-  onClose,
-}: ModalDeletePersonProps) {
+export default function ModalDeletePerson({ isOpen, onClose }: ModalDeletePersonProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-[900px] m-4">
       <div className="no-scrollbar relative w-full max-w-[900px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">

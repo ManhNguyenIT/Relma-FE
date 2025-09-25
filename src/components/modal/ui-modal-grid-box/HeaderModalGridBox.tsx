@@ -1,7 +1,7 @@
-import OpenButton from "../../button/OpenButton";
-import GroupButton from "../../button/GroupButton";
-import StartTimeButton from "../../button/StartTimeButton";
-import Tabs from "../../tabs/Tabs";
+import OpenButton from '../../button/OpenButton';
+import GroupButton from '../../button/GroupButton';
+import StartTimeButton from '../../button/StartTimeButton';
+import Tabs from '../../tabs/Tabs';
 export default function HeaderModalGridBox() {
   return (
     <div>

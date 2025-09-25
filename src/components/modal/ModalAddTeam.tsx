@@ -1,11 +1,11 @@
-import { useState } from "react";
-import Label from "../form/Label";
-import { Modal } from "../ui/modal";
-import Select from "../form/Select";
-import ModalPeopleTeamCancel from "./ModalPeopleTeamCancel";
-import Input from "../form/input/InputField";
-import { useModal } from "../../hooks/useModal";
-import Checkbox from "../form/input/Checkbox";
+import { useState } from 'react';
+import Label from '../form/Label';
+import { Modal } from '../ui/modal';
+import Select from '../form/Select';
+import ModalPeopleTeamCancel from './ModalPeopleTeamCancel';
+import Input from '../form/input/InputField';
+import { useModal } from '../../hooks/useModal';
+import Checkbox from '../form/input/Checkbox';
 
 interface OptionType {
   value: string;
@@ -25,32 +25,32 @@ export default function ModalAddTeam({ isOpen, onClose }: ModalAddTeamProps) {
   } = useModal();
 
   const options12: OptionType[] = [
-    { value: "tranlinh", label: "Trần Linh" },
-    { value: "template", label: "A" },
-    { value: "development", label: "B" },
+    { value: 'tranlinh', label: 'Trần Linh' },
+    { value: 'template', label: 'A' },
+    { value: 'development', label: 'B' },
   ];
 
   const handleSelectChange12 = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
 
   const workers = [
-    { id: "1", name: "Trần Linh" },
-    { id: "2", name: "Ad" },
-    { id: "3", name: "McMaster–Carr - Vendor" },
+    { id: '1', name: 'Trần Linh' },
+    { id: '2', name: 'Ad' },
+    { id: '3', name: 'McMaster–Carr - Vendor' },
   ];
 
   const [isWorkersOpen, setIsWorkersOpen] = useState(false);
-  const [searchWorkers, setSearchWorkers] = useState("");
+  const [searchWorkers, setSearchWorkers] = useState('');
   const [selectedWorkerIds, setSelectedWorkerIds] = useState<string[]>([]);
 
   const filteredWorkers = workers.filter((w) =>
-    w.name.toLowerCase().includes(searchWorkers.toLowerCase())
+    w.name.toLowerCase().includes(searchWorkers.toLowerCase()),
   );
 
   const toggleWorker = (id: string) => {
     setSelectedWorkerIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
     );
   };
 
@@ -69,9 +69,7 @@ export default function ModalAddTeam({ isOpen, onClose }: ModalAddTeamProps) {
             <div className="custom-scrollbar h-[500px] overflow-y-auto px-2 pb-3">
               <div className="mt-7 flex flex-col md:gap-10 gap-3">
                 <div className="w-full flex flex-col md:gap-4 gap-3">
-                  <div className="text-[20px] font-semibold">
-                    Team Information
-                  </div>
+                  <div className="text-[20px] font-semibold">Team Information</div>
                   <div className="w-full">
                     <Label>First name</Label>
                     <Input />
@@ -87,9 +85,7 @@ export default function ModalAddTeam({ isOpen, onClose }: ModalAddTeamProps) {
                   </div>
                 </div>
                 <div>
-                  <div className="text-[20px] font-semibold">
-                    More Information
-                  </div>
+                  <div className="text-[20px] font-semibold">More Information</div>
                   <div className="mt-3 w-full">
                     <Label>Workers</Label>
                     <div className="relative w-full">
@@ -100,12 +96,13 @@ export default function ModalAddTeam({ isOpen, onClose }: ModalAddTeamProps) {
                       >
                         <span className="text-gray-700 text-sm">
                           {selectedWorkerIds.length === 0
-                            ? "Select workers"
+                            ? 'Select workers'
                             : `${selectedWorkerIds.length} selected`}
                         </span>
                         <svg
-                          className={`w-4 h-4 text-gray-500 transition-transform ${isWorkersOpen ? "rotate-180" : "rotate-0"
-                            }`}
+                          className={`w-4 h-4 text-gray-500 transition-transform ${
+                            isWorkersOpen ? 'rotate-180' : 'rotate-0'
+                          }`}
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -128,9 +125,7 @@ export default function ModalAddTeam({ isOpen, onClose }: ModalAddTeamProps) {
                                 className="w-full h-9 rounded-md bg-gray-100/80 border border-gray-200 pl-8 pr-3 text-sm outline-none"
                                 placeholder="Search"
                                 value={searchWorkers}
-                                onChange={(e) =>
-                                  setSearchWorkers(e.target.value)
-                                }
+                                onChange={(e) => setSearchWorkers(e.target.value)}
                               />
                               <svg
                                 className="w-4 h-4 text-gray-400 absolute left-2 top-1/2 -translate-y-1/2"
@@ -154,27 +149,17 @@ export default function ModalAddTeam({ isOpen, onClose }: ModalAddTeamProps) {
                               const checked = selectedWorkerIds.includes(w.id);
                               const initial = w.name.charAt(0).toUpperCase();
                               return (
-                                <div
-                                  key={w.id}
-                                  className="flex items-center gap-3 py-2"
-                                >
-                                  <Checkbox
-                                    checked={checked}
-                                    onChange={() => toggleWorker(w.id)}
-                                  />
+                                <div key={w.id} className="flex items-center gap-3 py-2">
+                                  <Checkbox checked={checked} onChange={() => toggleWorker(w.id)} />
                                   <div className="w-6 h-6 rounded-full bg-emerald-700 text-white text-xs flex items-center justify-center font-semibold">
                                     {initial}
                                   </div>
-                                  <div className="text-sm text-gray-800">
-                                    {w.name}
-                                  </div>
+                                  <div className="text-sm text-gray-800">{w.name}</div>
                                 </div>
                               );
                             })}
                             {filteredWorkers.length === 0 && (
-                              <div className="text-sm text-gray-500 py-2">
-                                No results
-                              </div>
+                              <div className="text-sm text-gray-500 py-2">No results</div>
                             )}
                           </div>
                         </div>

@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
-import { FaArrowUp, FaArrowDown } from "react-icons/fa";
-import DataTable, { TableColumn } from "../common/DataTable";
+import { useMemo, useState } from 'react';
+import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import DataTable, { TableColumn } from '../common/DataTable';
 
 type Vendor = {
   id: number;
@@ -18,46 +18,46 @@ type Vendor = {
 const vendors: Vendor[] = [
   {
     id: 1,
-    name: "Westwood HVAC Solutions",
-    address: "10855 Lindbrook Dr, Los Angeles, CA",
-    phone: "+84 912 123 412",
-    contact: "John Doe",
-    email: "linhtranhai747@gmail.com",
-    vendorType: "HVAC Repair and Service",
-    website: "N/A",
-    dateCreate: "2025-07-01",
-    hourlyRate: "$95.00",
+    name: 'Westwood HVAC Solutions',
+    address: '10855 Lindbrook Dr, Los Angeles, CA',
+    phone: '+84 912 123 412',
+    contact: 'John Doe',
+    email: 'linhtranhai747@gmail.com',
+    vendorType: 'HVAC Repair and Service',
+    website: 'N/A',
+    dateCreate: '2025-07-01',
+    hourlyRate: '$95.00',
   },
   {
     id: 2,
-    name: "McMaster - Carr",
-    address: "9630 Norwalk Blvd. Santa Fe Springs, CA",
-    phone: "+84 912 123 412",
-    contact: "John Doe",
-    email: "linhtranhai747@gmail.com",
-    vendorType: "General Parts",
-    website: "http://www.mcmaster.com/",
-    dateCreate: "2025-07-01",
-    hourlyRate: "N/A",
+    name: 'McMaster - Carr',
+    address: '9630 Norwalk Blvd. Santa Fe Springs, CA',
+    phone: '+84 912 123 412',
+    contact: 'John Doe',
+    email: 'linhtranhai747@gmail.com',
+    vendorType: 'General Parts',
+    website: 'http://www.mcmaster.com/',
+    dateCreate: '2025-07-01',
+    hourlyRate: 'N/A',
   },
   {
     id: 3,
-    name: "Another Vendor",
-    address: "123 Example St, New York, NY",
-    phone: "+84 912 111 222",
-    contact: "Jane Smith",
-    email: "jane@example.com",
-    vendorType: "Supplies",
-    website: "https://example.com",
-    dateCreate: "2025-06-15",
-    hourlyRate: "$80.00",
+    name: 'Another Vendor',
+    address: '123 Example St, New York, NY',
+    phone: '+84 912 111 222',
+    contact: 'Jane Smith',
+    email: 'jane@example.com',
+    vendorType: 'Supplies',
+    website: 'https://example.com',
+    dateCreate: '2025-06-15',
+    hourlyRate: '$80.00',
   },
 ];
 
 export default function VerdorsCustomersTable() {
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc" | null>(null);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>(null);
 
-  const setSort = (dir: "asc" | "desc") => {
+  const setSort = (dir: 'asc' | 'desc') => {
     setSortOrder((cur) => (cur === dir ? null : dir));
   };
 
@@ -67,49 +67,45 @@ export default function VerdorsCustomersTable() {
     arr.sort((a, b) => {
       const da = new Date(a.dateCreate).getTime();
       const db = new Date(b.dateCreate).getTime();
-      return sortOrder === "asc" ? da - db : db - da;
+      return sortOrder === 'asc' ? da - db : db - da;
     });
     return arr;
   }, [sortOrder]);
 
   const columns: TableColumn[] = [
     {
-      key: "name",
-      label: "Name",
+      key: 'name',
+      label: 'Name',
     },
     {
-      key: "address",
-      label: "Address",
+      key: 'address',
+      label: 'Address',
     },
     {
-      key: "phone",
-      label: "Phone Number",
+      key: 'phone',
+      label: 'Phone Number',
     },
     {
-      key: "contact",
-      label: "Contact",
+      key: 'contact',
+      label: 'Contact',
     },
     {
-      key: "email",
-      label: "Email",
+      key: 'email',
+      label: 'Email',
     },
     {
-      key: "vendorType",
-      label: "Vendor Type",
+      key: 'vendorType',
+      label: 'Vendor Type',
     },
     {
-      key: "website",
-      label: "Website",
+      key: 'website',
+      label: 'Website',
       render: (value: string) => (
         <span className="text-blue-500 underline">
-          {value === "N/A" ? (
-            "N/A"
+          {value === 'N/A' ? (
+            'N/A'
           ) : (
-            <a
-              href={value}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={value} target="_blank" rel="noopener noreferrer">
               {value}
             </a>
           )}
@@ -117,34 +113,28 @@ export default function VerdorsCustomersTable() {
       ),
     },
     {
-      key: "dateCreate",
-      label: "Date Create",
+      key: 'dateCreate',
+      label: 'Date Create',
       render: (value: string) => (
         <div className="flex items-center gap-2">
-          <span>{new Date(value).toLocaleDateString("en-US")}</span>
+          <span>{new Date(value).toLocaleDateString('en-US')}</span>
           <div className="flex items-center gap-1">
             <button
               type="button"
-              onClick={() => setSort("asc")}
+              onClick={() => setSort('asc')}
               className={`p-1 rounded hover:bg-gray-100 transition
-                ${sortOrder === "asc"
-                  ? "text-gray-900"
-                  : "text-gray-400"
-                }`}
-              aria-pressed={sortOrder === "asc"}
+                ${sortOrder === 'asc' ? 'text-gray-900' : 'text-gray-400'}`}
+              aria-pressed={sortOrder === 'asc'}
               title="Sort ascending"
             >
               <FaArrowUp />
             </button>
             <button
               type="button"
-              onClick={() => setSort("desc")}
+              onClick={() => setSort('desc')}
               className={`p-1 rounded hover:bg-gray-100 transition
-                ${sortOrder === "desc"
-                  ? "text-gray-900"
-                  : "text-gray-400"
-                }`}
-              aria-pressed={sortOrder === "desc"}
+                ${sortOrder === 'desc' ? 'text-gray-900' : 'text-gray-400'}`}
+              aria-pressed={sortOrder === 'desc'}
               title="Sort descending"
             >
               <FaArrowDown />
@@ -154,8 +144,8 @@ export default function VerdorsCustomersTable() {
       ),
     },
     {
-      key: "hourlyRate",
-      label: "Hourly Rate",
+      key: 'hourlyRate',
+      label: 'Hourly Rate',
     },
   ];
 

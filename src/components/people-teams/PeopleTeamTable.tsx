@@ -1,6 +1,6 @@
-import ModalPeopleDetails from "../modal/ModalPeopleDetails";
-import { useModal } from "../../hooks/useModal";
-import DataTable, { TableColumn, StatusConfig } from "../common/DataTable";
+import ModalPeopleDetails from '../modal/ModalPeopleDetails';
+import { useModal } from '../../hooks/useModal';
+import DataTable, { TableColumn, StatusConfig } from '../common/DataTable';
 
 interface User {
   id: number;
@@ -24,21 +24,21 @@ export default function PeopleTeamTable() {
   const data: User[] = [
     {
       id: 1,
-      name: "Trần Linh",
-      status: "Active",
-      accountType: "Administrator",
-      email: "linhtranhai747@gmail.com",
-      phone: "+84 912 123 412",
-      jobTitle: "N/A",
-      hourlyRate: "N/A",
-      company: "MESz",
+      name: 'Trần Linh',
+      status: 'Active',
+      accountType: 'Administrator',
+      email: 'linhtranhai747@gmail.com',
+      phone: '+84 912 123 412',
+      jobTitle: 'N/A',
+      hourlyRate: 'N/A',
+      company: 'MESz',
     },
   ];
 
   const columns: TableColumn[] = [
     {
-      key: "name",
-      label: "Name",
+      key: 'name',
+      label: 'Name',
       render: (value: string) => (
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center text-sm font-bold">
@@ -49,44 +49,42 @@ export default function PeopleTeamTable() {
       ),
     },
     {
-      key: "status",
-      label: "Status",
+      key: 'status',
+      label: 'Status',
     },
     {
-      key: "accountType",
-      label: "Account Type",
+      key: 'accountType',
+      label: 'Account Type',
     },
     {
-      key: "email",
-      label: "Email",
-      render: (value: string) => (
-        <span className="truncate max-w-[180px]">{value}</span>
-      ),
+      key: 'email',
+      label: 'Email',
+      render: (value: string) => <span className="truncate max-w-[180px]">{value}</span>,
     },
     {
-      key: "phone",
-      label: "Phone Number",
+      key: 'phone',
+      label: 'Phone Number',
     },
     {
-      key: "jobTitle",
-      label: "Job Title",
+      key: 'jobTitle',
+      label: 'Job Title',
     },
     {
-      key: "hourlyRate",
-      label: "Hourly Rate",
+      key: 'hourlyRate',
+      label: 'Hourly Rate',
     },
     {
-      key: "company",
-      label: "Company Name",
+      key: 'company',
+      label: 'Company Name',
     },
   ];
 
   const statusConfig: StatusConfig = {
     Active: {
-      text: "Active",
-      color: "success",
-      bgColor: "bg-green-100",
-      textColor: "text-green-700",
+      text: 'Active',
+      color: 'success',
+      bgColor: 'bg-green-100',
+      textColor: 'text-green-700',
     },
   };
 
@@ -100,10 +98,7 @@ export default function PeopleTeamTable() {
         onRowClick={openModalPeopleDetails}
         className="overflow-x-auto rounded-lg border border-gray-200"
       />
-      <ModalPeopleDetails
-        isOpen={isModalPeopleDetailsOpen}
-        onClose={closeModalPeopleDetails}
-      />
+      <ModalPeopleDetails isOpen={isModalPeopleDetailsOpen} onClose={closeModalPeopleDetails} />
     </>
   );
 }

@@ -1,5 +1,5 @@
-import PreventiveDetailsHeader from "./ui/PreventiveDetailsHeader";
-import PreventiveDetailsTabs from "./ui/PreventiveDetailsTabs";
+import PreventiveDetailsHeader from './ui/PreventiveDetailsHeader';
+import PreventiveDetailsTabs from './ui/PreventiveDetailsTabs';
 
 export default function PreventiveDetails() {
   return (

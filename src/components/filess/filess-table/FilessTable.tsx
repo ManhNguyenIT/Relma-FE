@@ -1,5 +1,5 @@
-import { useState } from "react";
-import DataTable, { TableColumn, TableAction } from "../../common/DataTable";
+import { useState } from 'react';
+import DataTable, { TableColumn, TableAction } from '../../common/DataTable';
 
 interface RowData {
   id: number;
@@ -14,26 +14,26 @@ const FilessTable = () => {
   const [rows, setRows] = useState<RowData[]>([
     {
       id: 1,
-      name: "Westwood HVAC Solutions",
-      tags: "",
-      uploadedBy: "Trần Linh",
-      uploadedByAvatar: "T",
-      uploadedOn: "John Doe",
+      name: 'Westwood HVAC Solutions',
+      tags: '',
+      uploadedBy: 'Trần Linh',
+      uploadedByAvatar: 'T',
+      uploadedOn: 'John Doe',
     },
   ]);
 
   const columns: TableColumn[] = [
     {
-      key: "name",
-      label: "Name",
+      key: 'name',
+      label: 'Name',
     },
     {
-      key: "tags",
-      label: "Tags",
+      key: 'tags',
+      label: 'Tags',
     },
     {
-      key: "uploadedBy",
-      label: "Uploaded By",
+      key: 'uploadedBy',
+      label: 'Uploaded By',
       render: (value: string, row: RowData) => (
         <div className="flex items-center gap-2">
           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-700 text-white font-bold">
@@ -44,26 +44,26 @@ const FilessTable = () => {
       ),
     },
     {
-      key: "uploadedOn",
-      label: "Uploaded On",
+      key: 'uploadedOn',
+      label: 'Uploaded On',
     },
   ];
 
   const actions: TableAction[] = [
     {
-      label: "Edit",
+      label: 'Edit',
       onClick: (row: RowData) => {
         alert(`Edit row ID: ${row.id}`);
       },
     },
     {
-      label: "Delete",
+      label: 'Delete',
       onClick: (row: RowData) => {
-        if (confirm("Bạn có chắc muốn xóa dòng này?")) {
+        if (confirm('Bạn có chắc muốn xóa dòng này?')) {
           setRows((prev) => prev.filter((r) => r.id !== row.id));
         }
       },
-      variant: "danger",
+      variant: 'danger',
     },
   ];
 

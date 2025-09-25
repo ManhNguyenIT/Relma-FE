@@ -1,12 +1,12 @@
-import WorkOrderHeader from "../../components/workorder/WorkOrderHeader";
-import WorkOrderTask from "../../components/workorder/work-order-task/WorkOrderTask";
-import FilterButton from "../../components/workorder/work-order-button/FilterButton";
-import StatusButton from "../../components/workorder/work-order-button/StatusButton";
-import PriorityButton from "../../components/workorder/work-order-button/PriorityButton";
-import LocationButton from "../../components/workorder/work-order-button/LocationButton";
-import AssetsButton from "../../components/workorder/work-order-button/AssetsButton";
-import AssignButton from "../../components/workorder/work-order-button/AssignButton";
-import WorkOrderGridBox from "../../components/workorder/work-order-gridbox/WorkOrderGridBox";
+import WorkOrderHeader from '../../components/workorder/WorkOrderHeader';
+import WorkOrderTask from '../../components/workorder/work-order-task/WorkOrderTask';
+import FilterButton from '../../components/workorder/work-order-button/FilterButton';
+import StatusButton from '../../components/workorder/work-order-button/StatusButton';
+import PriorityButton from '../../components/workorder/work-order-button/PriorityButton';
+import LocationButton from '../../components/workorder/work-order-button/LocationButton';
+import AssetsButton from '../../components/workorder/work-order-button/AssetsButton';
+import AssignButton from '../../components/workorder/work-order-button/AssignButton';
+import WorkOrderGridBox from '../../components/workorder/work-order-gridbox/WorkOrderGridBox';
 
 export default function Home() {
   return (

@@ -1,16 +1,16 @@
 //
-import Label from "../form/Label";
-import { Modal } from "../ui/modal";
-import Select from "../form/Select";
-import Input from "../form/input/InputField";
-import TextArea from "../form/input/TextArea";
-import Checkbox from "../form/input/Checkbox";
-import Toggle from "../toggle-switch/Toggle";
-import { GoPlus } from "react-icons/go";
-import ModalPmAddPart from "./ModalPmAddPart";
-import { useModal } from "../../hooks/useModal";
+import Label from '../form/Label';
+import { Modal } from '../ui/modal';
+import Select from '../form/Select';
+import Input from '../form/input/InputField';
+import TextArea from '../form/input/TextArea';
+import Checkbox from '../form/input/Checkbox';
+import Toggle from '../toggle-switch/Toggle';
+import { GoPlus } from 'react-icons/go';
+import ModalPmAddPart from './ModalPmAddPart';
+import { useModal } from '../../hooks/useModal';
 
-import UpFile10 from "../upload/UpFile10";
+import UpFile10 from '../upload/UpFile10';
 
 interface Option {
   value: string;
@@ -27,23 +27,23 @@ export default function ModalAddWorkOrderDetails({
   onClose,
 }: ModalAddWorkOrderDetailsProps) {
   const options3a: Option[] = [
-    { value: "tranlinh", label: "Trần Linh" },
-    { value: "template", label: "A" },
-    { value: "development", label: "B" },
+    { value: 'tranlinh', label: 'Trần Linh' },
+    { value: 'template', label: 'A' },
+    { value: 'development', label: 'B' },
   ];
 
   const handleSelectChange3a = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
 
   const options3b: Option[] = [
-    { value: "tranlinh", label: "Trần Linh" },
-    { value: "template", label: "A" },
-    { value: "development", label: "B" },
+    { value: 'tranlinh', label: 'Trần Linh' },
+    { value: 'template', label: 'A' },
+    { value: 'development', label: 'B' },
   ];
 
   const handleSelectChange3b = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
 
   const {
@@ -79,8 +79,7 @@ export default function ModalAddWorkOrderDetails({
                 </div>
 
                 <div className="flex items-center md:gap-2 gap-2">
-
-                  <Checkbox checked={false} onChange={() => { }} />
+                  <Checkbox checked={false} onChange={() => {}} />
                   Create first Work Order Now?
                 </div>
 
@@ -121,12 +120,10 @@ export default function ModalAddWorkOrderDetails({
                 <div className="w-full border-b border-[#F3F3F3] "></div>
                 <div>Attachments</div>
 
-
                 <div className="flex flex-col space-y-2">
                   <label className="text-sm text-gray-700">Photos</label>
                   <UpFile10 />
                 </div>
-
 
                 <div className="flex flex-col space-y-2">
                   <label className="text-sm text-gray-700">Files</label>
@@ -186,10 +183,7 @@ export default function ModalAddWorkOrderDetails({
         </div>
       </Modal>
 
-      <ModalPmAddPart
-        isOpen={isModalPmAddPartOpen}
-        onClose={closeModalPmAddPart}
-      />
+      <ModalPmAddPart isOpen={isModalPmAddPartOpen} onClose={closeModalPmAddPart} />
     </div>
   );
 }

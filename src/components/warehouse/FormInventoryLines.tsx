@@ -1,5 +1,5 @@
-import { FiTrash2, FiInfo } from "react-icons/fi";
-import Select from "../form/Select";
+import { FiTrash2, FiInfo } from 'react-icons/fi';
+import Select from '../form/Select';
 
 export default function FormInventoryLines() {
   interface OptionType {
@@ -8,13 +8,13 @@ export default function FormInventoryLines() {
   }
 
   const options12: OptionType[] = [
-    { value: "tranlinh", label: "Trần Linh" },
-    { value: "template", label: "A" },
-    { value: "development", label: "B" },
+    { value: 'tranlinh', label: 'Trần Linh' },
+    { value: 'template', label: 'A' },
+    { value: 'development', label: 'B' },
   ];
 
   const handleSelectChange12 = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
 
   return (
@@ -24,36 +24,20 @@ export default function FormInventoryLines() {
           <h2 className="text-sm font-medium">Inventory Lines</h2>
           <FiInfo className="text-gray-400" size={14} />
         </div>
-        <button className="text-sm text-blue-600 hover:underline">
-          Show Inventory Settings
-        </button>
+        <button className="text-sm text-blue-600 hover:underline">Show Inventory Settings</button>
       </div>
 
       <div className="overflow-x-auto">
         <table className="min-w-full text-sm border border-[#f0f0f0] border-collapse">
           <thead className="bg-gray-50">
             <tr className="text-gray-600">
-              <th className="px-3 py-2 border border-gray-200 text-left font-normal">
-                Location
-              </th>
-              <th className="px-3 py-2 border border-gray-200 text-left font-normal">
-                Area
-              </th>
-              <th className="px-3 py-2 border border-gray-200 text-left font-normal">
-                Min QTY
-              </th>
-              <th className="px-3 py-2 border border-gray-200 text-left font-normal">
-                Max QTY
-              </th>
-              <th className="px-3 py-2 border border-gray-200 text-left font-normal">
-                Avail QTY
-              </th>
-              <th className="px-3 py-2 border border-gray-200 text-left font-normal">
-                Cost
-              </th>
-              <th className="px-3 py-2 border border-gray-200 text-left font-normal">
-                Barcode
-              </th>
+              <th className="px-3 py-2 border border-gray-200 text-left font-normal">Location</th>
+              <th className="px-3 py-2 border border-gray-200 text-left font-normal">Area</th>
+              <th className="px-3 py-2 border border-gray-200 text-left font-normal">Min QTY</th>
+              <th className="px-3 py-2 border border-gray-200 text-left font-normal">Max QTY</th>
+              <th className="px-3 py-2 border border-gray-200 text-left font-normal">Avail QTY</th>
+              <th className="px-3 py-2 border border-gray-200 text-left font-normal">Cost</th>
+              <th className="px-3 py-2 border border-gray-200 text-left font-normal">Barcode</th>
               <th className="px-3 py-2 border border-gray-200"></th>
             </tr>
           </thead>

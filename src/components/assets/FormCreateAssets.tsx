@@ -1,10 +1,10 @@
-import { useState } from "react";
-import Label from "../form/Label";
-import Input from "../form/input/InputField";
-import TextArea from "../form/input/TextArea";
-import Select from "../form/Select";
-import Checkbox from "../form/input/Checkbox";
-import UpFile10 from "../upload/UpFile10";
+import { useState } from 'react';
+import Label from '../form/Label';
+import Input from '../form/input/InputField';
+import TextArea from '../form/input/TextArea';
+import Select from '../form/Select';
+import Checkbox from '../form/input/Checkbox';
+import UpFile10 from '../upload/UpFile10';
 
 interface Option {
   value: string;
@@ -12,30 +12,30 @@ interface Option {
 }
 
 export default function FormCreateAssets() {
-  const [barcodeOption, setBarcodeOption] = useState("custom");
-  const [customBarcode, setCustomBarcode] = useState("");
+  const [barcodeOption, setBarcodeOption] = useState('custom');
+  const [customBarcode, setCustomBarcode] = useState('');
 
   // Sample options for dropdowns
   const teamOptions: Option[] = [
-    { value: "team1", label: "Team A" },
-    { value: "team2", label: "Team B" },
-    { value: "team3", label: "Team C" },
+    { value: 'team1', label: 'Team A' },
+    { value: 'team2', label: 'Team B' },
+    { value: 'team3', label: 'Team C' },
   ];
 
   const customerOptions: Option[] = [
-    { value: "customer1", label: "Customer A" },
-    { value: "customer2", label: "Customer B" },
-    { value: "customer3", label: "Customer C" },
+    { value: 'customer1', label: 'Customer A' },
+    { value: 'customer2', label: 'Customer B' },
+    { value: 'customer3', label: 'Customer C' },
   ];
 
   const vendorOptions: Option[] = [
-    { value: "vendor1", label: "Vendor A" },
-    { value: "vendor2", label: "Vendor B" },
-    { value: "vendor3", label: "Vendor C" },
+    { value: 'vendor1', label: 'Vendor A' },
+    { value: 'vendor2', label: 'Vendor B' },
+    { value: 'vendor3', label: 'Vendor C' },
   ];
 
   const handleSelectChange = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
 
   return (
@@ -59,11 +59,7 @@ export default function FormCreateAssets() {
 
           <div>
             <Label>Description</Label>
-            <TextArea
-              placeholder="Enter description"
-              rows={4}
-              className="resize-none"
-            />
+            <TextArea placeholder="Enter description" rows={4} className="resize-none" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -94,18 +90,18 @@ export default function FormCreateAssets() {
             <Label>Barcode Options</Label>
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
               <Checkbox
-                checked={barcodeOption === "custom"}
-                onChange={() => setBarcodeOption("custom")}
+                checked={barcodeOption === 'custom'}
+                onChange={() => setBarcodeOption('custom')}
                 label="Enter custom barcode"
               />
               <Checkbox
-                checked={barcodeOption === "random"}
-                onChange={() => setBarcodeOption("random")}
+                checked={barcodeOption === 'random'}
+                onChange={() => setBarcodeOption('random')}
                 label="Generate random barcode"
               />
             </div>
 
-            {barcodeOption === "custom" && (
+            {barcodeOption === 'custom' && (
               <div>
                 <Label>Barcode</Label>
                 <Input

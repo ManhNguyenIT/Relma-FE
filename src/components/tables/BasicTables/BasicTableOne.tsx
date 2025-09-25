@@ -1,4 +1,4 @@
-import DataTable, { TableColumn, StatusConfig } from "../../common/DataTable";
+import DataTable, { TableColumn, StatusConfig } from '../../common/DataTable';
 
 interface Order {
   id: number;
@@ -19,121 +19,102 @@ const tableData: Order[] = [
   {
     id: 1,
     user: {
-      image: "/images/user/user-17.jpg",
-      name: "Lindsey Curtis",
-      role: "Web Designer",
+      image: '/images/user/user-17.jpg',
+      name: 'Lindsey Curtis',
+      role: 'Web Designer',
     },
-    projectName: "Agency Website",
+    projectName: 'Agency Website',
     team: {
-      images: [
-        "/images/user/user-22.jpg",
-        "/images/user/user-23.jpg",
-        "/images/user/user-24.jpg",
-      ],
+      images: ['/images/user/user-22.jpg', '/images/user/user-23.jpg', '/images/user/user-24.jpg'],
     },
-    budget: "3.9K",
-    status: "Active",
+    budget: '3.9K',
+    status: 'Active',
   },
   {
     id: 2,
     user: {
-      image: "/images/user/user-18.jpg",
-      name: "Kaiya George",
-      role: "Project Manager",
+      image: '/images/user/user-18.jpg',
+      name: 'Kaiya George',
+      role: 'Project Manager',
     },
-    projectName: "Technology",
+    projectName: 'Technology',
     team: {
-      images: ["/images/user/user-25.jpg", "/images/user/user-26.jpg"],
+      images: ['/images/user/user-25.jpg', '/images/user/user-26.jpg'],
     },
-    budget: "24.9K",
-    status: "Pending",
+    budget: '24.9K',
+    status: 'Pending',
   },
   {
     id: 3,
     user: {
-      image: "/images/user/user-17.jpg",
-      name: "Zain Geidt",
-      role: "Content Writing",
+      image: '/images/user/user-17.jpg',
+      name: 'Zain Geidt',
+      role: 'Content Writing',
     },
-    projectName: "Blog Writing",
+    projectName: 'Blog Writing',
     team: {
-      images: ["/images/user/user-27.jpg"],
+      images: ['/images/user/user-27.jpg'],
     },
-    budget: "12.7K",
-    status: "Active",
+    budget: '12.7K',
+    status: 'Active',
   },
   {
     id: 4,
     user: {
-      image: "/images/user/user-20.jpg",
-      name: "Abram Schleifer",
-      role: "Digital Marketer",
+      image: '/images/user/user-20.jpg',
+      name: 'Abram Schleifer',
+      role: 'Digital Marketer',
     },
-    projectName: "Social Media",
+    projectName: 'Social Media',
     team: {
-      images: [
-        "/images/user/user-28.jpg",
-        "/images/user/user-29.jpg",
-        "/images/user/user-30.jpg",
-      ],
+      images: ['/images/user/user-28.jpg', '/images/user/user-29.jpg', '/images/user/user-30.jpg'],
     },
-    budget: "2.8K",
-    status: "Cancel",
+    budget: '2.8K',
+    status: 'Cancel',
   },
   {
     id: 5,
     user: {
-      image: "/images/user/user-21.jpg",
-      name: "Carla George",
-      role: "Front-end Developer",
+      image: '/images/user/user-21.jpg',
+      name: 'Carla George',
+      role: 'Front-end Developer',
     },
-    projectName: "Website",
+    projectName: 'Website',
     team: {
-      images: [
-        "/images/user/user-31.jpg",
-        "/images/user/user-32.jpg",
-        "/images/user/user-33.jpg",
-      ],
+      images: ['/images/user/user-31.jpg', '/images/user/user-32.jpg', '/images/user/user-33.jpg'],
     },
-    budget: "4.5K",
-    status: "Active",
+    budget: '4.5K',
+    status: 'Active',
   },
 ];
 
 // Define columns with custom renderers
 const columns: TableColumn[] = [
   {
-    key: "user",
-    label: "User",
-    render: (value: Order["user"]) => (
+    key: 'user',
+    label: 'User',
+    render: (value: Order['user']) => (
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 overflow-hidden rounded-full">
-          <img
-            width={40}
-            height={40}
-            src={value.image}
-            alt={value.name}
-          />
+          <img width={40} height={40} src={value.image} alt={value.name} />
         </div>
         <div>
           <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
             {value.name}
           </span>
-          <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
-            {value.role}
-          </span>
+          <span className="block text-gray-500 text-theme-xs dark:text-gray-400">{value.role}</span>
         </div>
       </div>
     ),
   },
   {
-    key: "projectName",
-    label: "Project Name",
+    key: 'projectName',
+    label: 'Project Name',
   },
   {
-    key: "team",
-    label: "Team",
-    render: (value: Order["team"]) => (
+    key: 'team',
+    label: 'Team',
+    render: (value: Order['team']) => (
       <div className="flex -space-x-2">
         {value.images.map((teamImage, index) => (
           <div
@@ -153,28 +134,28 @@ const columns: TableColumn[] = [
     ),
   },
   {
-    key: "status",
-    label: "Status",
+    key: 'status',
+    label: 'Status',
   },
   {
-    key: "budget",
-    label: "Budget",
+    key: 'budget',
+    label: 'Budget',
   },
 ];
 
 // Define status configuration
 const statusConfig: StatusConfig = {
   Active: {
-    text: "Active",
-    color: "success",
+    text: 'Active',
+    color: 'success',
   },
   Pending: {
-    text: "Pending",
-    color: "warning",
+    text: 'Pending',
+    color: 'warning',
   },
   Cancel: {
-    text: "Cancel",
-    color: "error",
+    text: 'Cancel',
+    color: 'error',
   },
 };
 

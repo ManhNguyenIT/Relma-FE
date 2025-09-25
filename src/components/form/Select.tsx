@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from 'react';
 
 interface Option {
   value: string;
@@ -15,10 +15,10 @@ interface SelectProps {
 
 const Select: React.FC<SelectProps> = ({
   options,
-  placeholder = "Select an option",
+  placeholder = 'Select an option',
   onChange,
-  className = "",
-  defaultValue = "",
+  className = '',
+  defaultValue = '',
 }) => {
   const [selectedValue, setSelectedValue] = useState<string>(defaultValue);
   const [isOpen, setIsOpen] = useState(false);
@@ -41,16 +41,14 @@ const Select: React.FC<SelectProps> = ({
     setIsOpen(false);
   };
 
-  const selectedOption = options.find(option => option.value === selectedValue);
+  const selectedOption = options.find((option) => option.value === selectedValue);
 
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
       <button
         type="button"
         className={`h-11 w-full appearance-none rounded-lg border border-gray-300 bg-white px-4 py-2.5 pr-11 text-sm shadow-sm placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 ${
-          selectedValue
-            ? "text-gray-900"
-            : "text-gray-500"
+          selectedValue ? 'text-gray-900' : 'text-gray-500'
         }`}
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -61,18 +59,13 @@ const Select: React.FC<SelectProps> = ({
         <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
           <svg
             className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${
-              isOpen ? "rotate-180" : ""
+              isOpen ? 'rotate-180' : ''
             }`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M19 9l-7 7-7-7"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
           </svg>
         </span>
       </button>

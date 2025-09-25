@@ -1,7 +1,5 @@
-
-
-import ModalFilter from "../../modal/ModalFilter";
-import { useModal } from "../../../hooks/useModal";
+import ModalFilter from '../../modal/ModalFilter';
+import { useModal } from '../../../hooks/useModal';
 
 export default function FilterButton() {
   const { isOpen, openModal, closeModal } = useModal();

@@ -1,10 +1,9 @@
+import WorkOrderTask from '../components/workorder/work-order-task/WorkOrderTask';
+import FilterButton from '../components/workorder/work-order-button/FilterButton';
 
-import WorkOrderTask from "../components/workorder/work-order-task/WorkOrderTask";
-import FilterButton from "../components/workorder/work-order-button/FilterButton";
-
-import LocationButton from "../components/workorder/work-order-button/LocationButton";
-import AssetsTable from "../components/tables/AssetsTable";
-import AssetsHeader from "../components/assets/AssetsHeader";
+import LocationButton from '../components/workorder/work-order-button/LocationButton';
+import AssetsTable from '../components/tables/AssetsTable';
+import AssetsHeader from '../components/assets/AssetsHeader';
 
 export default function Assets() {
   return (
@@ -19,7 +18,6 @@ export default function Assets() {
         <FilterButton />
 
         <LocationButton />
-
 
         <p className="cursor-pointer font-medium text-[#007FE6]">Reset</p>
       </div>

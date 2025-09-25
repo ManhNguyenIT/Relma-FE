@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from "react";
+import React, { useRef, useState, useCallback } from 'react';
 
 interface FileData {
   file: File;
@@ -17,13 +17,13 @@ interface UpFile10Props {
   fileTypes?: string[]; // Custom file types to accept
 }
 
-export default function UpFile10({ 
-  onFilesSelected, 
+export default function UpFile10({
+  onFilesSelected,
   onFileData,
-  accept = "*", // Accept all file types by default
+  accept = '*', // Accept all file types by default
   multiple = true,
   maxSize = 10, // 10MB default
-  fileTypes = [] // Empty array means accept all types
+  fileTypes = [], // Empty array means accept all types
 }: UpFile10Props) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFiles, setSelectedFiles] = useState<FileData[]>([]);
@@ -39,55 +39,60 @@ export default function UpFile10({
 
   const validateFile = (file: File): boolean => {
     const maxSizeBytes = maxSize * 1024 * 1024; // Convert MB to bytes
-    
+
     // If fileTypes array is provided, validate against it
     if (fileTypes.length > 0 && !fileTypes.includes(file.type)) {
-      const supportedTypes = fileTypes.map(type => type.split('/')[1]?.toUpperCase() || type).join(', ');
+      const supportedTypes = fileTypes
+        .map((type) => type.split('/')[1]?.toUpperCase() || type)
+        .join(', ');
       alert(`File type ${file.type} is not supported. Supported types: ${supportedTypes}`);
       return false;
     }
-    
+
     if (file.size > maxSizeBytes) {
       alert(`File size ${formatFileSize(file.size)} exceeds maximum allowed size of ${maxSize}MB.`);
       return false;
     }
-    
+
     return true;
   };
 
-  const processFiles = useCallback((files: FileList) => {
-    const validFiles: File[] = [];
-    const fileDataArray: FileData[] = [];
+  const processFiles = useCallback(
+    (files: FileList) => {
+      const validFiles: File[] = [];
+      const fileDataArray: FileData[] = [];
 
-    Array.from(files).forEach(file => {
-      if (validateFile(file)) {
-        validFiles.push(file);
-        
-        const fileData: FileData = {
-          file,
-          preview: URL.createObjectURL(file),
-          name: file.name,
-          size: formatFileSize(file.size),
-          type: file.type
-        };
-        
-        fileDataArray.push(fileData);
-      }
-    });
+      Array.from(files).forEach((file) => {
+        if (validateFile(file)) {
+          validFiles.push(file);
 
-    if (validFiles.length > 0) {
-      setSelectedFiles(prev => multiple ? [...prev, ...fileDataArray] : fileDataArray);
-      
-      // Call callbacks
-      if (onFilesSelected) {
-        onFilesSelected(validFiles);
+          const fileData: FileData = {
+            file,
+            preview: URL.createObjectURL(file),
+            name: file.name,
+            size: formatFileSize(file.size),
+            type: file.type,
+          };
+
+          fileDataArray.push(fileData);
+        }
+      });
+
+      if (validFiles.length > 0) {
+        setSelectedFiles((prev) => (multiple ? [...prev, ...fileDataArray] : fileDataArray));
+
+        // Call callbacks
+        if (onFilesSelected) {
+          onFilesSelected(validFiles);
+        }
+
+        if (onFileData) {
+          onFileData(fileDataArray);
+        }
       }
-      
-      if (onFileData) {
-        onFileData(fileDataArray);
-      }
-    }
-  }, [multiple, onFilesSelected, onFileData, maxSize]);
+    },
+    [multiple, onFilesSelected, onFileData, maxSize],
+  );
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -98,32 +103,35 @@ export default function UpFile10({
   const handleDrag = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
+    if (e.type === 'dragenter' || e.type === 'dragover') {
       setDragActive(true);
-    } else if (e.type === "dragleave") {
+    } else if (e.type === 'dragleave') {
       setDragActive(false);
     }
   }, []);
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      processFiles(e.dataTransfer.files);
-    }
-  }, [processFiles]);
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setDragActive(false);
+
+      if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+        processFiles(e.dataTransfer.files);
+      }
+    },
+    [processFiles],
+  );
 
   const removeFile = (index: number) => {
     const newFiles = selectedFiles.filter((_, i) => i !== index);
     setSelectedFiles(newFiles);
-    
+
     // Update callbacks
     if (onFilesSelected) {
-      onFilesSelected(newFiles.map(fd => fd.file));
+      onFilesSelected(newFiles.map((fd) => fd.file));
     }
-    
+
     if (onFileData) {
       onFileData(newFiles);
     }
@@ -138,9 +146,7 @@ export default function UpFile10({
       {/* Upload Area */}
       <div
         className={`flex items-center justify-center w-full border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
-          dragActive 
-            ? 'border-blue-500 bg-blue-50' 
-            : 'border-gray-300 bg-gray-50 hover:bg-gray-100'
+          dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-gray-50 hover:bg-gray-100'
         }`}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
@@ -149,8 +155,18 @@ export default function UpFile10({
         onClick={handleClick}
       >
         <div className="flex flex-col items-center justify-center py-8">
-          <svg className="w-8 h-8 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+          <svg
+            className="w-8 h-8 text-gray-400 mb-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+            />
           </svg>
           <span className="text-sm text-gray-500 text-center">
             <button
@@ -161,10 +177,9 @@ export default function UpFile10({
             </button>
             <span className="block mt-2">or drag and drop</span>
             <span className="block text-xs text-gray-400 mt-1">
-              {fileTypes.length > 0 
-                ? `${fileTypes.map(type => type.split('/')[1]?.toUpperCase() || type).join(', ')} up to ${maxSize}MB`
-                : `All file types up to ${maxSize}MB`
-              }
+              {fileTypes.length > 0
+                ? `${fileTypes.map((type) => type.split('/')[1]?.toUpperCase() || type).join(', ')} up to ${maxSize}MB`
+                : `All file types up to ${maxSize}MB`}
             </span>
           </span>
         </div>
@@ -205,7 +220,12 @@ export default function UpFile10({
                     className="text-red-500 hover:text-red-700 p-1"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18L18 6M6 6l12 12"
+                      />
                     </svg>
                   </button>
                 </div>

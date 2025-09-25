@@ -1,6 +1,4 @@
-
-import { Modal } from "../ui/modal";
-
+import { Modal } from '../ui/modal';
 
 interface ModalDeactiveProps {
   isOpen: boolean;
@@ -20,9 +18,7 @@ export default function ModalDeactive({ isOpen, onClose }: ModalDeactiveProps) {
 
         <form className="flex flex-col">
           <div className="custom-scrollbar overflow-y-auto px-2 pb-3">
-            <div className="mt-7">
-              Are you sure you want to disable this user?
-            </div>
+            <div className="mt-7">Are you sure you want to disable this user?</div>
 
             <div className="w-full flex items-center justify-end gap-2 md:gap-4 md:mt-3 mt-3">
               <button

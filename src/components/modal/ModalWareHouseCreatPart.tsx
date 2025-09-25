@@ -1,17 +1,16 @@
+import Label from '../form/Label';
+import { Modal } from '../ui/modal';
+import Select from '../form/Select';
+import FormInventoryLines from '../warehouse/FormInventoryLines';
+import Input from '../form/input/InputField';
+import Toggle from '../toggle-switch/Toggle';
 
-import Label from "../form/Label";
-import { Modal } from "../ui/modal";
-import Select from "../form/Select";
-import FormInventoryLines from "../warehouse/FormInventoryLines";
-import Input from "../form/input/InputField";
-import Toggle from "../toggle-switch/Toggle";
-
-import FormVendorCustomer from "../warehouse/FormVendorCustomer";
-import { Textarea } from "flowbite-react";
-import FormPeopleTeam from "../warehouse/FormPeopleTeam";
-import FormAdditionalInformation from "../warehouse/FormAdditionalInformation";
-import FormCustomData from "../warehouse/FormCustomData";
-import UpFile10 from "../upload/UpFile10";
+import FormVendorCustomer from '../warehouse/FormVendorCustomer';
+import { Textarea } from 'flowbite-react';
+import FormPeopleTeam from '../warehouse/FormPeopleTeam';
+import FormAdditionalInformation from '../warehouse/FormAdditionalInformation';
+import FormCustomData from '../warehouse/FormCustomData';
+import UpFile10 from '../upload/UpFile10';
 
 interface ModalWareHouseCreatPartProps {
   isOpen: boolean;
@@ -23,25 +22,18 @@ interface OptionType {
   label: string;
 }
 const options12: OptionType[] = [
-  { value: "tranlinh", label: "Trần Linh" },
-  { value: "template", label: "A" },
-  { value: "development", label: "B" },
+  { value: 'tranlinh', label: 'Trần Linh' },
+  { value: 'template', label: 'A' },
+  { value: 'development', label: 'B' },
 ];
 
 const handleSelectChange12 = (value: string) => {
-  console.log("Selected value:", value);
+  console.log('Selected value:', value);
 };
 
-export default function ModalWareHouseCreatPart({
-  isOpen,
-  onClose,
-}: ModalWareHouseCreatPartProps) {
+export default function ModalWareHouseCreatPart({ isOpen, onClose }: ModalWareHouseCreatPartProps) {
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      className="fixed inset-0 w-full h-full m-0 p-0"
-    >
+    <Modal isOpen={isOpen} onClose={onClose} className="fixed inset-0 w-full h-full m-0 p-0">
       <div className="no-scrollbar relative w-full overflow-y-auto bg-white p-4 dark:bg-gray-900 lg:p-11">
         <div className="px-2 pr-14">
           <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90 ">
@@ -87,9 +79,7 @@ export default function ModalWareHouseCreatPart({
                     <Textarea />
                   </div>
                   <UpFile10 />
-                  <div className="text-[#0071FF] cursor-pointer">
-                    Add from Saved Files
-                  </div>
+                  <div className="text-[#0071FF] cursor-pointer">Add from Saved Files</div>
                   <div className="w-full grid grid-cols-1 items-center md:gap-6 gap-3">
                     <div className="w-full grid grid-cols-1 md:flex items-center md:gap-3 gap-3">
                       <div>
@@ -98,9 +88,8 @@ export default function ModalWareHouseCreatPart({
                       <div>
                         <p>This is a non-stock part</p>
                         <p>
-                          Non-stock parts are not regularly kept in inventory
-                          and are often purchased on-demand. These parts won’t
-                          trigger low or out-of-stock alerts.
+                          Non-stock parts are not regularly kept in inventory and are often
+                          purchased on-demand. These parts won’t trigger low or out-of-stock alerts.
                         </p>
                       </div>
                     </div>
@@ -111,9 +100,8 @@ export default function ModalWareHouseCreatPart({
                       <div>
                         <p>This is a non-stock part</p>
                         <p>
-                          Non-stock parts are not regularly kept in inventory
-                          and are often purchased on-demand. These parts won’t
-                          trigger low or out-of-stock alerts.
+                          Non-stock parts are not regularly kept in inventory and are often
+                          purchased on-demand. These parts won’t trigger low or out-of-stock alerts.
                         </p>
                       </div>
                     </div>

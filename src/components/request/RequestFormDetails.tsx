@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import Label from "../form/Label";
-import Select from "../form/Select";
-import Input from "../form/input/InputField";
-import TextArea from "../form/input/TextArea";
-import UpFile10 from "../upload/UpFile10";
-import ModalRequestDecline from "../modal/ModalRequestDecline";
-import { useModal } from "../../hooks/useModal";
-import DatePicker from "../form/date-picker";
+import React, { useState } from 'react';
+import Label from '../form/Label';
+import Select from '../form/Select';
+import Input from '../form/input/InputField';
+import TextArea from '../form/input/TextArea';
+import UpFile10 from '../upload/UpFile10';
+import ModalRequestDecline from '../modal/ModalRequestDecline';
+import { useModal } from '../../hooks/useModal';
+import DatePicker from '../form/date-picker';
 
 interface OptionType {
   value: string;
@@ -15,15 +15,15 @@ interface OptionType {
 
 const RequestFormDetails: React.FC = () => {
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    priority: "",
-    startDate: "",
-    dueDate: "",
-    category: "",
-    asset: "",
-    primaryWorker: "",
-    team: ""
+    title: '',
+    description: '',
+    priority: '',
+    startDate: '',
+    dueDate: '',
+    category: '',
+    asset: '',
+    primaryWorker: '',
+    team: '',
   });
 
   const [imageFiles, setImageFiles] = useState<File[]>([]);
@@ -36,60 +36,60 @@ const RequestFormDetails: React.FC = () => {
   } = useModal();
 
   const handleSelectChange = (field: string, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   const handleInputChange = (field: string, value: string) => {
     console.log('handleInputChange called:', field, value);
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   const priorityOptions: OptionType[] = [
-    { value: "low", label: "Low" },
-    { value: "medium", label: "Medium" },
-    { value: "high", label: "High" },
-    { value: "urgent", label: "Urgent" }
+    { value: 'low', label: 'Low' },
+    { value: 'medium', label: 'Medium' },
+    { value: 'high', label: 'High' },
+    { value: 'urgent', label: 'Urgent' },
   ];
 
   const categoryOptions: OptionType[] = [
-    { value: "maintenance", label: "Maintenance" },
-    { value: "repair", label: "Repair" },
-    { value: "inspection", label: "Inspection" },
-    { value: "installation", label: "Installation" }
+    { value: 'maintenance', label: 'Maintenance' },
+    { value: 'repair', label: 'Repair' },
+    { value: 'inspection', label: 'Inspection' },
+    { value: 'installation', label: 'Installation' },
   ];
 
   const assetOptions: OptionType[] = [
-    { value: "asset1", label: "Asset 1" },
-    { value: "asset2", label: "Asset 2" },
-    { value: "asset3", label: "Asset 3" }
+    { value: 'asset1', label: 'Asset 1' },
+    { value: 'asset2', label: 'Asset 2' },
+    { value: 'asset3', label: 'Asset 3' },
   ];
 
   const workerOptions: OptionType[] = [
-    { value: "worker1", label: "Worker 1" },
-    { value: "worker2", label: "Worker 2" },
-    { value: "worker3", label: "Worker 3" }
+    { value: 'worker1', label: 'Worker 1' },
+    { value: 'worker2', label: 'Worker 2' },
+    { value: 'worker3', label: 'Worker 3' },
   ];
 
   const teamOptions: OptionType[] = [
-    { value: "team1", label: "Team 1" },
-    { value: "team2", label: "Team 2" },
-    { value: "team3", label: "Team 3" }
+    { value: 'team1', label: 'Team 1' },
+    { value: 'team2', label: 'Team 2' },
+    { value: 'team3', label: 'Team 3' },
   ];
 
   const handleFormSubmit = () => {
     const formDataWithFiles = {
       ...formData,
       imageFiles,
-      documentFiles
+      documentFiles,
     };
 
-    console.log("Form submitted with data:", formDataWithFiles);
+    console.log('Form submitted with data:', formDataWithFiles);
     // Ở đây bạn có thể gửi dữ liệu lên server
     // formDataWithFiles sẽ chứa tất cả thông tin form và files
   };
@@ -119,7 +119,7 @@ const RequestFormDetails: React.FC = () => {
             name="title"
             placeholder="Enter title"
             value={formData.title}
-            onChange={(e) => handleInputChange("title", e.target.value)}
+            onChange={(e) => handleInputChange('title', e.target.value)}
             className="w-full"
           />
         </div>
@@ -131,8 +131,8 @@ const RequestFormDetails: React.FC = () => {
             id="description"
             placeholder="Enter description"
             rows={4}
-            value={formData.description || ""}
-            onChange={(value) => handleInputChange("description", value)}
+            value={formData.description || ''}
+            onChange={(value) => handleInputChange('description', value)}
             className="resize-none"
           />
         </div>
@@ -143,7 +143,7 @@ const RequestFormDetails: React.FC = () => {
           <Select
             options={priorityOptions}
             placeholder="Select priority"
-            onChange={(value) => handleSelectChange("priority", value)}
+            onChange={(value) => handleSelectChange('priority', value)}
             className="w-full"
           />
         </div>
@@ -153,15 +153,15 @@ const RequestFormDetails: React.FC = () => {
           <Label>Image</Label>
           <UpFile10
             onFilesSelected={(files) => {
-              console.log("Image files selected:", files);
+              console.log('Image files selected:', files);
               setImageFiles(files);
             }}
             onFileData={(fileData) => {
-              console.log("Image file data:", fileData);
+              console.log('Image file data:', fileData);
             }}
             multiple={false}
             maxSize={5}
-            fileTypes={["image/png", "image/jpeg", "image/jpg", "image/webp"]}
+            fileTypes={['image/png', 'image/jpeg', 'image/jpg', 'image/webp']}
           />
         </div>
 
@@ -173,7 +173,6 @@ const RequestFormDetails: React.FC = () => {
               label="Date Start"
               placeholder="Select a date"
               onChange={(dates, currentDateString) => {
-
                 console.log({ dates, currentDateString });
               }}
             />
@@ -184,7 +183,6 @@ const RequestFormDetails: React.FC = () => {
               label="Due Date"
               placeholder="Select a date"
               onChange={(dates, currentDateString) => {
-
                 console.log({ dates, currentDateString });
               }}
             />
@@ -198,7 +196,7 @@ const RequestFormDetails: React.FC = () => {
             <Select
               options={categoryOptions}
               placeholder="Select category"
-              onChange={(value) => handleSelectChange("category", value)}
+              onChange={(value) => handleSelectChange('category', value)}
               className="w-full"
             />
           </div>
@@ -208,7 +206,7 @@ const RequestFormDetails: React.FC = () => {
             <Select
               options={assetOptions}
               placeholder="Select asset"
-              onChange={(value) => handleSelectChange("asset", value)}
+              onChange={(value) => handleSelectChange('asset', value)}
               className="w-full"
             />
           </div>
@@ -221,7 +219,7 @@ const RequestFormDetails: React.FC = () => {
             <Select
               options={workerOptions}
               placeholder="Select worker"
-              onChange={(value) => handleSelectChange("primaryWorker", value)}
+              onChange={(value) => handleSelectChange('primaryWorker', value)}
               className="w-full"
             />
           </div>
@@ -231,7 +229,7 @@ const RequestFormDetails: React.FC = () => {
             <Select
               options={teamOptions}
               placeholder="Select team"
-              onChange={(value) => handleSelectChange("team", value)}
+              onChange={(value) => handleSelectChange('team', value)}
               className="w-full"
             />
           </div>
@@ -242,11 +240,11 @@ const RequestFormDetails: React.FC = () => {
           <Label>Files</Label>
           <UpFile10
             onFilesSelected={(files) => {
-              console.log("Files selected:", files);
+              console.log('Files selected:', files);
               setDocumentFiles(files);
             }}
             onFileData={(fileData) => {
-              console.log("Files data:", fileData);
+              console.log('Files data:', fileData);
             }}
             multiple={true}
             maxSize={10}
@@ -283,13 +281,8 @@ const RequestFormDetails: React.FC = () => {
             Approve Request
           </button>
         </div>
-
-
       </div>
-      <ModalRequestDecline
-        isOpen={isModalRequestDeclineOpen}
-        onClose={closeModalRequestDecline}
-      />
+      <ModalRequestDecline isOpen={isModalRequestDeclineOpen} onClose={closeModalRequestDecline} />
     </div>
   );
 };

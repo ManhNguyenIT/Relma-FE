@@ -1,15 +1,12 @@
-
-
 export default function FormWarrehouseWorkOrder() {
   const data = [
     {
-      number: "007",
-      title: "sửa máy B",
-      availableQty: "07/01/25",
-      status: "On Hold",
-      due: "",
+      number: '007',
+      title: 'sửa máy B',
+      availableQty: '07/01/25',
+      status: 'On Hold',
+      due: '',
     },
-
   ];
 
   return (

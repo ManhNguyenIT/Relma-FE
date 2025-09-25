@@ -1,6 +1,6 @@
-import ModalEditCheckList from "../modal/ModalEditCheckList";
-import { useModal } from "../../hooks/useModal";
-import DataTable, { TableColumn, TableAction } from "../common/DataTable";
+import ModalEditCheckList from '../modal/ModalEditCheckList';
+import { useModal } from '../../hooks/useModal';
+import DataTable, { TableColumn, TableAction } from '../common/DataTable';
 
 interface RowData {
   id: number;
@@ -13,14 +13,13 @@ interface RowData {
 const data: RowData[] = [
   {
     id: 1,
-    name: "Westwood HVAC Solutions",
-    description: "Check tổng quan cơ bản các máy",
+    name: 'Westwood HVAC Solutions',
+    description: 'Check tổng quan cơ bản các máy',
   },
   {
     id: 2,
-    name: "McMaster–Carr",
-    description:
-      "These tasks and checks should be performed every day at the end",
+    name: 'McMaster–Carr',
+    description: 'These tasks and checks should be performed every day at the end',
   },
 ];
 
@@ -33,44 +32,44 @@ export default function CheckListTable() {
 
   const columns: TableColumn[] = [
     {
-      key: "name",
-      label: "Name",
+      key: 'name',
+      label: 'Name',
     },
     {
-      key: "description",
-      label: "Description",
+      key: 'description',
+      label: 'Description',
     },
     {
-      key: "tasks",
-      label: "Tasks",
-      render: (value: string) => value || "",
+      key: 'tasks',
+      label: 'Tasks',
+      render: (value: string) => value || '',
     },
     {
-      key: "tags",
-      label: "Tags",
-      render: (value: string) => value || "",
+      key: 'tags',
+      label: 'Tags',
+      render: (value: string) => value || '',
     },
   ];
 
   const actions: TableAction[] = [
     {
-      label: "Edit",
+      label: 'Edit',
       onClick: (row: RowData) => {
-        console.log("Edit", row);
+        console.log('Edit', row);
         openModalEditCheckList();
       },
     },
     {
-      label: "Delete",
+      label: 'Delete',
       onClick: (row: RowData) => {
-        console.log("Delete", row);
+        console.log('Delete', row);
       },
-      variant: "danger",
+      variant: 'danger',
     },
     {
-      label: "Duplicate",
+      label: 'Duplicate',
       onClick: (row: RowData) => {
-        console.log("Duplicate", row);
+        console.log('Duplicate', row);
       },
     },
   ];
@@ -85,10 +84,7 @@ export default function CheckListTable() {
         showActions={true}
         className="overflow-x-auto rounded-lg shadow bg-white relative"
       />
-      <ModalEditCheckList
-        isOpen={isModalEditCheckListOpen}
-        onClose={closeModalEditCheckList}
-      />
+      <ModalEditCheckList isOpen={isModalEditCheckListOpen} onClose={closeModalEditCheckList} />
     </>
   );
 }

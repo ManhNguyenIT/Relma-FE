@@ -1,5 +1,3 @@
-
-
 export default function WorkOrderSearch() {
   return (
     <div className="flex items-center bg-gray-200 rounded-md px-3 py-1 w-full sm:w-48 md:w-60">

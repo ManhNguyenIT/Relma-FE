@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { DropdownItem } from "../ui/dropdown/DropdownItem";
-import { Dropdown } from "../ui/dropdown/Dropdown";
-import { Link } from "react-router";
+import { useState } from 'react';
+import { DropdownItem } from '../ui/dropdown/DropdownItem';
+import { Dropdown } from '../ui/dropdown/Dropdown';
+import { Link } from 'react-router';
+import { useAuth } from '../../context/AuthContext';
 
 export default function UserDropdown() {
+  const { logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   function toggleDropdown() {
@@ -13,6 +15,12 @@ export default function UserDropdown() {
   function closeDropdown() {
     setIsOpen(false);
   }
+
+  function logoutHandler() {
+    setIsOpen(false);
+    logout({ redirectUri: '/singin' });
+  }
+
   return (
     <div className="relative">
       <button
@@ -26,7 +34,7 @@ export default function UserDropdown() {
         <span className="block mr-1 font-medium text-theme-sm">Musharof</span>
         <svg
           className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${
-            isOpen ? "rotate-180" : ""
+            isOpen ? 'rotate-180' : ''
           }`}
           width="18"
           height="20"
@@ -61,9 +69,7 @@ export default function UserDropdown() {
         <ul className="flex flex-col gap-1 pt-4 pb-3 border-b border-gray-200 dark:border-gray-800">
           <li>
             <DropdownItem
-              onItemClick={closeDropdown}
-              tag="a"
-              to="/profile"
+              onItemClick={logoutHandler}
               className="flex items-center gap-3 px-3 py-2 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
             >
               <svg

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   ClockIcon,
   DolarIcon,
@@ -10,32 +10,18 @@ import {
   Note2Icon,
   Copy1,
   Track1Icon,
-} from "../../icons";
-import { useModal } from "../../hooks/useModal";
-import ModalAddTime from "../modal/ModalAddTime";
-import ModalAddCost from "../modal/ModalAddCost";
-import ModalAddPart from "../modal/ModalAddPart";
-import ModalEditWorkOrder from "../modal/ui-edit-work-order/ModalEditWorkOrder";
+} from '../../icons';
+import { useModal } from '../../hooks/useModal';
+import ModalAddTime from '../modal/ModalAddTime';
+import ModalAddCost from '../modal/ModalAddCost';
+import ModalAddPart from '../modal/ModalAddPart';
+import ModalEditWorkOrder from '../modal/ui-edit-work-order/ModalEditWorkOrder';
 
 export default function GroupButton() {
+  const { isOpen: isTimeOpen, openModal: openTimeModal, closeModal: closeTimeModal } = useModal();
 
-  const {
-    isOpen: isTimeOpen,
-    openModal: openTimeModal,
-    closeModal: closeTimeModal,
-  } = useModal();
-
-
-  const {
-    isOpen: isCostOpen,
-    openModal: openCostModal,
-    closeModal: closeCostModal,
-  } = useModal();
-  const {
-    isOpen: isPartOpen,
-    openModal: openPartModal,
-    closeModal: closePartModal,
-  } = useModal();
+  const { isOpen: isCostOpen, openModal: openCostModal, closeModal: closeCostModal } = useModal();
+  const { isOpen: isPartOpen, openModal: openPartModal, closeModal: closePartModal } = useModal();
   const {
     isOpen: isModalEditWorkOrderOpen,
     openModal: openModalEditWorkOrder,
@@ -50,16 +36,13 @@ export default function GroupButton() {
 
   return (
     <div className="w-full flex items-center gap-4">
-
       <ClockIcon className="cursor-pointer" onClick={openTimeModal} />
-
 
       <DolarIcon className="cursor-pointer" onClick={openCostModal} />
 
       <BackwardIcon className="cursor-pointer" onClick={openPartModal} />
       <EditIcon1 className="cursor-pointer" onClick={openModalEditWorkOrder} />
       <LinkIcon className="cursor-pointer" />
-
 
       <div className="relative">
         <MoreIcon className="cursor-pointer" onClick={toggleDropdown} />
@@ -125,14 +108,10 @@ export default function GroupButton() {
         )}
       </div>
 
-
       <ModalAddTime isOpen={isTimeOpen} onClose={closeTimeModal} />
       <ModalAddCost isOpen={isCostOpen} onClose={closeCostModal} />
       <ModalAddPart isOpen={isPartOpen} onClose={closePartModal} />
-      <ModalEditWorkOrder
-        isOpen={isModalEditWorkOrderOpen}
-        onClose={closeModalEditWorkOrder}
-      />
+      <ModalEditWorkOrder isOpen={isModalEditWorkOrderOpen} onClose={closeModalEditWorkOrder} />
     </div>
   );
 }

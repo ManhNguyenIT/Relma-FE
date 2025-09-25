@@ -4,10 +4,10 @@ import {
   AccordionPanel,
   AccordionTitle,
   Textarea,
-} from "flowbite-react";
+} from 'flowbite-react';
 
-import Label from "../form/Label";
-import UpFile10 from "../upload/UpFile10";
+import Label from '../form/Label';
+import UpFile10 from '../upload/UpFile10';
 
 export default function FormAdditionalInformation() {
   return (
@@ -24,9 +24,7 @@ export default function FormAdditionalInformation() {
               <label className="text-sm text-gray-700">Files</label>
               <UpFile10 />
             </div>
-            <div className="text-[#0071FF] cursor-pointer">
-              Add from Saved Files
-            </div>
+            <div className="text-[#0071FF] cursor-pointer">Add from Saved Files</div>
           </div>
         </AccordionContent>
       </AccordionPanel>

@@ -1,19 +1,13 @@
+import { Modal } from '../ui/modal';
 
-import { Modal } from "../ui/modal";
-
-import TextArea from "../form/input/TextArea";
-
-
+import TextArea from '../form/input/TextArea';
 
 interface ModalRequestDeclineProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function ModalRequestDecline({
-  isOpen,
-  onClose,
-}: ModalRequestDeclineProps) {
+export default function ModalRequestDecline({ isOpen, onClose }: ModalRequestDeclineProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-[900px] m-4">
       <div className="no-scrollbar relative w-full max-w-[900px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">

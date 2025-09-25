@@ -1,5 +1,5 @@
-import { FaImage } from "react-icons/fa";
-import DataTable, { TableColumn } from "../common/DataTable";
+import { FaImage } from 'react-icons/fa';
+import DataTable, { TableColumn } from '../common/DataTable';
 
 interface Product {
   id: number;
@@ -15,41 +15,41 @@ export default function FlTable() {
   const data: Product[] = [
     {
       id: 1,
-      name: "Bút",
-      status: "Out of stock",
-      statusColor: "bg-red-100 text-red-600",
+      name: 'Bút',
+      status: 'Out of stock',
+      statusColor: 'bg-red-100 text-red-600',
       qty: 0,
-      qtyColor: "text-red-500",
+      qtyColor: 'text-red-500',
       allocated: 1,
     },
     {
       id: 2,
-      name: "Foil Tape 1.89 - paper...",
-      status: "Non-stock",
-      statusColor: "bg-gray-100 text-gray-500",
+      name: 'Foil Tape 1.89 - paper...',
+      status: 'Non-stock',
+      statusColor: 'bg-gray-100 text-gray-500',
       qty: 2,
-      qtyColor: "text-gray-800",
+      qtyColor: 'text-gray-800',
       allocated: 1,
     },
     {
       id: 3,
-      name: "HVAC Filter 20x20x1",
-      status: "Low stock",
-      statusColor: "bg-yellow-100 text-yellow-600",
+      name: 'HVAC Filter 20x20x1',
+      status: 'Low stock',
+      statusColor: 'bg-yellow-100 text-yellow-600',
       qty: 3,
-      qtyColor: "text-gray-800",
+      qtyColor: 'text-gray-800',
       allocated: 2,
     },
   ];
 
   const columns: TableColumn[] = [
     {
-      key: "name",
-      label: "Name",
+      key: 'name',
+      label: 'Name',
     },
     {
-      key: "image",
-      label: "Image",
+      key: 'image',
+      label: 'Image',
       render: () => (
         <div className="w-10 h-10 bg-gray-200 flex items-center justify-center rounded-md">
           <FaImage className="text-gray-500" />
@@ -57,8 +57,8 @@ export default function FlTable() {
       ),
     },
     {
-      key: "status",
-      label: "Status",
+      key: 'status',
+      label: 'Status',
       render: (value: string, row: Product) => (
         <span className={`px-2 py-1 rounded-md text-xs font-medium ${row.statusColor}`}>
           {value}
@@ -66,27 +66,18 @@ export default function FlTable() {
       ),
     },
     {
-      key: "qty",
-      label: "Available Qty",
+      key: 'qty',
+      label: 'Available Qty',
       render: (value: number, row: Product) => (
-        <span className={`font-medium ${row.qtyColor}`}>
-          {value.toFixed(2)}
-        </span>
+        <span className={`font-medium ${row.qtyColor}`}>{value.toFixed(2)}</span>
       ),
     },
     {
-      key: "allocated",
-      label: "Allocated",
+      key: 'allocated',
+      label: 'Allocated',
       render: (value: number) => value.toFixed(2),
     },
   ];
 
-  return (
-    <DataTable
-      data={data}
-      columns={columns}
-      selectable={true}
-      className="overflow-x-auto"
-    />
-  );
+  return <DataTable data={data} columns={columns} selectable={true} className="overflow-x-auto" />;
 }

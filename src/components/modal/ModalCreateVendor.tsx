@@ -1,10 +1,9 @@
-
-import Label from "../form/Label";
-import { Modal } from "../ui/modal";
-import Select from "../form/Select";
-import TextArea from "../form/input/TextArea";
-import { DolaIcon } from "../../icons";
-import Input from "../form/input/InputField";
+import Label from '../form/Label';
+import { Modal } from '../ui/modal';
+import Select from '../form/Select';
+import TextArea from '../form/input/TextArea';
+import { DolaIcon } from '../../icons';
+import Input from '../form/input/InputField';
 
 interface ModalCreateVendorProps {
   isOpen: boolean;
@@ -15,25 +14,18 @@ interface OptionType {
   label: string;
 }
 const options12: OptionType[] = [
-  { value: "tranlinh", label: "Trần Linh" },
-  { value: "template", label: "A" },
-  { value: "development", label: "B" },
+  { value: 'tranlinh', label: 'Trần Linh' },
+  { value: 'template', label: 'A' },
+  { value: 'development', label: 'B' },
 ];
 
 const handleSelectChange12 = (value: string) => {
-  console.log("Selected value:", value);
+  console.log('Selected value:', value);
 };
 
-export default function ModalCreateVendor({
-  isOpen,
-  onClose,
-}: ModalCreateVendorProps) {
+export default function ModalCreateVendor({ isOpen, onClose }: ModalCreateVendorProps) {
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      className="fixed inset-0 w-full h-full m-0 p-0"
-    >
+    <Modal isOpen={isOpen} onClose={onClose} className="fixed inset-0 w-full h-full m-0 p-0">
       <div className="no-scrollbar relative w-full overflow-y-auto  bg-white p-4 dark:bg-gray-900 lg:p-11">
         <div className="px-2 pr-14">
           <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
@@ -97,9 +89,7 @@ export default function ModalCreateVendor({
               </div>
               <div>
                 <p>Custom Data</p>
-                <p>
-                  After naming custom fields, you can enter a value and unit.
-                </p>
+                <p>After naming custom fields, you can enter a value and unit.</p>
               </div>
               <div>
                 <button

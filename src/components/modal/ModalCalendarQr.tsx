@@ -1,11 +1,11 @@
-import { useState } from "react";
-import Label from "../form/Label";
-import { Modal } from "../ui/modal";
-import Select from "../form/Select";
+import { useState } from 'react';
+import Label from '../form/Label';
+import { Modal } from '../ui/modal';
+import Select from '../form/Select';
 
-import Input from "../form/input/InputField";
-import { TimeIcon } from "../../icons";
-import Checkbox from "../form/input/Checkbox";
+import Input from '../form/input/InputField';
+import { TimeIcon } from '../../icons';
+import Checkbox from '../form/input/Checkbox';
 
 interface Option {
   value: string;
@@ -17,23 +17,19 @@ interface ModalCalendarQrProps {
   onClose: () => void;
 }
 
-export default function ModalCalendarQr({
-  isOpen,
-  onClose,
-}: ModalCalendarQrProps) {
+export default function ModalCalendarQr({ isOpen, onClose }: ModalCalendarQrProps) {
   const [checkbox1, setCheckbox1] = useState(false);
   const [checkbox2, setCheckbox2] = useState(false);
 
   const options10: Option[] = [
-    { value: "tranlinh", label: "Trần Linh" },
-    { value: "template", label: "A" },
-    { value: "development", label: "B" },
+    { value: 'tranlinh', label: 'Trần Linh' },
+    { value: 'template', label: 'A' },
+    { value: 'development', label: 'B' },
   ];
 
   const handleSelectChange10 = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
-
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-[900px] m-4">
@@ -59,7 +55,6 @@ export default function ModalCalendarQr({
               </div>
 
               <div className="border-b border-[#F3F3F3]" />
-
 
               <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
                 <Label className="sm:w-40 w-full">Schedule Type</Label>
@@ -94,15 +89,11 @@ export default function ModalCalendarQr({
 
               <div className="border-b border-[#F3F3F3]" />
 
-
               <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-4">
                 <Label className="sm:w-40 w-full">Create WOs</Label>
                 <div className="flex flex-col gap-3 w-full">
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-                    <Checkbox
-                      checked={checkbox1}
-                      onChange={setCheckbox1}
-                    />
+                    <Checkbox checked={checkbox1} onChange={setCheckbox1} />
                     <Input className="w-full sm:w-20" />
                     <Select
                       options={options10}
@@ -113,10 +104,7 @@ export default function ModalCalendarQr({
                     <span>before the due date</span>
                   </div>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
-                    <Checkbox
-                      checked={checkbox2}
-                      onChange={setCheckbox2}
-                    />
+                    <Checkbox checked={checkbox2} onChange={setCheckbox2} />
                     <span>On the</span>
                     <Select
                       options={options10}
@@ -149,14 +137,12 @@ export default function ModalCalendarQr({
                 </h4>
               </div>
               <div className="mb-6 rounded-lg border border-gray-200 bg-gray-100 p-4 text-gray-600 text-sm">
-                When editing the PM’s records, you can set a specific meter and
-                unit baseline for each record applied to this schedule.
+                When editing the PM’s records, you can set a specific meter and unit baseline for
+                each record applied to this schedule.
               </div>
 
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Label className="w-full sm:w-40 font-medium text-gray-800">
-                  Create WOs
-                </Label>
+                <Label className="w-full sm:w-40 font-medium text-gray-800">Create WOs</Label>
                 <div className="grid grid-cols-1 items-center gap-3 w-full md:flex">
                   <div>
                     <span className="text-gray-700">When a reading</span>
@@ -180,11 +166,8 @@ export default function ModalCalendarQr({
 
               <div className="border-b border-gray-200" />
 
-
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Label className="w-full sm:w-40 font-medium text-gray-800">
-                  WOs Due
-                </Label>
+                <Label className="w-full sm:w-40 font-medium text-gray-800">WOs Due</Label>
                 <div className="flex flex-wrap items-center gap-3 w-full">
                   <Input className="w-20" />
                   <Select

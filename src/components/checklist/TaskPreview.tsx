@@ -1,20 +1,20 @@
-import Select from "../form/Select";
-import { LuClipboardCheck } from "react-icons/lu";
-import { LuClipboardList } from "react-icons/lu";
-import { LuClipboardPen } from "react-icons/lu";
+import Select from '../form/Select';
+import { LuClipboardCheck } from 'react-icons/lu';
+import { LuClipboardList } from 'react-icons/lu';
+import { LuClipboardPen } from 'react-icons/lu';
 export default function TaskPreview() {
   interface OptionType {
     value: string;
     label: string;
   }
   const options12: OptionType[] = [
-    { value: "tranlinh", label: "Trần Linh" },
-    { value: "template", label: "A" },
-    { value: "development", label: "B" },
+    { value: 'tranlinh', label: 'Trần Linh' },
+    { value: 'template', label: 'A' },
+    { value: 'development', label: 'B' },
   ];
 
   const handleSelectChange12 = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
   return (
     <div className="w-full bg-[#dddddd] p-6 flex items-center justify-center ">

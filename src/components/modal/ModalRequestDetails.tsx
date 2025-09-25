@@ -1,8 +1,5 @@
-
-import RequestFormDetails from "../request/RequestFormDetails";
-import { Modal } from "../ui/modal";
-
-
+import RequestFormDetails from '../request/RequestFormDetails';
+import { Modal } from '../ui/modal';
 
 interface ModalRequestDetailsProps {
   isOpen: boolean;
@@ -10,8 +7,6 @@ interface ModalRequestDetailsProps {
 }
 
 export default function ModalRequestDetails({ isOpen, onClose }: ModalRequestDetailsProps) {
-
-
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-[900px] m-4">
       <div className="no-scrollbar relative w-full max-w-[900px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
@@ -25,11 +20,8 @@ export default function ModalRequestDetails({ isOpen, onClose }: ModalRequestDet
         <form className="flex flex-col">
           <div className="custom-scrollbar h-[500px] overflow-y-auto px-2 pb-3">
             <div className="mt-7">
-
               <RequestFormDetails />
-
             </div>
-
           </div>
         </form>
       </div>

@@ -1,7 +1,7 @@
-import { useMemo } from "react";
-import { FaImage } from "react-icons/fa";
-import { useNavigate } from "react-router";
-import DataTable, { TableColumn, StatusConfig } from "../common/DataTable";
+import { useMemo } from 'react';
+import { FaImage } from 'react-icons/fa';
+import { useNavigate } from 'react-router';
+import DataTable, { TableColumn, StatusConfig } from '../common/DataTable';
 
 interface AssetRow {
   id: number;
@@ -12,7 +12,7 @@ interface AssetRow {
   serialNumber: string;
   description: string;
   category: string;
-  status: "High" | "Medium" | "Low" | "None";
+  status: 'High' | 'Medium' | 'Low' | 'None';
   paused: boolean;
   checklist: string;
 }
@@ -20,42 +20,42 @@ interface AssetRow {
 const initialRows: AssetRow[] = [
   {
     id: 1,
-    name: "Máy A",
+    name: 'Máy A',
     image: null,
-    location: "MES",
-    barcode: "MES",
-    serialNumber: "Monthly HVAC preventative...",
-    description: "3",
-    category: "Meter Reading",
-    status: "High",
+    location: 'MES',
+    barcode: 'MES',
+    serialNumber: 'Monthly HVAC preventative...',
+    description: '3',
+    category: 'Meter Reading',
+    status: 'High',
     paused: false,
-    checklist: "Test 1",
+    checklist: 'Test 1',
   },
   {
     id: 2,
-    name: "Máy B",
+    name: 'Máy B',
     image: null,
-    location: "",
-    barcode: "sdsfsd",
-    serialNumber: "",
-    description: "3",
-    category: "Meter Reading",
-    status: "None",
+    location: '',
+    barcode: 'sdsfsd',
+    serialNumber: '',
+    description: '3',
+    category: 'Meter Reading',
+    status: 'None',
     paused: false,
-    checklist: "Test 1",
+    checklist: 'Test 1',
   },
   {
     id: 3,
-    name: "Máy C",
+    name: 'Máy C',
     image: null,
-    location: "Suite B",
-    barcode: "6863fb69392...",
-    serialNumber: "kiểm tra máy điều hòa",
-    description: "3",
-    category: "Meter Reading",
-    status: "Medium",
+    location: 'Suite B',
+    barcode: '6863fb69392...',
+    serialNumber: 'kiểm tra máy điều hòa',
+    description: '3',
+    category: 'Meter Reading',
+    status: 'Medium',
     paused: false,
-    checklist: "Test 1",
+    checklist: 'Test 1',
   },
 ];
 
@@ -65,12 +65,12 @@ const AssetsTable: React.FC = () => {
 
   const columns: TableColumn[] = [
     {
-      key: "name",
-      label: "Name",
+      key: 'name',
+      label: 'Name',
     },
     {
-      key: "image",
-      label: "Image",
+      key: 'image',
+      label: 'Image',
       render: (value: string | null, row: AssetRow) => (
         <div className="w-9 h-9 bg-gray-200 flex items-center justify-center rounded-md">
           {value ? (
@@ -82,74 +82,72 @@ const AssetsTable: React.FC = () => {
       ),
     },
     {
-      key: "location",
-      label: "Location",
+      key: 'location',
+      label: 'Location',
     },
     {
-      key: "barcode",
-      label: "Barcode",
+      key: 'barcode',
+      label: 'Barcode',
     },
     {
-      key: "serialNumber",
-      label: "Serial Number",
+      key: 'serialNumber',
+      label: 'Serial Number',
     },
     {
-      key: "description",
-      label: "Description",
+      key: 'description',
+      label: 'Description',
     },
     {
-      key: "category",
-      label: "Category",
+      key: 'category',
+      label: 'Category',
     },
     {
-      key: "status",
-      label: "Status",
+      key: 'status',
+      label: 'Status',
     },
     {
-      key: "paused",
-      label: "Paused",
-      render: (value: boolean) => value ? "Yes" : "No",
+      key: 'paused',
+      label: 'Paused',
+      render: (value: boolean) => (value ? 'Yes' : 'No'),
     },
     {
-      key: "checklist",
-      label: "Checklist",
+      key: 'checklist',
+      label: 'Checklist',
       render: (value: string) => (
-        <span className="text-blue-600 cursor-pointer hover:text-blue-800">
-          {value}
-        </span>
+        <span className="text-blue-600 cursor-pointer hover:text-blue-800">{value}</span>
       ),
     },
   ];
 
   const statusConfig: StatusConfig = {
     High: {
-      text: "High",
-      color: "error",
-      bgColor: "bg-rose-100",
-      textColor: "text-rose-600",
+      text: 'High',
+      color: 'error',
+      bgColor: 'bg-rose-100',
+      textColor: 'text-rose-600',
     },
     Medium: {
-      text: "Medium",
-      color: "warning",
-      bgColor: "bg-yellow-100",
-      textColor: "text-yellow-700",
+      text: 'Medium',
+      color: 'warning',
+      bgColor: 'bg-yellow-100',
+      textColor: 'text-yellow-700',
     },
     Low: {
-      text: "Low",
-      color: "success",
-      bgColor: "bg-emerald-100",
-      textColor: "text-emerald-700",
+      text: 'Low',
+      color: 'success',
+      bgColor: 'bg-emerald-100',
+      textColor: 'text-emerald-700',
     },
     None: {
-      text: "None",
-      color: "info",
-      bgColor: "bg-gray-100",
-      textColor: "text-gray-600",
+      text: 'None',
+      color: 'info',
+      bgColor: 'bg-gray-100',
+      textColor: 'text-gray-600',
     },
   };
 
   const handleRowClick = () => {
-    navigate("/assets-task1");
+    navigate('/assets-task1');
   };
 
   return (
@@ -165,5 +163,3 @@ const AssetsTable: React.FC = () => {
 };
 
 export default AssetsTable;
-
-

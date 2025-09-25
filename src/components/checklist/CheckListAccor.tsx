@@ -1,14 +1,9 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionPanel,
-  AccordionTitle,
-} from "flowbite-react";
+import { Accordion, AccordionContent, AccordionPanel, AccordionTitle } from 'flowbite-react';
 
 export default function CheckListAccor() {
   return (
     <div className="space-y-6">
-      {" "}
+      {' '}
       {/* khoảng cách giữa 2 accordion */}
       {/* Accordion 1 */}
       <Accordion>
@@ -16,9 +11,8 @@ export default function CheckListAccor() {
           <AccordionTitle>PDF Smart Import</AccordionTitle>
           <AccordionContent>
             <p className="mb-2 text-gray-500 dark:text-gray-400">
-              Flowbite is an open-source library of interactive components built
-              on top of Tailwind CSS including buttons, dropdowns, modals,
-              navbars, and more.
+              Flowbite is an open-source library of interactive components built on top of Tailwind
+              CSS including buttons, dropdowns, modals, navbars, and more.
             </p>
             <p className="text-gray-500 dark:text-gray-400">
               Check out this guide to learn how to&nbsp;
@@ -28,8 +22,7 @@ export default function CheckListAccor() {
               >
                 get started&nbsp;
               </a>
-              and start developing websites even faster with components on top
-              of Tailwind CSS.
+              and start developing websites even faster with components on top of Tailwind CSS.
             </p>
           </AccordionContent>
         </AccordionPanel>
@@ -40,11 +33,10 @@ export default function CheckListAccor() {
           <AccordionTitle>AI Checklist Generation</AccordionTitle>
           <AccordionContent>
             <p className="mb-2 text-gray-500 dark:text-gray-400">
-              The main difference is that the core components from Flowbite are
-              open source under the MIT license, whereas Tailwind UI is a paid
-              product. Another difference is that Flowbite relies on smaller and
-              standalone components, whereas Tailwind UI offers sections of
-              pages.
+              The main difference is that the core components from Flowbite are open source under
+              the MIT license, whereas Tailwind UI is a paid product. Another difference is that
+              Flowbite relies on smaller and standalone components, whereas Tailwind UI offers
+              sections of pages.
             </p>
           </AccordionContent>
         </AccordionPanel>

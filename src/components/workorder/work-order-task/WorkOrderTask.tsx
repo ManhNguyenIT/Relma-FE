@@ -1,39 +1,38 @@
-import SortLabel from "./ui/SortLabel";
-import { GridColumnIcon } from "../../../icons";
-import WorkOrderSearch from "./ui/WorkOrderSearch";
-import { useState, useEffect, useRef } from "react";
-import { RxDragHandleDots2 } from "react-icons/rx";
-
+import SortLabel from './ui/SortLabel';
+import { GridColumnIcon } from '../../../icons';
+import WorkOrderSearch from './ui/WorkOrderSearch';
+import { useState, useEffect, useRef } from 'react';
+import { RxDragHandleDots2 } from 'react-icons/rx';
 
 type ColumnSelection = {
-  "WO": boolean;
-  "Work Order Title": boolean;
-  "Description": boolean;
-  "Due Date": boolean;
-  "Start Date": boolean;
-  "Status": boolean;
-  "Priority": boolean;
-  "Category": boolean;
-  "Location": boolean;
-  "Asset": boolean;
-  "Parts": boolean;
+  WO: boolean;
+  'Work Order Title': boolean;
+  Description: boolean;
+  'Due Date': boolean;
+  'Start Date': boolean;
+  Status: boolean;
+  Priority: boolean;
+  Category: boolean;
+  Location: boolean;
+  Asset: boolean;
+  Parts: boolean;
 };
 
 export default function WorkOrderTask() {
   // State cho dropdown columns
   const [isColumnsDropdownOpen, setIsColumnsDropdownOpen] = useState(false);
   const [selectedColumns, setSelectedColumns] = useState<ColumnSelection>({
-    "WO": false,
-    "Work Order Title": false,
-    "Description": false,
-    "Due Date": false,
-    "Start Date": false,
-    "Status": false,
-    "Priority": false,
-    "Category": false,
-    "Location": false,
-    "Asset": false,
-    "Parts": false,
+    WO: false,
+    'Work Order Title': false,
+    Description: false,
+    'Due Date': false,
+    'Start Date': false,
+    Status: false,
+    Priority: false,
+    Category: false,
+    Location: false,
+    Asset: false,
+    Parts: false,
   });
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -53,9 +52,9 @@ export default function WorkOrderTask() {
 
   // Toggle column selection
   const toggleColumn = (columnName: keyof ColumnSelection) => {
-    setSelectedColumns(prev => ({
+    setSelectedColumns((prev) => ({
       ...prev,
-      [columnName]: !prev[columnName]
+      [columnName]: !prev[columnName],
     }));
   };
   return (
@@ -88,13 +87,18 @@ export default function WorkOrderTask() {
                     <RxDragHandleDots2 className="w-4 h-4 text-gray-400" />
 
                     {/* Checkbox */}
-                    <div className={`flex items-center justify-center w-4 h-4 border-2 rounded-sm ${isSelected
-                      ? 'bg-blue-600 border-blue-600'
-                      : 'bg-white border-gray-300'
-                      }`}>
+                    <div
+                      className={`flex items-center justify-center w-4 h-4 border-2 rounded-sm ${
+                        isSelected ? 'bg-blue-600 border-blue-600' : 'bg-white border-gray-300'
+                      }`}
+                    >
                       {isSelected && (
                         <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          <path
+                            fillRule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clipRule="evenodd"
+                          />
                         </svg>
                       )}
                     </div>

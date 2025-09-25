@@ -1,16 +1,11 @@
-
-import { Modal } from "../ui/modal";
-
+import { Modal } from '../ui/modal';
 
 interface ModalPeopleTeamCancelProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function ModalPeopleTeamCancel({
-  isOpen,
-  onClose,
-}: ModalPeopleTeamCancelProps) {
+export default function ModalPeopleTeamCancel({ isOpen, onClose }: ModalPeopleTeamCancelProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-[900px] m-4">
       <div className="no-scrollbar relative w-full max-w-[900px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
@@ -23,9 +18,7 @@ export default function ModalPeopleTeamCancel({
 
         <form className="flex flex-col">
           <div className="custom-scrollbar overflow-y-auto px-2 pb-3">
-            <div className="mt-7">
-              Are you sure you want to leave? All progress will be lost.
-            </div>
+            <div className="mt-7">Are you sure you want to leave? All progress will be lost.</div>
 
             <div className="w-full flex items-center justify-end gap-2 md:gap-4 md:mt-3 mt-3">
               <button

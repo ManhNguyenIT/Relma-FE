@@ -1,80 +1,75 @@
+import { Modal } from '../../ui/modal';
+import Label from '../../form/Label';
+import Input from '../../form/input/InputField';
+import TextArea from '../../form/input/TextArea';
+import Select from '../../form/Select';
+import DatePicker from '../../form/date-picker';
+import { CiSearch } from 'react-icons/ci';
 
-import { Modal } from "../../ui/modal";
-import Label from "../../form/Label";
-import Input from "../../form/input/InputField";
-import TextArea from "../../form/input/TextArea";
-import Select from "../../form/Select";
-import DatePicker from "../../form/date-picker";
-import { CiSearch } from "react-icons/ci";
-
-import UpFile10 from "../../upload/UpFile10";
-
+import UpFile10 from '../../upload/UpFile10';
 
 interface ModalEditWorkOrder {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function ModalEditWorkOrder({
-  isOpen,
-  onClose,
-}: ModalEditWorkOrder) {
+export default function ModalEditWorkOrder({ isOpen, onClose }: ModalEditWorkOrder) {
   const options = [
-    { value: "marketing", label: "Marketing" },
-    { value: "template", label: "Template" },
-    { value: "development", label: "Development" },
+    { value: 'marketing', label: 'Marketing' },
+    { value: 'template', label: 'Template' },
+    { value: 'development', label: 'Development' },
   ];
   const options2 = [
-    { value: "marketing", label: "Marketing" },
-    { value: "template", label: "Template" },
-    { value: "development", label: "Development" },
+    { value: 'marketing', label: 'Marketing' },
+    { value: 'template', label: 'Template' },
+    { value: 'development', label: 'Development' },
   ];
   const options3 = [
-    { value: "marketing", label: "Marketing" },
-    { value: "template", label: "Template" },
-    { value: "development", label: "Development" },
+    { value: 'marketing', label: 'Marketing' },
+    { value: 'template', label: 'Template' },
+    { value: 'development', label: 'Development' },
   ];
   const options4 = [
-    { value: "marketing", label: "Marketing" },
-    { value: "template", label: "Template" },
-    { value: "development", label: "Development" },
+    { value: 'marketing', label: 'Marketing' },
+    { value: 'template', label: 'Template' },
+    { value: 'development', label: 'Development' },
   ];
   const options5 = [
-    { value: "marketing", label: "Marketing" },
-    { value: "template", label: "Template" },
-    { value: "development", label: "Development" },
+    { value: 'marketing', label: 'Marketing' },
+    { value: 'template', label: 'Template' },
+    { value: 'development', label: 'Development' },
   ];
   const handleSelectChange5 = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
   const options6 = [
-    { value: "marketing", label: "Marketing" },
-    { value: "template", label: "Template" },
-    { value: "development", label: "Development" },
+    { value: 'marketing', label: 'Marketing' },
+    { value: 'template', label: 'Template' },
+    { value: 'development', label: 'Development' },
   ];
   const handleSelectChange7 = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
 
   const options7 = [
-    { value: "marketing", label: "Marketing" },
-    { value: "template", label: "Template" },
-    { value: "development", label: "Development" },
+    { value: 'marketing', label: 'Marketing' },
+    { value: 'template', label: 'Template' },
+    { value: 'development', label: 'Development' },
   ];
   const handleSelectChange6 = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
   const handleSelectChange1 = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
   const handleSelectChange2 = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
   const handleSelectChange3 = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
   const handleSelectChange4 = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
 
   return (
@@ -158,7 +153,6 @@ export default function ModalEditWorkOrder({
                       label="Date Start"
                       placeholder="Select a date"
                       onChange={(dates, currentDateString) => {
-
                         console.log({ dates, currentDateString });
                       }}
                     />
@@ -169,7 +163,6 @@ export default function ModalEditWorkOrder({
                       label="Due Date"
                       placeholder="Select a date"
                       onChange={(dates, currentDateString) => {
-
                         console.log({ dates, currentDateString });
                       }}
                     />
@@ -272,8 +265,8 @@ export default function ModalEditWorkOrder({
                   <div className="flex flex-col gap-2">
                     <p>Signature Required</p>
                     <p>
-                      Require technicians to upload a signature image in order
-                      to complete this work order
+                      Require technicians to upload a signature image in order to complete this work
+                      order
                     </p>
                   </div>
                   <div></div>

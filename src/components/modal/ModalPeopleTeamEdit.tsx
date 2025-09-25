@@ -1,10 +1,8 @@
+import Label from '../form/Label';
+import { Modal } from '../ui/modal';
+import Select from '../form/Select';
 
-import Label from "../form/Label";
-import { Modal } from "../ui/modal";
-import Select from "../form/Select";
-
-import Input from "../form/input/InputField";
-
+import Input from '../form/input/InputField';
 
 interface OptionType {
   value: string;
@@ -16,18 +14,15 @@ interface ModalPeopleTeamEditProps {
   onClose: () => void;
 }
 
-export default function ModalPeopleTeamEdit({
-  isOpen,
-  onClose,
-}: ModalPeopleTeamEditProps) {
+export default function ModalPeopleTeamEdit({ isOpen, onClose }: ModalPeopleTeamEditProps) {
   const options12: OptionType[] = [
-    { value: "tranlinh", label: "Trần Linh" },
-    { value: "template", label: "A" },
-    { value: "development", label: "B" },
+    { value: 'tranlinh', label: 'Trần Linh' },
+    { value: 'template', label: 'A' },
+    { value: 'development', label: 'B' },
   ];
 
   const handleSelectChange12 = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
 
   return (

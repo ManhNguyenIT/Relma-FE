@@ -1,11 +1,6 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionPanel,
-  AccordionTitle,
-} from "flowbite-react";
-import Select from "../form/Select";
-import Label from "../form/Label";
+import { Accordion, AccordionContent, AccordionPanel, AccordionTitle } from 'flowbite-react';
+import Select from '../form/Select';
+import Label from '../form/Label';
 
 export default function FormPeopleTeam() {
   interface OptionType {
@@ -13,13 +8,13 @@ export default function FormPeopleTeam() {
     label: string;
   }
   const options12: OptionType[] = [
-    { value: "tranlinh", label: "Trần Linh" },
-    { value: "template", label: "A" },
-    { value: "development", label: "B" },
+    { value: 'tranlinh', label: 'Trần Linh' },
+    { value: 'template', label: 'A' },
+    { value: 'development', label: 'B' },
   ];
 
   const handleSelectChange12 = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
 
   return (

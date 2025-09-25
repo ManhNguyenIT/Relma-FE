@@ -1,4 +1,4 @@
-import { Time2Icon } from "../../icons";
+import { Time2Icon } from '../../icons';
 
 export default function StartTimeButton() {
   return (

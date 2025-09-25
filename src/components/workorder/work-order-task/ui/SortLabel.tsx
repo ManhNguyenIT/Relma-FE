@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 const SortLabel: React.FC = () => {
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   const toggleSort = () => {
-    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
   };
 
   return (
@@ -21,9 +21,7 @@ const SortLabel: React.FC = () => {
       >
         <path
           d="M8 17V7m0 0l-3 3m3-3l3 3"
-          className={
-            sortOrder === "asc" ? "stroke-gray-900" : "stroke-gray-400"
-          }
+          className={sortOrder === 'asc' ? 'stroke-gray-900' : 'stroke-gray-400'}
           strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -31,9 +29,7 @@ const SortLabel: React.FC = () => {
 
         <path
           d="M16 7v10m0 0l-3-3m3 3l3-3"
-          className={
-            sortOrder === "desc" ? "stroke-gray-900" : "stroke-gray-400"
-          }
+          className={sortOrder === 'desc' ? 'stroke-gray-900' : 'stroke-gray-400'}
           strokeWidth={2}
           strokeLinecap="round"
           strokeLinejoin="round"

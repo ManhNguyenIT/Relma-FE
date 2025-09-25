@@ -1,21 +1,20 @@
-
-import Label from "../form/Label";
-import { Modal } from "../ui/modal";
-import Select from "../form/Select";
-import UpFile10 from "../upload/UpFile10";
+import Label from '../form/Label';
+import { Modal } from '../ui/modal';
+import Select from '../form/Select';
+import UpFile10 from '../upload/UpFile10';
 
 interface Option {
   value: string;
   label: string;
 }
 const options10: Option[] = [
-  { value: "tranlinh", label: "Trần Linh" },
-  { value: "template", label: "A" },
-  { value: "development", label: "B" },
+  { value: 'tranlinh', label: 'Trần Linh' },
+  { value: 'template', label: 'A' },
+  { value: 'development', label: 'B' },
 ];
 
 const handleSelectChange10 = (value: string) => {
-  console.log("Selected value:", value);
+  console.log('Selected value:', value);
 };
 
 interface ModalFiless {

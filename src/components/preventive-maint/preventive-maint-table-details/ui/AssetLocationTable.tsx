@@ -1,5 +1,5 @@
-import React, { MouseEvent } from "react";
-import { MoreIcon, Edit3Icon, Track1Icon } from "../../../../icons";
+import React, { MouseEvent } from 'react';
+import { MoreIcon, Edit3Icon, Track1Icon } from '../../../../icons';
 
 interface Position {
   top: number;
@@ -24,7 +24,7 @@ export default function AssetLocationTable() {
 
   const handleSelectRow = (index: number) => {
     setSelectedRows((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
     );
     setAllSelected(false);
   };
@@ -98,7 +98,7 @@ export default function AssetLocationTable() {
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          <tr className={selectedRows.includes(0) ? "bg-blue-100" : ""}>
+          <tr className={selectedRows.includes(0) ? 'bg-blue-100' : ''}>
             <td className="px-6 py-4 whitespace-nowrap">
               <input
                 type="checkbox"
@@ -107,54 +107,35 @@ export default function AssetLocationTable() {
                 onChange={() => handleSelectRow(0)}
               />
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              Every 3 days
-            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Every 3 days</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               6863fb699392181242...
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              Suit B
-            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Suit B</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               6863fb6993921812427...
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              -
-            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">-</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600">
-              <button className="text-blue-600 hover:text-blue-900">
-                View
-              </button>
+              <button className="text-blue-600 hover:text-blue-900">View</button>
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              07/04/2025
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              07/03/2025
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              07/01/2025
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              -
-            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">07/04/2025</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">07/03/2025</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">07/01/2025</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">-</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               <div className="flex items-center">
-                <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
-                T Trân Linh
+                <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>T Trân Linh
               </div>
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              -
-            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">-</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               <button onClick={(e) => toggleMenu(0, e)}>
                 <MoreIcon />
               </button>
             </td>
           </tr>
-          <tr className={selectedRows.includes(1) ? "bg-blue-100" : ""}>
+          <tr className={selectedRows.includes(1) ? 'bg-blue-100' : ''}>
             <td className="px-6 py-4 whitespace-nowrap">
               <input
                 type="checkbox"
@@ -163,54 +144,35 @@ export default function AssetLocationTable() {
                 onChange={() => handleSelectRow(1)}
               />
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              Every 3 days
-            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Every 3 days</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               6863fb699392181242...
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              Suit B
-            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Suit B</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               6863fb6993921812427...
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              -
-            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">-</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600">
-              <button className="text-blue-600 hover:text-blue-900">
-                View
-              </button>
+              <button className="text-blue-600 hover:text-blue-900">View</button>
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              07/04/2025
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              07/03/2025
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              07/01/2025
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              -
-            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">07/04/2025</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">07/03/2025</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">07/01/2025</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">-</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               <div className="flex items-center">
-                <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
-                T Trân Linh
+                <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>T Trân Linh
               </div>
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              -
-            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">-</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               <button onClick={(e) => toggleMenu(1, e)}>
                 <MoreIcon />
               </button>
             </td>
           </tr>
-          <tr className={selectedRows.includes(2) ? "bg-blue-100" : ""}>
+          <tr className={selectedRows.includes(2) ? 'bg-blue-100' : ''}>
             <td className="px-6 py-4 whitespace-nowrap">
               <input
                 type="checkbox"
@@ -219,47 +181,28 @@ export default function AssetLocationTable() {
                 onChange={() => handleSelectRow(2)}
               />
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              Every 3 days
-            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Every 3 days</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               6863fb699392181242...
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              Suit B
-            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Suit B</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               6863fb6993921812427...
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              -
-            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">-</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600">
-              <button className="text-blue-600 hover:text-blue-900">
-                View
-              </button>
+              <button className="text-blue-600 hover:text-blue-900">View</button>
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              07/04/2025
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              07/03/2025
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              07/01/2025
-            </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              -
-            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">07/04/2025</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">07/03/2025</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">07/01/2025</td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">-</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               <div className="flex items-center">
-                <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>
-                T Trân Linh
+                <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>T Trân Linh
               </div>
             </td>
-            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              -
-            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">-</td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               <button onClick={(e) => toggleMenu(2, e)}>
                 <MoreIcon />

@@ -1,30 +1,29 @@
-import { IoArrowBack } from "react-icons/io5";
-import { LayoutLineIcon, MoreIcon } from "../../../icons";
-import { useNavigate } from "react-router";
-import { useState } from "react";
-import InventoryTable1 from "./InventoryTable1";
-import FormWarehouseDetails from "../ui-details/TableWarehouseDetails";
+import { IoArrowBack } from 'react-icons/io5';
+import { LayoutLineIcon, MoreIcon } from '../../../icons';
+import { useNavigate } from 'react-router';
+import { useState } from 'react';
+import InventoryTable1 from './InventoryTable1';
+import FormWarehouseDetails from '../ui-details/TableWarehouseDetails';
 
-
-import SelectDropdawn from "../../SelectDropdawn";
-import TableWarrehouseWorkOrder from "../ui-adjustments/TableWarehouseAdjust";
-import TableWarehouseAssets from "../ui-assets/TableWarehouseAssets";
-import TableWarehouseAdjust from "../ui-adjustments/TableWarehouseAdjust";
-
+import SelectDropdawn from '../../SelectDropdawn';
+import TableWarrehouseWorkOrder from '../ui-adjustments/TableWarehouseAdjust';
+import TableWarehouseAssets from '../ui-assets/TableWarehouseAssets';
+import TableWarehouseAdjust from '../ui-adjustments/TableWarehouseAdjust';
 
 export default function WareHouseInventoryDetails() {
-
-  const [activeTab, setActiveTab] = useState("WareHouseInventoryDetails");
+  const [activeTab, setActiveTab] = useState('WareHouseInventoryDetails');
   const navigate = useNavigate();
   return (
     <div className="w-full flex flex-col md:gap-4 gap-4 bg-white">
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center gap-2 md:gap-3">
-          <IoArrowBack className="cursor-pointer" onClick={() => navigate("/warehouse")} />
+          <IoArrowBack className="cursor-pointer" onClick={() => navigate('/warehouse')} />
           Bút
         </div>
         <div className="flex items-center gap-3 md:gap-5">
-          <button className="border border-[#D9D9D9] bg-white rounded-[4px] text-black h-10 p-2">Edit </button>
+          <button className="border border-[#D9D9D9] bg-white rounded-[4px] text-black h-10 p-2">
+            Edit{' '}
+          </button>
 
           <MoreIcon className="cursor-pointer" />
         </div>
@@ -35,66 +34,70 @@ export default function WareHouseInventoryDetails() {
             <div className="flex flex-wrap border-b border-gray-200 w-full">
               <button
                 type="button"
-                onClick={() => setActiveTab("inventory")}
-                className={`px-4 py-2 text-sm font-medium ${activeTab === "inventory"
-                  ? "text-blue-500 border-b-2 border-blue-500"
-                  : "text-gray-500 hover:text-gray-700"
-                  }`}
+                onClick={() => setActiveTab('inventory')}
+                className={`px-4 py-2 text-sm font-medium ${
+                  activeTab === 'inventory'
+                    ? 'text-blue-500 border-b-2 border-blue-500'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
               >
                 Inventory
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab("details")}
-                className={`px-4 py-2 text-sm font-medium ${activeTab === "details"
-                  ? "text-blue-500 border-b-2 border-blue-500"
-                  : "text-gray-500 hover:text-gray-700"
-                  }`}
+                onClick={() => setActiveTab('details')}
+                className={`px-4 py-2 text-sm font-medium ${
+                  activeTab === 'details'
+                    ? 'text-blue-500 border-b-2 border-blue-500'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
               >
                 Details
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab("work-order")}
-                className={`px-4 py-2 text-sm font-medium ${activeTab === "work-order"
-                  ? "text-blue-500 border-b-2 border-blue-500"
-                  : "text-gray-500 hover:text-gray-700"
-                  }`}
+                onClick={() => setActiveTab('work-order')}
+                className={`px-4 py-2 text-sm font-medium ${
+                  activeTab === 'work-order'
+                    ? 'text-blue-500 border-b-2 border-blue-500'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
               >
                 Work Orders
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab("assets")}
-                className={`px-4 py-2 text-sm font-medium ${activeTab === "assets"
-                  ? "text-blue-500 border-b-2 border-blue-500"
-                  : "text-gray-500 hover:text-gray-700"
-                  }`}
+                onClick={() => setActiveTab('assets')}
+                className={`px-4 py-2 text-sm font-medium ${
+                  activeTab === 'assets'
+                    ? 'text-blue-500 border-b-2 border-blue-500'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
               >
                 Assets
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab("files")}
-                className={`px-4 py-2 text-sm font-medium ${activeTab === "files"
-                  ? "text-blue-500 border-b-2 border-blue-500"
-                  : "text-gray-500 hover:text-gray-700"
-                  }`}
+                onClick={() => setActiveTab('files')}
+                className={`px-4 py-2 text-sm font-medium ${
+                  activeTab === 'files'
+                    ? 'text-blue-500 border-b-2 border-blue-500'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
               >
                 Files
               </button>
               <button
                 type="button"
-                onClick={() => setActiveTab("adjustments")}
-                className={`px-4 py-2 text-sm font-medium ${activeTab === "adjustments"
-                  ? "text-blue-500 border-b-2 border-blue-500"
-                  : "text-gray-500 hover:text-gray-700"
-                  }`}
+                onClick={() => setActiveTab('adjustments')}
+                className={`px-4 py-2 text-sm font-medium ${
+                  activeTab === 'adjustments'
+                    ? 'text-blue-500 border-b-2 border-blue-500'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
               >
                 Adjustments
               </button>
-
-
             </div>
             <div className="w-full flex items-center md:justify-end md:gap-3 gap-3">
               <LayoutLineIcon />
@@ -102,9 +105,8 @@ export default function WareHouseInventoryDetails() {
             </div>
           </div>
 
-
           <div className="mt-4 p-4">
-            {activeTab === "inventory" && (
+            {activeTab === 'inventory' && (
               <div className="w-full flex flex-col md:gap-3 gap-3">
                 <div className="w-full md:flex items-center justify-between grid grid-col-1 gap-3">
                   <div className="flex items-center md:gap-3 gap-3">
@@ -113,7 +115,6 @@ export default function WareHouseInventoryDetails() {
                     <div className="px-2 py-1 rounded-md bg-red-100 text-red-600 text-xs font-medium">
                       Out of stock
                     </div>
-
                   </div>
                   <div className="flex items-center md:gap-3 gap-3">
                     <div>Total Avaiable</div>
@@ -131,17 +132,15 @@ export default function WareHouseInventoryDetails() {
               </div>
             )}
 
-            {activeTab === "details" && (
+            {activeTab === 'details' && (
               <div>
                 <FormWarehouseDetails />
               </div>
             )}
 
-            {activeTab === "work-order" && (
+            {activeTab === 'work-order' && (
               <div className="flex flex-col md:gap-3 gap-3">
-
                 <div className="w-full md:w-52">
-
                   <SelectDropdawn />
                 </div>
                 <div>
@@ -150,7 +149,7 @@ export default function WareHouseInventoryDetails() {
               </div>
             )}
 
-            {activeTab === "assets" && (
+            {activeTab === 'assets' && (
               <div className="flex flex-col md:gap-3 gap-3 w-full">
                 <div className="w-full md:flex items-center justify-between gap-3 grid grid-col-1">
                   <div className="w-full md:w-52">
@@ -166,23 +165,19 @@ export default function WareHouseInventoryDetails() {
                   <TableWarehouseAssets />
                 </div>
               </div>
-
             )}
-            {activeTab === "files" && (
+            {activeTab === 'files' && (
               <div>
                 <h2 className="text-lg font-semibold">Costs Content</h2>
                 <p>Danh sách các phụ tùng hoặc linh kiện.</p>
               </div>
             )}
-            {activeTab === "adjustments" && (
+            {activeTab === 'adjustments' && (
               <div>
                 <TableWarehouseAdjust />
               </div>
             )}
-
           </div>
-
-
         </div>
         <div className="w-full md:w-1/4 bg-white shadow p-4 border border-[#F3F3F3] flex flex-col md:gap-3 gap-3">
           <div>Assigned to</div>
@@ -192,10 +187,8 @@ export default function WareHouseInventoryDetails() {
             </div>
             Trần Linh
           </div>
-
         </div>
       </div>
     </div>
   );
-
 }

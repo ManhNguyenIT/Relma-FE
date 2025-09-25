@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { FaImage } from "react-icons/fa";
-import { useNavigate } from "react-router";
+import { useState } from 'react';
+import { FaImage } from 'react-icons/fa';
+import { useNavigate } from 'react-router';
 
 interface RowData {
   name: string;
@@ -20,40 +20,40 @@ export default function PreventiveMainTable() {
 
   const [tableData, setTableData] = useState<RowData[]>([
     {
-      name: "kiểm tra máy điều hòa",
-      id: "6863fb69392...",
-      title: "HVAC Monthly Preventive M...",
-      description: "Monthly HVAC preventative...",
+      name: 'kiểm tra máy điều hòa',
+      id: '6863fb69392...',
+      title: 'HVAC Monthly Preventive M...',
+      description: 'Monthly HVAC preventative...',
       assets: 3,
-      category: "Meter Reading",
-      priority: "High",
-      paused: "No",
-      checklist: "Test 1",
-      priorityColor: "bg-red-100 text-red-500",
+      category: 'Meter Reading',
+      priority: 'High',
+      paused: 'No',
+      checklist: 'Test 1',
+      priorityColor: 'bg-red-100 text-red-500',
     },
     {
-      name: "truyền một",
-      id: "6863fb69392...",
-      title: "kiểm tra máy điều hòa",
-      description: "kiểm tra máy điều hòa",
+      name: 'truyền một',
+      id: '6863fb69392...',
+      title: 'kiểm tra máy điều hòa',
+      description: 'kiểm tra máy điều hòa',
       assets: 3,
-      category: "Meter Reading",
-      priority: "None",
-      paused: "No",
-      checklist: "Test 1",
-      priorityColor: "bg-gray-100 text-gray-500",
+      category: 'Meter Reading',
+      priority: 'None',
+      paused: 'No',
+      checklist: 'Test 1',
+      priorityColor: 'bg-gray-100 text-gray-500',
     },
     {
-      name: "HVAC Preventive Maintenance",
-      id: "6863fb69392...",
-      title: "kiểm tra máy điều hòa",
-      description: "kiểm tra máy điều hòa",
+      name: 'HVAC Preventive Maintenance',
+      id: '6863fb69392...',
+      title: 'kiểm tra máy điều hòa',
+      description: 'kiểm tra máy điều hòa',
       assets: 3,
-      category: "Meter Reading",
-      priority: "Medium",
-      paused: "No",
-      checklist: "Test 1",
-      priorityColor: "bg-yellow-100 text-yellow-600",
+      category: 'Meter Reading',
+      priority: 'Medium',
+      paused: 'No',
+      checklist: 'Test 1',
+      priorityColor: 'bg-yellow-100 text-yellow-600',
     },
   ]);
 
@@ -88,11 +88,7 @@ export default function PreventiveMainTable() {
         <thead className="text-gray-500 text-sm">
           <tr>
             <th className="p-3">
-              <input
-                type="checkbox"
-                checked={isAllSelected}
-                onChange={toggleSelectAll}
-              />
+              <input type="checkbox" checked={isAllSelected} onChange={toggleSelectAll} />
             </th>
             <th className="p-3">Name</th>
             <th className="p-3">ID</th>
@@ -112,20 +108,12 @@ export default function PreventiveMainTable() {
             return (
               <tr
                 key={idx}
-                className={`border-t hover:bg-gray-50 ${isSelected ? "bg-blue-50" : ""
-                  }`}
+                className={`border-t hover:bg-gray-50 ${isSelected ? 'bg-blue-50' : ''}`}
               >
                 <td className="p-3">
-                  <input
-                    type="checkbox"
-                    checked={isSelected}
-                    onChange={() => toggleSelect(idx)}
-                  />
+                  <input type="checkbox" checked={isSelected} onChange={() => toggleSelect(idx)} />
                 </td>
-                <td
-                  className="p-3 cursor-pointer"
-                  onClick={() => navigate("/preventive-details")}
-                >
+                <td className="p-3 cursor-pointer" onClick={() => navigate('/preventive-details')}>
                   {row.name}
                 </td>
                 <td className="p-3">{row.id}</td>
@@ -139,9 +127,7 @@ export default function PreventiveMainTable() {
                 <td className="p-3">
                   <select
                     value={row.assets}
-                    onChange={(e) =>
-                      handleAssetChange(idx, Number(e.target.value))
-                    }
+                    onChange={(e) => handleAssetChange(idx, Number(e.target.value))}
                     className="border rounded px-2 py-1 text-sm"
                   >
                     <option value={1}>1</option>
@@ -152,16 +138,12 @@ export default function PreventiveMainTable() {
                 </td>
                 <td className="p-3">{row.category}</td>
                 <td className="p-3">
-                  <span
-                    className={`px-2 py-1 text-xs rounded ${row.priorityColor}`}
-                  >
+                  <span className={`px-2 py-1 text-xs rounded ${row.priorityColor}`}>
                     {row.priority}
                   </span>
                 </td>
                 <td className="p-3">{row.paused}</td>
-                <td className="p-3 text-blue-500 cursor-pointer">
-                  {row.checklist}
-                </td>
+                <td className="p-3 text-blue-500 cursor-pointer">{row.checklist}</td>
               </tr>
             );
           })}

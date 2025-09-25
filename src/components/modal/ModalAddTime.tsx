@@ -1,10 +1,9 @@
-
-import Label from "../form/Label";
-import { Modal } from "../ui/modal";
-import Select from "../form/Select";
-import { DolaIcon } from "../../icons";
-import DatePicker from "../form/date-picker";
-import Input from "../form/input/InputField";
+import Label from '../form/Label';
+import { Modal } from '../ui/modal';
+import Select from '../form/Select';
+import { DolaIcon } from '../../icons';
+import DatePicker from '../form/date-picker';
+import Input from '../form/input/InputField';
 
 interface Option {
   value: string;
@@ -18,32 +17,30 @@ interface ModalAddTimeProps {
 
 export default function ModalAddTime({ isOpen, onClose }: ModalAddTimeProps) {
   const options10: Option[] = [
-    { value: "tranlinh", label: "Trần Linh" },
-    { value: "template", label: "A" },
-    { value: "development", label: "B" },
+    { value: 'tranlinh', label: 'Trần Linh' },
+    { value: 'template', label: 'A' },
+    { value: 'development', label: 'B' },
   ];
 
   const handleSelectChange10 = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
 
   const options11: Option[] = [
-    { value: "tranlinh", label: "Trần Linh" },
-    { value: "template", label: "A" },
-    { value: "development", label: "B" },
+    { value: 'tranlinh', label: 'Trần Linh' },
+    { value: 'template', label: 'A' },
+    { value: 'development', label: 'B' },
   ];
 
   const handleSelectChange11 = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-[900px] m-4">
       <div className="no-scrollbar relative w-full max-w-[900px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
         <div className="px-2 pr-14">
-          <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-            Add Time
-          </h4>
+          <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">Add Time</h4>
         </div>
         <div className="w-full border-b border-[#F3F3F3]"></div>
 
@@ -80,10 +77,7 @@ export default function ModalAddTime({ isOpen, onClose }: ModalAddTimeProps) {
                     id="date-picker"
                     label="Work Started at"
                     placeholder="Select a date"
-                    onChange={(
-                      dates: Date[] | null,
-                      currentDateString: string
-                    ) => {
+                    onChange={(dates: Date[] | null, currentDateString: string) => {
                       console.log({ dates, currentDateString });
                     }}
                   />

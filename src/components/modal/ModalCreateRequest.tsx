@@ -1,13 +1,10 @@
+import Label from '../form/Label';
+import { Modal } from '../ui/modal';
+import Select from '../form/Select';
 
-import Label from "../form/Label";
-import { Modal } from "../ui/modal";
-import Select from "../form/Select";
-
-import Input from "../form/input/InputField";
-import TextArea from "../form/input/TextArea";
-import UpFile10 from "../upload/UpFile10";
-
-
+import Input from '../form/input/InputField';
+import TextArea from '../form/input/TextArea';
+import UpFile10 from '../upload/UpFile10';
 
 interface ModalCreateRequestProps {
   isOpen: boolean;
@@ -15,10 +12,8 @@ interface ModalCreateRequestProps {
 }
 
 export default function ModalCreateRequest({ isOpen, onClose }: ModalCreateRequestProps) {
-
-
   const handleSelectChange12 = (value: string) => {
-    console.log("Selected value:", value);
+    console.log('Selected value:', value);
   };
 
   return (
@@ -39,22 +34,13 @@ export default function ModalCreateRequest({ isOpen, onClose }: ModalCreateReque
                 <Label htmlFor="title">
                   Title <span className="text-red-500">*</span>
                 </Label>
-                <Input
-                  id="title"
-                  name="title"
-                  placeholder="Enter title"
-                  className="w-full"
-                />
+                <Input id="title" name="title" placeholder="Enter title" className="w-full" />
               </div>
 
               {/* Description Field */}
               <div className="space-y-2">
                 <Label htmlFor="description">Description</Label>
-                <TextArea
-                  placeholder="Enter description"
-                  rows={4}
-                  className="w-full resize-none"
-                />
+                <TextArea placeholder="Enter description" rows={4} className="w-full resize-none" />
               </div>
 
               {/* Priority Field */}
@@ -62,10 +48,10 @@ export default function ModalCreateRequest({ isOpen, onClose }: ModalCreateReque
                 <Label htmlFor="priority">Priority</Label>
                 <Select
                   options={[
-                    { value: "low", label: "Low" },
-                    { value: "medium", label: "Medium" },
-                    { value: "high", label: "High" },
-                    { value: "urgent", label: "Urgent" }
+                    { value: 'low', label: 'Low' },
+                    { value: 'medium', label: 'Medium' },
+                    { value: 'high', label: 'High' },
+                    { value: 'urgent', label: 'Urgent' },
                   ]}
                   placeholder="Select priority"
                   onChange={handleSelectChange12}
@@ -76,13 +62,15 @@ export default function ModalCreateRequest({ isOpen, onClose }: ModalCreateReque
               {/* Image Upload Section */}
               <div className="space-y-2">
                 <Label>Image</Label>
-                <UpFile10 onFilesSelected={(files) => console.log("Image files selected:", files)} />
+                <UpFile10
+                  onFilesSelected={(files) => console.log('Image files selected:', files)}
+                />
               </div>
 
               {/* Files Upload Section */}
               <div className="space-y-2">
                 <Label>Files</Label>
-                <UpFile10 onFilesSelected={(files) => console.log("Files selected:", files)} />
+                <UpFile10 onFilesSelected={(files) => console.log('Files selected:', files)} />
               </div>
             </div>
 

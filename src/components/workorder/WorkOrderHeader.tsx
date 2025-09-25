@@ -1,99 +1,94 @@
-import { PlusOutlinedIcon, MoreIcon, ScanIcon, ColummIcon } from "../../icons";
-import { Modal } from "../ui/modal";
+import { PlusOutlinedIcon, MoreIcon, ScanIcon, ColummIcon } from '../../icons';
+import { Modal } from '../ui/modal';
 
-import Label from "../form/Label";
-import Input from "../form/input/InputField";
-import Select from "../form/Select";
-import TextArea from "../form/input/TextArea";
-import { CiSearch } from "react-icons/ci";
-import DatePicker from "../form/date-picker";
-import UpFile10 from "../upload/UpFile10";
-import { useModal } from "../../hooks/useModal";
-import ModalQr from "../modal/ModalQr";
-import Toggle from "../toggle-switch/Toggle";
-import ModalScanQr from "../modal/ModalScanQr";
+import Label from '../form/Label';
+import Input from '../form/input/InputField';
+import Select from '../form/Select';
+import TextArea from '../form/input/TextArea';
+import { CiSearch } from 'react-icons/ci';
+import DatePicker from '../form/date-picker';
+import UpFile10 from '../upload/UpFile10';
+import { useModal } from '../../hooks/useModal';
+import ModalQr from '../modal/ModalQr';
+import Toggle from '../toggle-switch/Toggle';
+import ModalScanQr from '../modal/ModalScanQr';
 
-import { useState, useEffect, useRef } from "react";
-import { GoTable } from "react-icons/go";
-import { useNavigate } from "react-router";
+import { useState, useEffect, useRef } from 'react';
+import { GoTable } from 'react-icons/go';
+import { useNavigate } from 'react-router';
 
 // import UploadFiles from "../upload/UploadFiles";
 
 const options = [
-  { value: "marketing", label: "Marketing" },
-  { value: "template", label: "Template" },
-  { value: "development", label: "Development" },
+  { value: 'marketing', label: 'Marketing' },
+  { value: 'template', label: 'Template' },
+  { value: 'development', label: 'Development' },
 ];
 const options2 = [
-  { value: "marketing", label: "Marketing" },
-  { value: "template", label: "Template" },
-  { value: "development", label: "Development" },
+  { value: 'marketing', label: 'Marketing' },
+  { value: 'template', label: 'Template' },
+  { value: 'development', label: 'Development' },
 ];
 const options3 = [
-  { value: "marketing", label: "Marketing" },
-  { value: "template", label: "Template" },
-  { value: "development", label: "Development" },
+  { value: 'marketing', label: 'Marketing' },
+  { value: 'template', label: 'Template' },
+  { value: 'development', label: 'Development' },
 ];
 const options4 = [
-  { value: "marketing", label: "Marketing" },
-  { value: "template", label: "Template" },
-  { value: "development", label: "Development" },
+  { value: 'marketing', label: 'Marketing' },
+  { value: 'template', label: 'Template' },
+  { value: 'development', label: 'Development' },
 ];
 const options5 = [
-  { value: "marketing", label: "Marketing" },
-  { value: "template", label: "Template" },
-  { value: "development", label: "Development" },
+  { value: 'marketing', label: 'Marketing' },
+  { value: 'template', label: 'Template' },
+  { value: 'development', label: 'Development' },
 ];
 const handleSelectChange5 = (value: string) => {
-  console.log("Selected value:", value);
+  console.log('Selected value:', value);
 };
 const options6 = [
-  { value: "marketing", label: "Marketing" },
-  { value: "template", label: "Template" },
-  { value: "development", label: "Development" },
+  { value: 'marketing', label: 'Marketing' },
+  { value: 'template', label: 'Template' },
+  { value: 'development', label: 'Development' },
 ];
 const handleSelectChange7 = (value: string) => {
-  console.log("Selected value:", value);
+  console.log('Selected value:', value);
 };
 //
 const options7 = [
-  { value: "marketing", label: "Marketing" },
-  { value: "template", label: "Template" },
-  { value: "development", label: "Development" },
+  { value: 'marketing', label: 'Marketing' },
+  { value: 'template', label: 'Template' },
+  { value: 'development', label: 'Development' },
 ];
 const handleSelectChange6 = (value: string) => {
-  console.log("Selected value:", value);
+  console.log('Selected value:', value);
 };
 const handleSelectChange1 = (value: string) => {
-  console.log("Selected value:", value);
+  console.log('Selected value:', value);
 };
 const handleSelectChange2 = (value: string) => {
-  console.log("Selected value:", value);
+  console.log('Selected value:', value);
 };
 const handleSelectChange3 = (value: string) => {
-  console.log("Selected value:", value);
+  console.log('Selected value:', value);
 };
 const handleSelectChange4 = (value: string) => {
-  console.log("Selected value:", value);
+  console.log('Selected value:', value);
 };
 
 export default function WorkOrderHeader() {
   const navigate = useNavigate();
   const { isOpen, openModal, closeModal } = useModal();
-  const {
-    isOpen: isModalQrOpen,
-    openModal: openModalQr,
-    closeModal: closeModalQr,
-  } = useModal();
+  const { isOpen: isModalQrOpen, openModal: openModalQr, closeModal: closeModalQr } = useModal();
   const {
     isOpen: isModalScanQrOpen,
     openModal: openModalScanQr,
     closeModal: closeModalScanQr,
   } = useModal();
 
-
   // State cho layout dropdown
-  const [selectedLayout, setSelectedLayout] = useState("Table");
+  const [selectedLayout, setSelectedLayout] = useState('Table');
   const [isLayoutDropdownOpen, setIsLayoutDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -110,7 +105,6 @@ export default function WorkOrderHeader() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
 
   return (
     <div>
@@ -131,7 +125,12 @@ export default function WorkOrderHeader() {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
               </svg>
             </button>
 
@@ -141,25 +140,31 @@ export default function WorkOrderHeader() {
                 <div className="py-1">
                   <button
                     onClick={() => {
-                      setSelectedLayout("Table");
+                      setSelectedLayout('Table');
                       setIsLayoutDropdownOpen(false);
-                      navigate("/work-order-click-table");
+                      navigate('/work-order-click-table');
                     }}
-                    className={`w-full flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-50 ${selectedLayout === "Table" ? "bg-blue-50 text-blue-600" : "text-gray-700"
-                      }`}
+                    className={`w-full flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-50 ${
+                      selectedLayout === 'Table' ? 'bg-blue-50 text-blue-600' : 'text-gray-700'
+                    }`}
                   >
-                    <GoTable className={`w-4 h-4 ${selectedLayout === "Table" ? "text-blue-600" : "text-gray-400"}`} />
+                    <GoTable
+                      className={`w-4 h-4 ${selectedLayout === 'Table' ? 'text-blue-600' : 'text-gray-400'}`}
+                    />
                     Table
                   </button>
                   <button
                     onClick={() => {
-                      setSelectedLayout("Column");
+                      setSelectedLayout('Column');
                       setIsLayoutDropdownOpen(false);
                     }}
-                    className={`w-full flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-50 ${selectedLayout === "Column" ? "bg-blue-50 text-blue-600" : "text-gray-700"
-                      }`}
+                    className={`w-full flex items-center gap-3 px-4 py-2 text-sm hover:bg-gray-50 ${
+                      selectedLayout === 'Column' ? 'bg-blue-50 text-blue-600' : 'text-gray-700'
+                    }`}
                   >
-                    <ColummIcon className={`w-4 h-4 ${selectedLayout === "Column" ? "text-blue-600" : "text-gray-400"}`} />
+                    <ColummIcon
+                      className={`w-4 h-4 ${selectedLayout === 'Column' ? 'text-blue-600' : 'text-gray-400'}`}
+                    />
                     Column
                   </button>
                 </div>
@@ -168,7 +173,6 @@ export default function WorkOrderHeader() {
           </div>
         </div>
         <div className="flex items-center md:gap-10 gap-5">
-
           <button
             onClick={openModal}
             className="flex items-center gap-2 justify-center text-white bg-[#1677ff] px-2 py-2 rounded-[8px] hover:bg-blue-light-300 cursor-pointer"
@@ -185,11 +189,7 @@ export default function WorkOrderHeader() {
           </div>
         </div>
 
-        <Modal
-          isOpen={isOpen}
-          onClose={closeModal}
-          className="max-w-[900px] m-4"
-        >
+        <Modal isOpen={isOpen} onClose={closeModal} className="max-w-[900px] m-4">
           <div className="no-scrollbar relative w-full max-w-[900px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
             <div className="px-2 pr-14">
               <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
@@ -267,7 +267,6 @@ export default function WorkOrderHeader() {
                           label="Date Start"
                           placeholder="Select a date"
                           onChange={(dates, currentDateString) => {
-
                             console.log({ dates, currentDateString });
                           }}
                         />
@@ -278,7 +277,6 @@ export default function WorkOrderHeader() {
                           label="Due Date"
                           placeholder="Select a date"
                           onChange={(dates, currentDateString) => {
-
                             console.log({ dates, currentDateString });
                           }}
                         />
@@ -383,8 +381,8 @@ export default function WorkOrderHeader() {
                       <div className="flex flex-col gap-2">
                         <p>Signature Required</p>
                         <p>
-                          Require technicians to upload a signature image in
-                          order to complete this work order.
+                          Require technicians to upload a signature image in order to complete this
+                          work order.
                         </p>
                       </div>
                       <div>
