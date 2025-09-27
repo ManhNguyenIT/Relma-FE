@@ -8,7 +8,7 @@ import Button from '../ui/button/Button';
 import { useAuth } from '../../hooks/useAuth';
 
 export default function SignInForm() {
-  const { initialized, customLogin } = useAuth();
+  const { isInitialized, login } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -17,7 +17,7 @@ export default function SignInForm() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  if (!initialized) {
+  if (!isInitialized) {
     return <div>Loading...</div>;
   }
 
@@ -26,7 +26,7 @@ export default function SignInForm() {
     setError('');
     setIsLoading(true);
     try {
-      await customLogin(username, password);
+      await login(username, password);
       window.location.href = '/';
     } catch {
       setError('Invalid username or password');

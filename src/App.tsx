@@ -15,7 +15,6 @@ import Calendar from './pages/Calendar';
 import BasicTables from './pages/Tables/BasicTables';
 import FormElements from './pages/Forms/FormElements';
 import Blank from './pages/Blank';
-import AppLayout from './layout/AppLayout';
 import { ScrollToTop } from './components/common/ScrollToTop';
 import Home from './pages/Dashboard/Home';
 import PreventiveMaint from './pages/PreventiveMaint';
@@ -31,6 +30,7 @@ import Requestss from './pages/Requestss';
 import WareHouseInventoryDetails from './components/warehouse/ui-inventory/WareHouseInventoryDetails';
 import WorkOrderClickTable from './components/workorder/WorkOrderClickTable';
 import Location from './pages/Location';
+import AuthLayout from './layouts/auth';
 
 export default function App() {
   return (
@@ -39,7 +39,7 @@ export default function App() {
         <ScrollToTop />
         <Routes>
           {/* Dashboard Layout */}
-          <Route element={<AppLayout />}>
+          <Route element={<AuthLayout />}>
             <Route index path="/" element={<Home />} />
 
             {/* Others Page */}

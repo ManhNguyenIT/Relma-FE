@@ -15,7 +15,7 @@ import {
   FilesIcon,
   LocationIconss,
 } from '../icons';
-import { useSidebar } from '../context/SidebarContext';
+import { useSidebar } from '../contexts/SidebarContext';
 import SidebarWidget from './SidebarWidget';
 
 type NavItem = {
