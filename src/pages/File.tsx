@@ -1,7 +1,7 @@
 import WorkOrderTask from '../components/workorder/work-order-task/WorkOrderTask';
 import FilterButton from '../components/workorder/work-order-button/FilterButton';
-import TagButton from '../components/filess/ui/filess-button/TagButton';
-import FilessTable from '../components/filess/filess-table/FilessTable';
+import TagButton from '../components/files/ui/files-button/TagButton';
+import FilesTable from '../components/files/files-table/FilesTable';
 import ModalFiless from '../components/modal/ModalFiless';
 import { useModal } from '../hooks/useModal';
 
@@ -36,7 +36,7 @@ export default function Filess() {
         <p className="text-[#007FE6] cursor-pointer">Reset</p>
       </div>
       <div>
-        <FilessTable />
+        <FilesTable />
       </div>
       <ModalFiless isOpen={isModalFilessOpen} onClose={closeModalFiless} />
     </div>

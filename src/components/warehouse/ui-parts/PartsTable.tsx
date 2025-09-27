@@ -5,6 +5,7 @@ import DataTable, { TableColumn, StatusConfig } from '../../common/DataTable';
 interface Product {
   id: number;
   name: string;
+  image?: string; // Added image property
   status: { text: string; color: string; bg: string };
   qty: number;
   qtyColor: string;
@@ -48,7 +49,7 @@ export default function PartsTable() {
     },
   ];
 
-  const columns: TableColumn[] = [
+  const columns: TableColumn<Product>[] = [
     {
       key: 'name',
       label: 'Name',
@@ -65,15 +66,19 @@ export default function PartsTable() {
     {
       key: 'status',
       label: 'Status',
-      render: (value: Product['status']) => (
-        <span className={`px-2 py-1 rounded ${value.bg} ${value.color} text-sm`}>{value.text}</span>
+      render: (_value, row: Product) => (
+        <span className={`px-2 py-1 rounded ${row.status.bg} ${row.status.color} text-sm`}>
+          {row.status.text}
+        </span>
       ),
     },
     {
       key: 'qty',
       label: 'Available Qty',
-      render: (value: number, row: Product) => (
-        <span className={`font-medium ${row.qtyColor}`}>{value.toFixed(2)}</span>
+      render: (value, row: Product) => (
+        <span className={`font-medium ${row.qtyColor}`}>
+          {typeof value === 'number' ? value.toFixed(2) : '0.00'}
+        </span>
       ),
     },
     {
@@ -87,8 +92,10 @@ export default function PartsTable() {
     {
       key: 'tag',
       label: 'Tag',
-      render: (value: Product['tag']) => (
-        <span className={`px-2 py-1 rounded ${value.bg} ${value.color} text-sm`}>{value.text}</span>
+      render: (_value, row: Product) => (
+        <span className={`px-2 py-1 rounded ${row.tag.bg} ${row.tag.color} text-sm`}>
+          {row.tag.text}
+        </span>
       ),
     },
     {

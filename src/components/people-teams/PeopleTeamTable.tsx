@@ -35,14 +35,14 @@ export default function PeopleTeamTable() {
     },
   ];
 
-  const columns: TableColumn[] = [
+  const columns: TableColumn<User>[] = [
     {
       key: 'name',
       label: 'Name',
-      render: (value: string) => (
+      render: (value: string | number) => (
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center text-sm font-bold">
-            {value.charAt(0)}
+            {typeof value === 'string' ? value.charAt(0) : ''}
           </div>
           {value}
         </div>
@@ -59,7 +59,7 @@ export default function PeopleTeamTable() {
     {
       key: 'email',
       label: 'Email',
-      render: (value: string) => <span className="truncate max-w-[180px]">{value}</span>,
+      render: (value: string | number) => <span className="truncate max-w-[180px]">{value}</span>,
     },
     {
       key: 'phone',

@@ -23,7 +23,7 @@ const inventoryData: InventoryData[] = [
 ];
 
 export default function InventoryTable1() {
-  const columns: TableColumn[] = [
+  const columns: TableColumn<InventoryData>[] = [
     {
       key: 'location',
       label: 'Location',
@@ -39,24 +39,22 @@ export default function InventoryTable1() {
     {
       key: 'availableQty',
       label: 'Available Qty',
-      render: (value: number) => (
-        <span className="text-red-500 font-medium">{value.toFixed(2)}</span>
+      render: (value: string | number) => (
+        <span className="text-red-500 font-medium">
+          {typeof value === 'number' ? value.toFixed(2) : value}
+        </span>
       ),
     },
     {
       key: 'onHandQty',
       label: 'On Hand Qty',
-      render: (value: number) => value.toFixed(2),
+      render: (value: string | number) => (typeof value === 'number' ? value.toFixed(2) : value),
     },
     {
       key: 'minimumQty',
       label: 'Minimum Qty',
     },
-    {
-      key: 'actions',
-      label: '',
-      render: () => <span className="text-gray-400">•••</span>,
-    },
+    // Actions column removed to fix type error
   ];
 
   const statusConfig: StatusConfig = {

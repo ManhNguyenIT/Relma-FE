@@ -64,7 +64,7 @@ const AssetsTable: React.FC = () => {
   const rows = useMemo(() => initialRows, []);
   const navigate = useNavigate();
 
-  const columns: TableColumn[] = [
+  const columns: TableColumn<AssetRow>[] = [
     {
       key: 'name',
       label: 'Name',
@@ -72,9 +72,9 @@ const AssetsTable: React.FC = () => {
     {
       key: 'image',
       label: 'Image',
-      render: (value: string | null, row: AssetRow) => (
+      render: (value: string | number | boolean | null | undefined, row: AssetRow) => (
         <div className="w-9 h-9 bg-gray-200 flex items-center justify-center rounded-md">
-          {value ? (
+          {typeof value === 'string' && value ? (
             <img src={value} alt={row.name} className="w-9 h-9 object-cover rounded" />
           ) : (
             <FaImage className="text-gray-500" />
@@ -109,13 +109,16 @@ const AssetsTable: React.FC = () => {
     {
       key: 'paused',
       label: 'Paused',
-      render: (value: boolean) => (value ? 'Yes' : 'No'),
+      render: (value: string | number | boolean | null | undefined) =>
+        value === true ? 'Yes' : 'No',
     },
     {
       key: 'checklist',
       label: 'Checklist',
-      render: (value: string) => (
-        <span className="text-blue-600 cursor-pointer hover:text-blue-800">{value}</span>
+      render: (value: string | number | boolean | null | undefined) => (
+        <span className="text-blue-600 cursor-pointer hover:text-blue-800">
+          {typeof value === 'string' ? value : ''}
+        </span>
       ),
     },
   ];

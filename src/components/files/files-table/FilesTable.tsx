@@ -10,7 +10,7 @@ interface RowData {
   uploadedOn: string;
 }
 
-const FilessTable = () => {
+const FilesTable = () => {
   const [rows, setRows] = useState<RowData[]>([
     {
       id: 1,
@@ -22,7 +22,7 @@ const FilessTable = () => {
     },
   ]);
 
-  const columns: TableColumn[] = [
+  const columns: TableColumn<RowData>[] = [
     {
       key: 'name',
       label: 'Name',
@@ -34,7 +34,7 @@ const FilessTable = () => {
     {
       key: 'uploadedBy',
       label: 'Uploaded By',
-      render: (value: string, row: RowData) => (
+      render: (value: string | number, row: RowData) => (
         <div className="flex items-center gap-2">
           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-700 text-white font-bold">
             {row.uploadedByAvatar}
@@ -49,7 +49,7 @@ const FilessTable = () => {
     },
   ];
 
-  const actions: TableAction[] = [
+  const actions: TableAction<RowData>[] = [
     {
       label: 'Edit',
       onClick: (row: RowData) => {
@@ -81,4 +81,4 @@ const FilessTable = () => {
   );
 };
 
-export default FilessTable;
+export default FilesTable;

@@ -7,7 +7,7 @@ import FilterButton from '../components/workorder/work-order-button/FilterButton
 import StatusButton from '../components/workorder/work-order-button/StatusButton';
 import IncomingButton from '../components/warehouse/IncomingButton';
 import LocationButton from '../components/workorder/work-order-button/LocationButton';
-import TagButton from '../components/filess/ui/filess-button/TagButton';
+import TagButton from '../components/files/ui/files-button/TagButton';
 import WarehouseTable from '../components/warehouse/WarehouseTable';
 import PartsTable from '../components/warehouse/ui-parts/PartsTable';
 import SetsTable from '../components/warehouse/ui-sets/SetsTable';

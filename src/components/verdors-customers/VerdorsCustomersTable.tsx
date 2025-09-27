@@ -72,7 +72,7 @@ export default function VerdorsCustomersTable() {
     return arr;
   }, [sortOrder]);
 
-  const columns: TableColumn[] = [
+  const columns: TableColumn<Vendor>[] = [
     {
       key: 'name',
       label: 'Name',
@@ -100,12 +100,12 @@ export default function VerdorsCustomersTable() {
     {
       key: 'website',
       label: 'Website',
-      render: (value: string) => (
+      render: (value: string | number) => (
         <span className="text-blue-500 underline">
           {value === 'N/A' ? (
             'N/A'
           ) : (
-            <a href={value} target="_blank" rel="noopener noreferrer">
+            <a href={String(value)} target="_blank" rel="noopener noreferrer">
               {value}
             </a>
           )}
@@ -115,9 +115,9 @@ export default function VerdorsCustomersTable() {
     {
       key: 'dateCreate',
       label: 'Date Create',
-      render: (value: string) => (
+      render: (value: string | number) => (
         <div className="flex items-center gap-2">
-          <span>{new Date(value).toLocaleDateString('en-US')}</span>
+          <span>{new Date(String(value)).toLocaleDateString('en-US')}</span>
           <div className="flex items-center gap-1">
             <button
               type="button"

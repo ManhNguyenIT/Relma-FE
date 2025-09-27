@@ -2,7 +2,7 @@ import { useState } from 'react';
 import WorkOrderSearch from '../components/workorder/work-order-task/ui/WorkOrderSearch';
 import { MoreIcon } from '../icons';
 import FilterButton from '../components/workorder/work-order-button/FilterButton';
-import TagButton from '../components/filess/ui/filess-button/TagButton';
+import TagButton from '../components/files/ui/files-button/TagButton';
 import CheckListTable from '../components/tables/CheckListTable';
 import { useModal } from '../hooks/useModal';
 import ModalCreateCheckList from '../components/modal/ModalCreateCheckList';

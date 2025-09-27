@@ -48,7 +48,7 @@ const locationData: LocationData[] = [
 ];
 
 export default function LocationTable() {
-  const columns: TableColumn[] = [
+  const columns: TableColumn<LocationData>[] = [
     {
       key: 'address',
       label: 'Address',
@@ -88,7 +88,7 @@ export default function LocationTable() {
     },
   };
 
-  const actions: TableAction[] = [
+  const actions: TableAction<LocationData>[] = [
     {
       label: 'Edit',
       icon: <FiEdit2 className="h-4 w-4" />,

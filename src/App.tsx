@@ -21,7 +21,7 @@ import Home from './pages/Dashboard/Home';
 import PreventiveMaint from './pages/PreventiveMaint';
 import PreventiveDetails from './components/preventive-maint/preventive-maint-table-details/PreventiveDetails';
 import VerdorsCustomers from './pages/VerdorsCustomers';
-import Filess from './pages/Filess';
+import Filess from './pages/File';
 import CheckList from './pages/CheckList';
 import Warehouse from './pages/Warehouse';
 import PeoPleTeam from './pages/PeoPleTeam';

@@ -30,7 +30,7 @@ export default function CheckListTable() {
     closeModal: closeModalEditCheckList,
   } = useModal();
 
-  const columns: TableColumn[] = [
+  const columns: TableColumn<RowData>[] = [
     {
       key: 'name',
       label: 'Name',
@@ -42,16 +42,18 @@ export default function CheckListTable() {
     {
       key: 'tasks',
       label: 'Tasks',
-      render: (value: string) => value || '',
+      render: (value: string | number | undefined) =>
+        (typeof value === 'string' ? value : '') || '',
     },
     {
       key: 'tags',
       label: 'Tags',
-      render: (value: string) => value || '',
+      render: (value: string | number | undefined) =>
+        (typeof value === 'string' ? value : '') || '',
     },
   ];
 
-  const actions: TableAction[] = [
+  const actions: TableAction<RowData>[] = [
     {
       label: 'Edit',
       onClick: (row: RowData) => {

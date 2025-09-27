@@ -18,6 +18,7 @@ interface Request {
   priority: string;
   workOrder: string;
   isSelected?: boolean;
+  image?: string;
 }
 
 const requests: Request[] = [
@@ -98,7 +99,7 @@ const RequestTable = () => {
     setIsModalOpen(false);
   };
 
-  const columns: TableColumn[] = [
+  const columns: TableColumn<Request>[] = [
     {
       key: 'title',
       label: 'Title',
@@ -131,13 +132,24 @@ const RequestTable = () => {
     {
       key: 'status',
       label: 'Status',
-      render: (value: Request['status']) => (
-        <span
-          className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${value.bgColor} ${value.color} whitespace-nowrap`}
-        >
-          {value.text}
-        </span>
-      ),
+      render: (value) => {
+        if (
+          value &&
+          typeof value === 'object' &&
+          'text' in value &&
+          'color' in value &&
+          'bgColor' in value
+        ) {
+          return (
+            <span
+              className={`px-2 sm:px-3 py-1 rounded-full text-xs font-medium ${value.bgColor} ${value.color} whitespace-nowrap`}
+            >
+              {value.text}
+            </span>
+          );
+        }
+        return null;
+      },
     },
     {
       key: 'workOrderStatus',
@@ -162,9 +174,9 @@ const RequestTable = () => {
     {
       key: 'workOrder',
       label: 'Work Order',
-      render: (value: string) => (
+      render: (value) => (
         <span className="text-blue-600 font-medium cursor-pointer hover:text-blue-800">
-          {value}
+          {typeof value === 'string' ? value : ''}
         </span>
       ),
     },

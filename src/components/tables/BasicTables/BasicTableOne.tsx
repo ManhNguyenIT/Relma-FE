@@ -89,20 +89,22 @@ const tableData: Order[] = [
 ];
 
 // Define columns with custom renderers
-const columns: TableColumn[] = [
+const columns: TableColumn<Order>[] = [
   {
     key: 'user',
     label: 'User',
-    render: (value: Order['user']) => (
+    render: (_value, row) => (
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 overflow-hidden rounded-full">
-          <img width={40} height={40} src={value.image} alt={value.name} />
+          <img width={40} height={40} src={row.user.image} alt={row.user.name} />
         </div>
         <div>
           <span className="block font-medium text-gray-800 text-theme-sm dark:text-white/90">
-            {value.name}
+            {row.user.name}
           </span>
-          <span className="block text-gray-500 text-theme-xs dark:text-gray-400">{value.role}</span>
+          <span className="block text-gray-500 text-theme-xs dark:text-gray-400">
+            {row.user.role}
+          </span>
         </div>
       </div>
     ),
@@ -114,9 +116,9 @@ const columns: TableColumn[] = [
   {
     key: 'team',
     label: 'Team',
-    render: (value: Order['team']) => (
+    render: (_value, row) => (
       <div className="flex -space-x-2">
-        {value.images.map((teamImage, index) => (
+        {row.team.images.map((teamImage, index) => (
           <div
             key={index}
             className="w-6 h-6 overflow-hidden border-2 border-white rounded-full dark:border-gray-900"
