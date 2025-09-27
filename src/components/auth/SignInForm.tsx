@@ -5,22 +5,34 @@ import Label from '../form/Label';
 import Input from '../form/input/InputField';
 import Checkbox from '../form/input/Checkbox';
 import Button from '../ui/button/Button';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function SignInForm() {
-  const { initialized, login } = useAuth();
+  const { initialized, customLogin } = useAuth();
 
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!initialized) {
     return <div>Loading...</div>;
   }
 
-  const handleLogin = () => {
-    login({
-      redirectUri: window.location.origin + '/',
-    });
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+    try {
+      await customLogin(username, password);
+      window.location.href = '/';
+    } catch {
+      setError('Invalid username or password');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -97,13 +109,18 @@ export default function SignInForm() {
                 </span>
               </div>
             </div>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="space-y-6">
                 <div>
                   <Label>
                     Email <span className="text-error-500">*</span>{' '}
                   </Label>
-                  <Input placeholder="info@gmail.com" />
+                  <Input
+                    type="email"
+                    placeholder="info@gmail.com"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
                 </div>
                 <div>
                   <Label>
@@ -113,6 +130,8 @@ export default function SignInForm() {
                     <Input
                       type={showPassword ? 'text' : 'password'}
                       placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                     <span
                       onClick={() => setShowPassword(!showPassword)}
@@ -125,6 +144,7 @@ export default function SignInForm() {
                       )}
                     </span>
                   </div>
+                  {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -141,8 +161,8 @@ export default function SignInForm() {
                   </Link>
                 </div>
                 <div>
-                  <Button className="w-full" size="sm" onClick={handleLogin}>
-                    Sign in
+                  <Button className="w-full" size="sm" disabled={isLoading}>
+                    {isLoading ? 'Signing in...' : 'Sign in'}
                   </Button>
                 </div>
               </div>

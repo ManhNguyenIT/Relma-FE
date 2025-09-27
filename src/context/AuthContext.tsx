@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 import Keycloak, {
   KeycloakProfile,
   KeycloakLoginOptions,
@@ -16,6 +16,7 @@ type AuthContextType = {
   login: (opts?: KeycloakLoginOptions) => void;
   logout: (opts?: KeycloakLogoutOptions) => void;
   hasRole: (role: string) => boolean;
+  customLogin: (username: string, password: string) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -30,7 +31,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     keycloak
       .init({
         // ❗ Dùng check-sso để không auto-redirect, cho phép dùng trang SignIn
-        onLoad: 'login-required',
+        onLoad: 'check-sso',
         pkceMethod: 'S256',
         checkLoginIframe: false,
         // Nếu cần silent SSO, mở dòng dưới và tạo file /public/silent-check-sso.html
@@ -64,12 +65,65 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     return () => clearInterval(id);
   }, [kc]);
 
-  const hasRole = (role: string) => {
-    const realmRoles = kc?.tokenParsed?.realm_access?.roles ?? [];
-    const clientId = import.meta.env.VITE_KEYCLOAK_CLIENT_ID as string;
-    const appRoles = kc?.tokenParsed?.resource_access?.[clientId]?.roles ?? [];
-    return realmRoles.includes(role) || appRoles.includes(role);
-  };
+  const hasRole = React.useCallback(
+    (role: string) => {
+      const realmRoles = kc?.tokenParsed?.realm_access?.roles ?? [];
+      const clientId = import.meta.env.VITE_KEYCLOAK_CLIENT_ID as string;
+      const appRoles = kc?.tokenParsed?.resource_access?.[clientId]?.roles ?? [];
+      return realmRoles.includes(role) || appRoles.includes(role);
+    },
+    [kc],
+  );
+
+  const customLogin = React.useCallback(
+    async (username: string, password: string) => {
+      if (!kc || !kc.clientId) {
+        throw new Error('Keycloak not fully initialized');
+      }
+
+      try {
+        const formData = new URLSearchParams();
+        formData.append('grant_type', 'password');
+        formData.append('client_id', kc.clientId);
+        formData.append('username', username);
+        formData.append('password', password);
+
+        const response = await fetch(
+          `${kc.authServerUrl}/realms/${kc.realm}/protocol/openid-connect/token`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: formData,
+          },
+        );
+
+        if (!response.ok) {
+          throw new Error('Login failed');
+        }
+
+        const tokenData = await response.json();
+        kc.token = tokenData.access_token;
+        kc.refreshToken = tokenData.refresh_token;
+        kc.idToken = tokenData.id_token;
+        kc.timeSkew = Date.now();
+
+        // Update tokenParsed (Keycloak JS doesn't auto-parse, so manual update or reload)
+        // For simplicity, reload user info
+        const p = await kc.loadUserProfile();
+        setProfile(p);
+        setIsAuthenticated(true);
+
+        // Update tokenParsed if needed, but loadUserProfile should suffice for profile
+        console.log('Custom login successful');
+      } catch (error) {
+        console.error('Custom login error:', error);
+        throw error;
+      }
+    },
+    [kc],
+  );
 
   const value = useMemo<AuthContextType>(
     () => ({
@@ -81,15 +135,12 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       login: (opts) => kc?.login(opts),
       logout: (opts) => kc?.logout(opts),
       hasRole,
+      customLogin,
     }),
-    [initialized, isAuthenticated, profile, kc],
+    [initialized, isAuthenticated, profile, kc, hasRole, customLogin],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth = () => {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
-  return ctx;
-};
+export default AuthContext;
