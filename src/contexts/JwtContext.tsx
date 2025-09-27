@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
-import { AuthProps, JWTContextType, UserProfile } from '../types/auth';
+import { AuthProps, JWTContextType, UserProfile } from '../types/auth.tsx';
 import { LOGIN, LOGOUT } from '../reducers/auth/actions';
 import authReducer from '../reducers/auth';
 import Loader from '../components/loader';

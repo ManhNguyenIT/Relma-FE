@@ -1,5 +1,8 @@
+import { useState, useEffect } from 'react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import DataTable, { TableColumn, TableAction, StatusConfig } from '../common/DataTable';
+import { apiClient } from '../../services/apiClient';
+import { ApiResponse, Location } from '../../types/response';
 
 interface LocationData {
   id: number;
@@ -9,45 +12,10 @@ interface LocationData {
   worker: string;
 }
 
-const locationData: LocationData[] = [
-  {
-    id: 1,
-    address: 'Kho A',
-    status: 'Approved',
-    dateCreated: '07/01/25',
-    worker: 'Tran Linh',
-  },
-  {
-    id: 2,
-    address: 'Kho A',
-    status: 'Approved',
-    dateCreated: '07/01/25',
-    worker: 'Tran Linh',
-  },
-  {
-    id: 3,
-    address: 'Kho A',
-    status: 'Approved',
-    dateCreated: '07/01/25',
-    worker: 'Tran Linh',
-  },
-  {
-    id: 4,
-    address: 'Kho A',
-    status: 'Approved',
-    dateCreated: '07/01/25',
-    worker: 'Tran Linh',
-  },
-  {
-    id: 5,
-    address: 'Kho A',
-    status: 'Approved',
-    dateCreated: '07/01/25',
-    worker: 'Tran Linh',
-  },
-];
-
 export default function LocationTable() {
+  const [mappedLocationData, setMappedLocationData] = useState<LocationData[]>([]);
+  const [loading, setLoading] = useState(true);
+
   const columns: TableColumn<LocationData>[] = [
     {
       key: 'address',
@@ -106,9 +74,39 @@ export default function LocationTable() {
     },
   ];
 
+  useEffect(() => {
+    async function fetchLocations() {
+      try {
+        const location = await apiClient.get<ApiResponse<Location>>('/api/v1/locations');
+        const mapped = location.items.map((loc) => ({
+          id: parseInt(loc.id),
+          address: loc.name,
+          status: 'Approved' as const,
+          dateCreated: new Date().toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: '2-digit',
+          }),
+          worker: 'Unknown',
+        }));
+        setMappedLocationData(mapped);
+      } catch (error) {
+        console.error('Failed to fetch locations:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchLocations();
+  }, []);
+
+  if (loading) {
+    return <div className="p-4">Loading locations...</div>;
+  }
+
   return (
     <DataTable
-      data={locationData}
+      data={mappedLocationData}
       columns={columns}
       actions={actions}
       statusConfig={statusConfig}

@@ -2,7 +2,7 @@
 import { REGISTER, LOGIN, LOGOUT } from './actions';
 
 // types
-import { AuthProps, AuthActionProps } from '../../types/auth';
+import { AuthProps, AuthActionProps } from '../../types/auth.tsx';
 
 // initial state
 export const initialState: AuthProps = {

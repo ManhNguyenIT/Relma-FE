@@ -5,7 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 
 // types
-import { GuardProps } from '../../types/auth';
+import { GuardProps } from '../../types/auth.tsx';
 
 // ==============================|| AUTH GUARD ||============================== //
 
