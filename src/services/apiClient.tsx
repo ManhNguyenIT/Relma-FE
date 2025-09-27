@@ -1,5 +1,5 @@
 // apiClient.ts
-import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosInstance } from 'axios';
 
 class ApiClient {
   private client: AxiosInstance;
@@ -15,7 +15,7 @@ class ApiClient {
     // Request interceptor (thêm token nếu cần)
     this.client.interceptors.request.use(
       (config) => {
-        const token = localStorage.getItem('serviceToken');
+        const token = localStorage.getItem('accessToken');
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
@@ -35,11 +35,6 @@ class ApiClient {
         }
         return Promise.reject(error);
       },
-    );
-
-    this.client.interceptors.response.use(
-      (response: AxiosResponse) => response.data, // ⚡ unwrap data luôn
-      (error: AxiosError) => Promise.reject(error),
     );
   }
 
