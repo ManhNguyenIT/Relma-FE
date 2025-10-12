@@ -12,7 +12,6 @@ class ApiClient {
       },
     });
 
-    // Request interceptor (thêm token nếu cần)
     this.client.interceptors.request.use(
       (config) => {
         const token = localStorage.getItem('accessToken');
@@ -24,7 +23,6 @@ class ApiClient {
       (error) => Promise.reject(error),
     );
 
-    // Response interceptor (xử lý error)
     this.client.interceptors.response.use(
       (response) => response.data,
       (error: AxiosError) => {
@@ -43,6 +41,13 @@ class ApiClient {
   }
 
   public async post<T>(url: string, data?: object): Promise<T> {
+    if (data instanceof FormData) {
+      return this.client.post(url, data, {
+        headers: {
+          'Content-Type': undefined,
+        },
+      });
+    }
     return this.client.post(url, data);
   }
 
@@ -50,10 +55,10 @@ class ApiClient {
     return this.client.put(url, data);
   }
 
-  public async delete<T>(url: string): Promise<T> {
-    return this.client.delete(url);
+  public async delete<T>(url: string, params?: object): Promise<T> {
+    return this.client.delete(url, { params });
   }
 }
 
 // Export instance với baseURL
-export const apiClient = new ApiClient(import.meta.env.VITE_APP_API_URL);
+export const client = new ApiClient(import.meta.env.VITE_APP_API_URL);

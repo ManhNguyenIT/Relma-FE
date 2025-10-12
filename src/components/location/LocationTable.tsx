@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import DataTable, { TableColumn, TableAction, StatusConfig } from '../common/DataTable';
-import { apiClient } from '../../services/apiClient';
+import { client } from '../../services/api';
 import { ApiResponse, Location } from '../../types/response';
 
 interface LocationData {
@@ -61,33 +61,36 @@ export default function LocationTable({ refreshTrigger }: LocationTableProps) {
   const [totalItems, setTotalItems] = useState(0);
   const [pageSize] = useState(10);
 
-  const fetchLocations = useCallback(async (page: number = 1) => {
-    try {
-      setLoading(true);
-      const response = await apiClient.get<ApiResponse<Location>>(
-        `/api/v1/locations?page=${page}&pageSize=${pageSize}`,
-      );
-      const mapped = response.items.map((loc, index) => ({
-        id: `location-${loc.id}-${index}`,
-        address: loc.name,
-        status: 'Approved' as const,
-        dateCreated: new Date().toLocaleDateString('en-US', {
-          month: 'short',
-          day: 'numeric',
-          year: '2-digit',
-        }),
-        worker: 'Unknown',
-      }));
-      setMappedLocationData(mapped);
-      setCurrentPage(response.currentPage);
-      setTotalPages(response.pageCount);
-      setTotalItems(response.rowCount);
-    } catch (error) {
-      console.error('Failed to fetch locations:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, [pageSize]);
+  const fetchLocations = useCallback(
+    async (page: number = 1) => {
+      try {
+        setLoading(true);
+        const response = await client.get<ApiResponse<Location>>(
+          `/api/v1/locations?page=${page}&pageSize=${pageSize}`,
+        );
+        const mapped = response.items.map((loc, index) => ({
+          id: `location-${loc.id}-${index}`,
+          address: loc.name,
+          status: 'Approved' as const,
+          dateCreated: new Date().toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: '2-digit',
+          }),
+          worker: 'Unknown',
+        }));
+        setMappedLocationData(mapped);
+        setCurrentPage(response.currentPage);
+        setTotalPages(response.pageCount);
+        setTotalItems(response.rowCount);
+      } catch (error) {
+        console.error('Failed to fetch locations:', error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [pageSize],
+  );
 
   useEffect(() => {
     fetchLocations();

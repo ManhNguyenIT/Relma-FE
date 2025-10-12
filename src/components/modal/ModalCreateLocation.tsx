@@ -3,7 +3,7 @@ import { Modal } from '../ui/modal';
 import Label from '../form/Label';
 import Input from '../form/input/InputField';
 import TextArea from '../form/input/TextArea';
-import { apiClient } from '../../services/apiClient';
+import { client } from '../../services/api';
 import { Location } from '../../types/response';
 
 interface ModalCreateLocationProps {
@@ -37,7 +37,7 @@ export default function ModalCreateLocation({
       setLoading(true);
       setError(null);
 
-      const response = await apiClient.post<Location>('/api/v1/locations', {
+      const response = await client.post<Location>('/api/v1/locations', {
         name: formData.name.trim(),
         description: formData.description.trim() || undefined,
       });
@@ -53,10 +53,14 @@ export default function ModalCreateLocation({
       onClose();
     } catch (err: unknown) {
       console.error('Error creating location:', err);
-      const errorMessage = err instanceof Error && 'response' in err 
-        ? (err as any).response?.data?.message 
-        : 'Có lỗi xảy ra khi tạo địa điểm';
-      setError(errorMessage || 'Có lỗi xảy ra khi tạo địa điểm');
+      let errorMessage = 'Có lỗi xảy ra khi tạo địa điểm';
+
+      if (err && typeof err === 'object' && 'response' in err) {
+        const errorWithResponse = err as { response?: { data?: { message?: string } } };
+        errorMessage = errorWithResponse.response?.data?.message || errorMessage;
+      }
+
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
