@@ -1,16 +1,17 @@
 import { PlusOutlinedIcon, MoreIcon, ScanIcon } from '../../icons';
-
 import { useModal } from '../../hooks/useModal';
 import ModalQr from '../modal/ModalQr';
-
 import ModalCreateAssets from '../modal/ModalCreateAssets';
 import ModalCreateLocation from '../modal/ModalCreateLocation';
 import ModalScanQr from '../modal/ModalScanQr';
 
-export default function LocationHeader() {
+interface LocationHeaderProps {
+  onCreateLocationSuccess: () => void;
+}
+
+export default function LocationHeader({ onCreateLocationSuccess }: LocationHeaderProps) {
   const { isOpen: isModalQrOpen, openModal: openModalQr, closeModal: closeModalQr } = useModal();
   const { isOpen: isModalCreateAssetsOpen, closeModal: closeModalCreateAssets } = useModal();
-
   const {
     isOpen: isModalCreateLocationOpen,
     openModal: openModalCreateLocation,
@@ -45,17 +46,18 @@ export default function LocationHeader() {
       </div>
       <ModalQr isOpen={isModalQrOpen} onClose={closeModalQr} />
       <ModalCreateAssets isOpen={isModalCreateAssetsOpen} onClose={closeModalCreateAssets} />
-      <ModalCreateLocation isOpen={isModalCreateLocationOpen} onClose={closeModalCreateLocation} />
+      <ModalCreateLocation
+        isOpen={isModalCreateLocationOpen}
+        onClose={closeModalCreateLocation}
+        onSuccess={onCreateLocationSuccess}
+      />
       <ModalScanQr
         isOpen={isModalScanQrOpen}
         onClose={closeModalScanQr}
         onScanSuccess={(result) => {
           console.log('QR Scan result:', result);
           closeModalScanQr();
-          // Mở ModalQr sau khi quét QR thành công
-          setTimeout(() => {
-            openModalQr();
-          }, 100);
+          setTimeout(() => openModalQr(), 100);
         }}
       />
     </div>
