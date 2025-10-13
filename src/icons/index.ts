@@ -98,9 +98,11 @@ import { ReactComponent as ArrbarIcon } from './arrow-bar-left.svg?react';
 import { ReactComponent as SuccessIcon } from './successs.svg?react';
 import { ReactComponent as FaillIcon } from './faill.svg?react';
 import { ReactComponent as UserFrameIcon } from './frame.svg?react';
+import { ReactComponent as DocumentUpIcon } from './documentup.svg?react';
 
 
 export {
+  DocumentUpIcon,
   UserFrameIcon,
   SuccessIcon,
   ArrbarIcon,
