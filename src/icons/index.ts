@@ -96,8 +96,10 @@ import { ReactComponent as ColummIcon } from './columm.svg?react';
 import { ReactComponent as LocationIconss } from './location-icon.svg?react';
 import { ReactComponent as ArrbarIcon } from './arrow-bar-left.svg?react';
 
+
 export {
   ArrbarIcon,
+  
   LocationIconss,
   ColummIcon,
   CheckListIcon,
