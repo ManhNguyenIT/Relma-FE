@@ -1,3 +1,4 @@
+import React from 'react';
 import { FaImage } from 'react-icons/fa';
 import DataTable, { TableColumn } from '../common/DataTable';
 
@@ -83,8 +84,26 @@ const columns: TableColumn<Product>[] = [
   },
 ];
 
-const FlTable: React.FC = () => {
-  return <DataTable data={data} columns={columns} selectable={true} className="overflow-x-auto" />;
+interface FlTableProps {
+  onSelectionChange?: (selectedRows: Product[]) => void;
+  onTotalPartsChange?: (total: number) => void;
+}
+
+const FlTable: React.FC<FlTableProps> = ({ onSelectionChange, onTotalPartsChange }) => {
+  // Notify parent about total parts count
+  React.useEffect(() => {
+    onTotalPartsChange?.(data.length);
+  }, [onTotalPartsChange]);
+
+  return (
+    <DataTable 
+      data={data} 
+      columns={columns} 
+      selectable={true} 
+      onSelectionChange={onSelectionChange}
+      className="overflow-x-auto" 
+    />
+  );
 };
 
 export default FlTable;

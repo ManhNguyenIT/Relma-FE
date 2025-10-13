@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Modal } from '../ui/modal';
 
 import FlTable from '../tables/FlTable';
+import HistoryTable from '../tables/HistoryTable';
 import { BroomIcon } from '../../icons';
 
 interface ModalQrProps {
@@ -10,7 +11,18 @@ interface ModalQrProps {
 }
 
 export default function ModalQr({ isOpen, onClose }: ModalQrProps) {
-  const [activeTab, setActiveTab] = useState('start');
+  const [activeTab, setActiveTab] = useState('listpart');
+  const [selectedParts, setSelectedParts] = useState<any[]>([]);
+  const [totalParts, setTotalParts] = useState(0);
+
+  const handleSelectionChange = (selectedRows: any[]) => {
+    setSelectedParts(selectedRows);
+  };
+
+  const handleTotalPartsChange = (total: number) => {
+    setTotalParts(total);
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-[900px] m-4">
       <div className="no-scrollbar relative w-full max-w-[900px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
@@ -47,7 +59,7 @@ export default function ModalQr({ isOpen, onClose }: ModalQrProps) {
                     type="button"
                     onClick={() => setActiveTab('listpart')}
                     className={`px-4 py-2 text-sm font-medium ${
-                      activeTab === 'start'
+                      activeTab === 'listpart'
                         ? 'text-blue-500 border-b-2 border-blue-500'
                         : 'text-gray-500 hover:text-gray-700'
                     }`}
@@ -59,7 +71,7 @@ export default function ModalQr({ isOpen, onClose }: ModalQrProps) {
                     type="button"
                     onClick={() => setActiveTab('history')}
                     className={`px-4 py-2 text-sm font-medium ${
-                      activeTab === 'links'
+                      activeTab === 'history'
                         ? 'text-blue-500 border-b-2 border-blue-500'
                         : 'text-gray-500 hover:text-gray-700'
                     }`}
@@ -71,24 +83,36 @@ export default function ModalQr({ isOpen, onClose }: ModalQrProps) {
                 <div className="mt-4 p-4 border rounded-lg bg-gray-50">
                   {activeTab === 'listpart' && (
                     <div>
-                      <FlTable />
+                      <FlTable 
+                        onSelectionChange={handleSelectionChange} 
+                        onTotalPartsChange={handleTotalPartsChange}
+                      />
                     </div>
                   )}
 
-                  {activeTab === 'history' && <div>Content</div>}
+                  {activeTab === 'history' && (
+                    <div>
+                      <HistoryTable />
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="w-full border-b border-[#F3F3F3] md:mt-3 mt-3"></div>
             </div>
-            <div className="w-full flex items-center justify-end gap-2 md:gap-4 md:mt-3 mt-3">
-              <button
-                className="border border-[#0071FF] bg-[#0071FF] flex items-center justify-center px-[8px] py-[16px] h-10 text-white gap-2 rounded-[8px]"
-                type="button"
-              >
-                <BroomIcon />
-                Take out part
-              </button>
-            </div>
+            {activeTab === 'listpart' && (
+              <div className="w-full flex items-center justify-between gap-2 md:gap-4 md:mt-3 mt-3">
+                <div className="text-sm text-gray-600">
+                  {selectedParts.length}/{totalParts} Parts Select
+                </div>
+                <button
+                  className="border border-[#0071FF] bg-[#0071FF] flex items-center justify-center px-[8px] py-[16px] h-10 text-white gap-2 rounded-[8px]"
+                  type="button"
+                >
+                  <BroomIcon />
+                  Take out part
+                </button>
+              </div>
+            )}
           </div>
         </form>
       </div>
