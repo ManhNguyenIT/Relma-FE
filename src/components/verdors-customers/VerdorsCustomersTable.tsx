@@ -40,18 +40,7 @@ const vendors: Vendor[] = [
     dateCreate: '2025-07-01',
     hourlyRate: 'N/A',
   },
-  {
-    id: 3,
-    name: 'Another Vendor',
-    address: '123 Example St, New York, NY',
-    phone: '+84 912 111 222',
-    contact: 'Jane Smith',
-    email: 'jane@example.com',
-    vendorType: 'Supplies',
-    website: 'https://example.com',
-    dateCreate: '2025-06-15',
-    hourlyRate: '$80.00',
-  },
+  
 ];
 
 export default function VerdorsCustomersTable() {
