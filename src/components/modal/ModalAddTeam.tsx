@@ -179,9 +179,14 @@ export default function ModalAddTeam({ isOpen, onClose }: ModalAddTeamProps) {
                 </button>
                 <button
                   type="button"
-                  className="border border-gray-300 bg-white flex items-center justify-center px-2 py-2 rounded-[4px]"
+                  disabled={selectedWorkerIds.length === 0}
+                  className={`flex items-center justify-center px-2 py-2 rounded-[4px] ${
+                    selectedWorkerIds.length === 0
+                      ? 'border border-gray-300 bg-gray-100 text-gray-400 cursor-not-allowed'
+                      : 'border border-[#0C6FF9] bg-[#0C6FF9] text-white hover:bg-[#0056b3]'
+                  }`}
                 >
-                  Create Team
+                  Create Person
                 </button>
               </div>
             </div>
