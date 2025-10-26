@@ -5,14 +5,17 @@ import {
   UpdateAssetCommand,
   DeleteAssetCommand,
   PaginatedResponse,
-  QueryParams,
+  PaginationQueryParams,
+  FileUploadResponse,
+  ImportResponse,
+  ProcessingStatus,
 } from '../types/api';
 
 export const useAssetsApi = () => {
   const { get, post, put, del, loading, error } = useApi();
 
-  const getAssets = async (params?: QueryParams) => {
-    return get<PaginatedResponse<Asset>>('/api/v1/assets', { params });
+  const getAssets = async (params?: PaginationQueryParams) => {
+    return get<PaginatedResponse<Asset>>('/api/v1/assets', params);
   };
 
   const getAsset = async (id: string) => {
@@ -20,7 +23,7 @@ export const useAssetsApi = () => {
   };
 
   const getAssetStatus = async (id: string) => {
-    return get<number>(`/api/v1/assets/${id}/status`);
+    return get<ProcessingStatus>(`/api/v1/assets/${id}/status`);
   };
 
   const createAsset = async (data: CreateAssetCommand) => {
@@ -28,29 +31,30 @@ export const useAssetsApi = () => {
   };
 
   const updateAsset = async (data: UpdateAssetCommand) => {
-    return put<string>(`/api/v1/assets/${data.id}`, data);
+    const { id, ...updateData } = data;
+    return put<string>(`/api/v1/assets/${id}`, updateData);
   };
 
-  const deleteAsset = async (data: DeleteAssetCommand) => {
-    return del<boolean>('/api/v1/assets', { data });
+  const deleteAssets = async (parmas: DeleteAssetCommand) => {
+    return del<boolean>('/api/v1/assets', parmas);
   };
 
   const uploadAssetFile = async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    return post<Asset>('/api/v1/assets/upload', formData);
+    return post<FileUploadResponse>('/api/v1/assets/upload', formData);
   };
 
   const importAssets = async () => {
-    return post<Asset>('/api/v1/assets/import');
+    return post<ImportResponse>('/api/v1/assets/import');
   };
 
-  const exportAssets = async (params?: QueryParams) => {
-    return get<Blob>('/api/v1/assets/export', { params, responseType: 'blob' });
+  const exportAssets = async (params?: PaginationQueryParams) => {
+    return get<Blob>('/api/v1/assets/export', params);
   };
 
   const getAssetTemplate = async () => {
-    return get<Blob>('/api/v1/assets/template', { responseType: 'blob' });
+    return get<Blob>('/api/v1/assets/template');
   };
 
   return {
@@ -59,7 +63,7 @@ export const useAssetsApi = () => {
     getAssetStatus,
     createAsset,
     updateAsset,
-    deleteAsset,
+    deleteAssets,
     uploadAssetFile,
     importAssets,
     exportAssets,

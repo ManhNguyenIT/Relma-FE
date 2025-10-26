@@ -8,7 +8,7 @@ import {
   Checklist,
   CreateChecklistCommand,
   UpdateChecklistCommand,
-  QueryParams,
+  PaginationQueryParams,
 } from '../types/api';
 
 const ChecklistsManagement = () => {
@@ -18,10 +18,8 @@ const ChecklistsManagement = () => {
     updateChecklist,
     deleteChecklist,
     uploadChecklistFile,
-    importChecklists,
     exportChecklists,
     getChecklistTemplate,
-    loading,
     error,
   } = useChecklistsApi();
 
@@ -31,9 +29,10 @@ const ChecklistsManagement = () => {
     pageSize: 10,
     total: 0,
   });
-  const [queryParams, setQueryParams] = useState<QueryParams>({
-    Page: 1,
-    PageSize: 10,
+  const [queryParams, setQueryParams] = useState<PaginationQueryParams>({
+    page: 1,
+    pageSize: 10,
+    includes: 'tasks',
   });
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -41,7 +40,7 @@ const ChecklistsManagement = () => {
   const [formData, setFormData] = useState<CreateChecklistCommand>({
     name: '',
     description: '',
-    workOrderId: '',
+    workOrderId: undefined,
     tasks: [],
   });
   const [file, setFile] = useState<File | null>(null);
@@ -53,11 +52,12 @@ const ChecklistsManagement = () => {
   const fetchChecklists = async () => {
     try {
       const response = await getChecklists(queryParams);
-      setChecklists(response.data.items);
+      console.log('response', response);
+      setChecklists(response.items);
       setPagination({
-        current: response.data.page,
-        pageSize: response.data.pageSize,
-        total: response.data.total,
+        current: response.currentPage,
+        pageSize: response.pageSize,
+        total: response.rowCount,
       });
     } catch (err) {
       console.error('Failed to fetch checklists:', err);
@@ -71,7 +71,7 @@ const ChecklistsManagement = () => {
       setFormData({
         name: '',
         description: '',
-        workOrderId: '',
+        workOrderId: undefined,
         tasks: [],
       });
       fetchChecklists();
@@ -90,7 +90,7 @@ const ChecklistsManagement = () => {
       setFormData({
         name: '',
         description: '',
-        workOrderId: '',
+        workOrderId: undefined,
         tasks: [],
       });
       fetchChecklists();
@@ -103,7 +103,7 @@ const ChecklistsManagement = () => {
     if (!window.confirm('Bạn có chắc chắn muốn xóa checklist này?')) return;
 
     try {
-      await deleteChecklist({ id: checklist.id });
+      await deleteChecklist({ ids: [checklist.id] });
       fetchChecklists();
     } catch (err) {
       console.error('Failed to delete checklist:', err);
@@ -124,8 +124,8 @@ const ChecklistsManagement = () => {
 
   const handleExportChecklists = async () => {
     try {
-      const response = await exportChecklists(queryParams);
-      const blob = new Blob([response.data], {
+      const response = await exportChecklists();
+      const blob = new Blob([response], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
       const url = window.URL.createObjectURL(blob);
@@ -144,7 +144,7 @@ const ChecklistsManagement = () => {
   const handleDownloadTemplate = async () => {
     try {
       const response = await getChecklistTemplate();
-      const blob = new Blob([response.data], {
+      const blob = new Blob([response], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
       const url = window.URL.createObjectURL(blob);
@@ -161,11 +161,11 @@ const ChecklistsManagement = () => {
   };
 
   const handlePageChange = (page: number, pageSize: number) => {
-    setQueryParams({ ...queryParams, Page: page, PageSize: pageSize });
+    setQueryParams({ ...queryParams, page: page, pageSize: pageSize });
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQueryParams({ ...queryParams, Q: e.target.value, Page: 1 });
+    setQueryParams({ ...queryParams, q: e.target.value, page: 1 });
   };
 
   const handleEdit = (checklist: Checklist) => {
@@ -174,7 +174,7 @@ const ChecklistsManagement = () => {
       name: checklist.name || '',
       description: checklist.description || '',
       workOrderId: checklist.workOrderId,
-      tasks: checklist.tasks || [],
+      tasks: checklist.tasks?.map((i) => i.id) || [],
     });
     setIsEditModalOpen(true);
   };
@@ -183,13 +183,12 @@ const ChecklistsManagement = () => {
     { key: 'name', title: 'Tên', sortable: true },
     { key: 'description', title: 'Mô tả', sortable: true },
     { key: 'workOrderId', title: 'Work Order', sortable: true },
-    { key: 'createdAt', title: 'Ngày tạo', sortable: true },
     {
       key: 'actions' as keyof Checklist,
       title: 'Thao tác',
       render: (_, record) => (
         <div className="flex space-x-2">
-          <Button variant="secondary" size="sm" onClick={() => handleEdit(record)}>
+          <Button variant="outline" size="sm" onClick={() => handleEdit(record)}>
             Sửa
           </Button>
           <Button variant="danger" size="sm" onClick={() => handleDeleteChecklist(record)}>
@@ -209,7 +208,7 @@ const ChecklistsManagement = () => {
         <div className="flex flex-col sm:flex-row gap-4 mb-4">
           <Input
             placeholder="Tìm kiếm checklist..."
-            value={queryParams.Q || ''}
+            value={queryParams.q || ''}
             onChange={handleSearch}
             className="flex-1"
           />
@@ -223,7 +222,7 @@ const ChecklistsManagement = () => {
             </Button>
 
             <label className="relative cursor-pointer">
-              <Button variant="secondary">Tải lên</Button>
+              <Button variant="outline">Tải lên</Button>
               <input
                 type="file"
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
@@ -232,11 +231,11 @@ const ChecklistsManagement = () => {
               />
             </label>
 
-            <Button variant="secondary" onClick={handleExportChecklists}>
+            <Button variant="outline" onClick={handleExportChecklists}>
               Xuất
             </Button>
 
-            <Button variant="secondary" onClick={handleDownloadTemplate}>
+            <Button variant="outline" onClick={handleDownloadTemplate}>
               Mẫu
             </Button>
           </div>
@@ -255,7 +254,7 @@ const ChecklistsManagement = () => {
                 >
                   Tải lên
                 </Button>
-                <Button size="sm" variant="secondary" onClick={() => setFile(null)}>
+                <Button size="sm" variant="outline" onClick={() => setFile(null)}>
                   Hủy
                 </Button>
               </div>
@@ -275,7 +274,6 @@ const ChecklistsManagement = () => {
       <Table
         data={checklists as unknown as Record<string, unknown>[]}
         columns={columns as unknown as TableColumn<Record<string, unknown>>[]}
-        loading={loading}
         pagination={{
           current: pagination.current,
           pageSize: pagination.pageSize,
@@ -315,12 +313,10 @@ const ChecklistsManagement = () => {
           />
 
           <div className="flex justify-end space-x-2 pt-4">
-            <Button variant="secondary" onClick={() => setIsCreateModalOpen(false)}>
+            <Button variant="outline" onClick={() => setIsCreateModalOpen(false)}>
               Hủy
             </Button>
-            <Button onClick={handleCreateChecklist} loading={loading}>
-              Tạo
-            </Button>
+            <Button onClick={handleCreateChecklist}>Tạo</Button>
           </div>
         </div>
       </Modal>
@@ -359,7 +355,7 @@ const ChecklistsManagement = () => {
 
           <div className="flex justify-end space-x-2 pt-4">
             <Button
-              variant="secondary"
+              variant="outline"
               onClick={() => {
                 setIsEditModalOpen(false);
                 setSelectedChecklist(null);
@@ -367,9 +363,7 @@ const ChecklistsManagement = () => {
             >
               Hủy
             </Button>
-            <Button onClick={handleUpdateChecklist} loading={loading}>
-              Cập nhật
-            </Button>
+            <Button onClick={handleUpdateChecklist}>Cập nhật</Button>
           </div>
         </div>
       </Modal>

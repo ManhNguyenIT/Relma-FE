@@ -5,13 +5,13 @@ import {
   UpdateWorkOrderCommand,
   DeleteWorkOrderCommand,
   PaginatedResponse,
-  QueryParams,
+  PaginationQueryParams,
 } from '../types/api';
 
 export const useWorkOrdersApi = () => {
   const { get, post, put, del, loading, error } = useApi();
 
-  const getWorkOrders = async (params?: QueryParams) => {
+  const getWorkOrders = async (params?: PaginationQueryParams) => {
     return get<PaginatedResponse<WorkOrder>>('/api/v1/work-orders', { params });
   };
 
@@ -20,7 +20,7 @@ export const useWorkOrdersApi = () => {
   };
 
   const updateWorkOrder = async (data: UpdateWorkOrderCommand) => {
-    return put<WorkOrder>(`/api/v1/work-orders/${data.id}`, data);
+    return put<WorkOrder>('/api/v1/work-orders', data);
   };
 
   const deleteWorkOrder = async (data: DeleteWorkOrderCommand) => {

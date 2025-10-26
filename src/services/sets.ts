@@ -5,13 +5,13 @@ import {
   UpdateSetCommand,
   DeleteSetCommand,
   PaginatedResponse,
-  QueryParams,
+  PaginationQueryParams,
 } from '../types/api';
 
 export const useSetsApi = () => {
   const { get, post, put, del, loading, error } = useApi();
 
-  const getSets = async (params?: QueryParams) => {
+  const getSets = async (params?: PaginationQueryParams) => {
     return get<PaginatedResponse<Set>>('/api/v1/sets', { params });
   };
 
@@ -20,7 +20,7 @@ export const useSetsApi = () => {
   };
 
   const updateSet = async (data: UpdateSetCommand) => {
-    return put<string>(`/api/v1/sets/${data.id}`, data);
+    return put<string>('/api/v1/sets', data);
   };
 
   const deleteSet = async (data: DeleteSetCommand) => {

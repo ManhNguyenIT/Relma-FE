@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import WorkOrderSearch from '../components/workorder/work-order-task/ui/WorkOrderSearch';
 import { MoreIcon } from '../icons';
 import FilterButton from '../components/workorder/work-order-button/FilterButton';
@@ -13,6 +13,14 @@ export default function CheckList() {
     closeModal: closeModalCreateCheckList,
   } = useModal();
   const [activeTab, setActiveTab] = useState('start');
+  const checkListTableRef = useRef<{ refresh: () => void }>(null);
+
+  const handleChecklistCreated = () => {
+    if (checkListTableRef.current) {
+      checkListTableRef.current.refresh();
+    }
+  };
+
   return (
     <div className="w-full flex flex-col md:gap-4 gap-3">
       <div className="w-full flex flex-col md:gap-4 gap-3">
@@ -93,6 +101,7 @@ export default function CheckList() {
       <ModalCreateCheckList
         isOpen={isModalCreateCheckListOpen}
         onClose={closeModalCreateCheckList}
+        onChecklistCreated={handleChecklistCreated}
       />
     </div>
   );

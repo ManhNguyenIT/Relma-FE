@@ -12,6 +12,7 @@ class ApiClient {
       },
     });
 
+    // Request interceptor
     this.client.interceptors.request.use(
       (config) => {
         const token = localStorage.getItem('accessToken');
@@ -23,6 +24,7 @@ class ApiClient {
       (error) => Promise.reject(error),
     );
 
+    // Response interceptor
     this.client.interceptors.response.use(
       (response) => response.data,
       (error: AxiosError) => {
@@ -36,15 +38,31 @@ class ApiClient {
     );
   }
 
+  private toQueryString(obj?: object): string {
+    if (!obj || typeof obj !== 'object') return '';
+    return Object.entries(obj)
+      .flatMap(([k, v]) =>
+        Array.isArray(v)
+          ? v
+              .filter((x) => x != null)
+              .map((x) => `${encodeURIComponent(k)}=${encodeURIComponent(x)}`)
+          : v != null
+            ? [`${encodeURIComponent(k)}=${encodeURIComponent(v)}`]
+            : [],
+      )
+      .join('&');
+  }
+
   public async get<T>(url: string, params?: object): Promise<T> {
-    return this.client.get(url, { params });
+    const query = this.toQueryString(params);
+    return this.client.get(`${url}?${query}`);
   }
 
   public async post<T>(url: string, data?: object): Promise<T> {
     if (data instanceof FormData) {
       return this.client.post(url, data, {
         headers: {
-          'Content-Type': undefined,
+          'Content-Type': 'multipart/form-data',
         },
       });
     }
@@ -56,9 +74,10 @@ class ApiClient {
   }
 
   public async delete<T>(url: string, params?: object): Promise<T> {
-    return this.client.delete(url, { params });
+    const query = this.toQueryString(params);
+    return this.client.delete(`${url}?${query}`);
   }
 }
 
 // Export instance với baseURL
-export const client = new ApiClient(import.meta.env.VITE_APP_API_URL);
+export const client = new ApiClient(import.meta.env.VITE_APP_API_URL || 'http://localhost:5000');

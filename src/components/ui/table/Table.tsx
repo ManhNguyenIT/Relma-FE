@@ -113,7 +113,7 @@ const Table = <T extends Record<string, unknown>>({
             {loading ? (
               Array.from({ length: 5 }).map((_, index) => (
                 <tr key={`skeleton-${index}`} className="animate-pulse">
-                  {columns.map((column, colIndex) => (
+                  {columns.map((_, colIndex) => (
                     <td key={`skeleton-${colIndex}`} className="px-6 py-4 whitespace-nowrap">
                       <div className="h-4 bg-gray-300 rounded"></div>
                     </td>

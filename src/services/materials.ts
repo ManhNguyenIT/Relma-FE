@@ -5,14 +5,16 @@ import {
   UpdateMaterialCommand,
   DeleteMaterialCommand,
   PaginatedResponse,
-  QueryParams,
+  PaginationQueryParams,
+  FileUploadResponse,
+  ImportResponse,
 } from '../types/api';
 
 export const useMaterialsApi = () => {
   const { get, post, put, del, loading, error } = useApi();
 
-  const getMaterials = async (params?: QueryParams) => {
-    return get<PaginatedResponse<Material>>('/api/v1/materials', { params });
+  const getMaterials = async (params?: PaginationQueryParams) => {
+    return get<PaginatedResponse<Material>>('/api/v1/materials', params);
   };
 
   const createMaterial = async (data: CreateMaterialCommand) => {
@@ -20,36 +22,37 @@ export const useMaterialsApi = () => {
   };
 
   const updateMaterial = async (data: UpdateMaterialCommand) => {
-    return put<string>(`/api/v1/materials/${data.id}`, data);
+    const { id, ...updateData } = data;
+    return put<string>(`/api/v1/materials/${id}`, updateData);
   };
 
-  const deleteMaterial = async (data: DeleteMaterialCommand) => {
-    return del<boolean>('/api/v1/materials', { data });
+  const deleteMaterials = async (parmas: DeleteMaterialCommand) => {
+    return del<boolean>('/api/v1/materials', parmas);
   };
 
   const uploadMaterialFile = async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    return post<Material>('/api/v1/materials/upload', formData);
+    return post<FileUploadResponse>('/api/v1/materials/upload', formData);
   };
 
   const importMaterials = async () => {
-    return post<Material>('/api/v1/materials/import');
+    return post<ImportResponse>('/api/v1/materials/import');
   };
 
   const exportMaterials = async (fileName: string) => {
-    return get<Blob>(`/api/v1/materials/export?fileName=${fileName}`, { responseType: 'blob' });
+    return get<Blob>('/api/v1/materials/export', { fileName });
   };
 
   const getMaterialTemplate = async (fileName: string) => {
-    return get<Blob>(`/api/v1/materials/template?fileName=${fileName}`, { responseType: 'blob' });
+    return get<Blob>('/api/v1/materials/template', { fileName });
   };
 
   return {
     getMaterials,
     createMaterial,
     updateMaterial,
-    deleteMaterial,
+    deleteMaterials,
     uploadMaterialFile,
     importMaterials,
     exportMaterials,

@@ -27,6 +27,50 @@ export interface PaginationQueryParams extends QueryParams {
   pageSize?: number;
 }
 
+// Error Response types
+export interface ErrorResponse {
+  error: string;
+  details?: string;
+  timestamp: string;
+  traceId?: string;
+}
+
+export interface ValidationErrorResponse {
+  error: string;
+  validationErrors: ValidationError[];
+  timestamp: string;
+}
+
+export interface ValidationError {
+  field: string;
+  message: string;
+  value?: unknown;
+}
+
+// File Upload Response
+export interface FileUploadResponse {
+  fileId: string;
+  fileName: string;
+  fileSize: number;
+  fileUrl: string;
+  uploadedAt: string;
+}
+
+// Import Response
+export interface ImportResponse {
+  importId: string;
+  status: 'Started' | 'Processing' | 'Completed' | 'Failed';
+  totalRecords?: number;
+  processedRecords?: number;
+  errors?: ImportError[];
+  startedAt: string;
+}
+
+export interface ImportError {
+  row: number;
+  message: string;
+}
+
 // Asset types
 export interface Asset {
   id: string;
@@ -36,7 +80,10 @@ export interface Asset {
   category?: string;
   description?: string;
   model?: string;
+  images?: string[];
+  barcode?: string;
   serialNumber?: string;
+  manufacturerId?: string;
   locationId: string;
   location?: Location;
 }
@@ -103,7 +150,7 @@ export interface Maintenance {
 }
 
 export interface CreateMaintenanceCommand {
-  workOrderId: string;
+  workOrderId?: string;
   cronExpression?: string;
   images?: string[];
 }
@@ -160,6 +207,13 @@ export interface DeleteMaterialCommand {
 
 // Part types
 export interface Part {
+  storageId: string;
+  status: number;
+  description: string;
+  category: string;
+  cost: number;
+  inventory: number;
+  minimum: number;
   id: string;
   quantity: number;
   locationId?: string;
@@ -216,7 +270,7 @@ export interface Request {
 }
 
 export interface CreateRequestCommand {
-  assetId: string;
+  assetId?: string;
   title?: string;
   description?: string;
   status: number;
@@ -227,7 +281,7 @@ export interface CreateRequestCommand {
 
 export interface UpdateRequestCommand {
   id: string;
-  assetId: string;
+  assetId?: string;
   title?: string;
   description?: string;
   status: number;
@@ -284,21 +338,21 @@ export interface DeleteStorageCommand {
 // Task types
 export interface Task {
   id: string;
-  assetId: string;
+  assetId?: string;
   type: number;
   value?: unknown;
   asset?: Asset;
 }
 
 export interface CreateTaskCommand {
-  assetId: string;
+  assetId?: string;
   type: number;
   value?: unknown;
 }
 
 export interface UpdateTaskCommand {
   id: string;
-  assetId: string;
+  assetId?: string;
   type: number;
   value?: unknown;
 }
@@ -408,23 +462,37 @@ export interface Checklist {
   tasks?: Task[];
 }
 
+export interface ChecklistResponse {
+  id: string;
+  name?: string;
+  description?: string;
+  workOrderId?: string;
+  workOrder?: WorkOrder;
+  tasks?: Task[];
+  tags?: string[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface CreateChecklistCommand {
   name?: string;
   description?: string;
-  workOrderId: string;
+  workOrderId?: string;
   tasks?: string[];
+  tags?: string[];
 }
 
 export interface UpdateChecklistCommand {
   id: string;
   name?: string;
   description?: string;
-  workOrderId: string;
+  workOrderId?: string;
   tasks?: string[];
+  tags?: string[];
 }
 
 export interface DeleteChecklistCommand {
-  id: string;
+  ids?: string[];
 }
 
 // File types

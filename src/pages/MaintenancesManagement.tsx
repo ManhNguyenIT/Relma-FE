@@ -8,7 +8,7 @@ import {
   Maintenance,
   CreateMaintenanceCommand,
   UpdateMaintenanceCommand,
-  QueryParams,
+  PaginationQueryParams,
 } from '../types/api';
 
 const MaintenancesManagement = () => {
@@ -20,7 +20,6 @@ const MaintenancesManagement = () => {
     uploadMaintenanceFile,
     exportMaintenances,
     getMaintenanceTemplate,
-    loading,
     error,
   } = useMaintenancesApi();
 
@@ -30,15 +29,15 @@ const MaintenancesManagement = () => {
     pageSize: 10,
     total: 0,
   });
-  const [queryParams, setQueryParams] = useState<QueryParams>({
-    Page: 1,
-    PageSize: 10,
+  const [queryParams, setQueryParams] = useState<PaginationQueryParams>({
+    page: 1,
+    pageSize: 10,
   });
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedMaintenance, setSelectedMaintenance] = useState<Maintenance | null>(null);
   const [formData, setFormData] = useState<CreateMaintenanceCommand>({
-    workOrderId: '',
+    workOrderId: undefined,
     cronExpression: '',
     images: [],
   });
@@ -51,11 +50,11 @@ const MaintenancesManagement = () => {
   const fetchMaintenances = async () => {
     try {
       const response = await getMaintenances(queryParams);
-      setMaintenances(response.data.items);
+      setMaintenances(response.items);
       setPagination({
-        current: response.data.page,
-        pageSize: response.data.pageSize,
-        total: response.data.total,
+        current: response.currentPage,
+        pageSize: response.pageSize,
+        total: response.rowCount,
       });
     } catch (err) {
       console.error('Failed to fetch maintenances:', err);
@@ -67,7 +66,7 @@ const MaintenancesManagement = () => {
       await createMaintenance(formData);
       setIsCreateModalOpen(false);
       setFormData({
-        workOrderId: '',
+        workOrderId: undefined,
         cronExpression: '',
         images: [],
       });
@@ -88,7 +87,7 @@ const MaintenancesManagement = () => {
       setIsEditModalOpen(false);
       setSelectedMaintenance(null);
       setFormData({
-        workOrderId: '',
+        workOrderId: undefined,
         cronExpression: '',
         images: [],
       });
@@ -123,8 +122,8 @@ const MaintenancesManagement = () => {
 
   const handleExportMaintenances = async () => {
     try {
-      const response = await exportMaintenances(queryParams);
-      const blob = new Blob([response.data], {
+      const response = await exportMaintenances();
+      const blob = new Blob([response], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
       const url = window.URL.createObjectURL(blob);
@@ -143,7 +142,7 @@ const MaintenancesManagement = () => {
   const handleDownloadTemplate = async () => {
     try {
       const response = await getMaintenanceTemplate();
-      const blob = new Blob([response.data], {
+      const blob = new Blob([response], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
       const url = window.URL.createObjectURL(blob);
@@ -160,11 +159,11 @@ const MaintenancesManagement = () => {
   };
 
   const handlePageChange = (page: number, pageSize: number) => {
-    setQueryParams({ ...queryParams, Page: page, PageSize: pageSize });
+    setQueryParams({ ...queryParams, page: page, pageSize: pageSize });
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQueryParams({ ...queryParams, Q: e.target.value, Page: 1 });
+    setQueryParams({ ...queryParams, q: e.target.value, page: 1 });
   };
 
   const handleEdit = (maintenance: Maintenance) => {
@@ -180,16 +179,15 @@ const MaintenancesManagement = () => {
   const columns: TableColumn<Maintenance>[] = [
     { key: 'workOrderId', title: 'Work Order', sortable: true },
     { key: 'cronExpression', title: 'Cron Expression', sortable: true },
-    { key: 'createdAt', title: 'Ngày tạo', sortable: true },
     {
       key: 'actions' as keyof Maintenance,
       title: 'Thao tác',
       render: (_, record) => (
         <div className="flex space-x-2">
-          <Button variant="secondary" size="sm" onClick={() => handleEdit(record)}>
+          <Button variant="outline" size="sm" onClick={() => handleEdit(record)}>
             Sửa
           </Button>
-          <Button variant="danger" size="sm" onClick={() => handleDeleteMaintenance(record)}>
+          <Button variant="outline" size="sm" onClick={() => handleDeleteMaintenance(record)}>
             Xóa
           </Button>
         </div>
@@ -206,7 +204,7 @@ const MaintenancesManagement = () => {
         <div className="flex flex-col sm:flex-row gap-4 mb-4">
           <Input
             placeholder="Tìm kiếm công việc bảo trì..."
-            value={queryParams.Q || ''}
+            value={queryParams.q || ''}
             onChange={handleSearch}
             className="flex-1"
           />
@@ -220,7 +218,7 @@ const MaintenancesManagement = () => {
             </Button>
 
             <label className="relative cursor-pointer">
-              <Button variant="secondary">Tải lên</Button>
+              <Button variant="outline">Tải lên</Button>
               <input
                 type="file"
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
@@ -229,11 +227,11 @@ const MaintenancesManagement = () => {
               />
             </label>
 
-            <Button variant="secondary" onClick={handleExportMaintenances}>
+            <Button variant="outline" onClick={handleExportMaintenances}>
               Xuất
             </Button>
 
-            <Button variant="secondary" onClick={handleDownloadTemplate}>
+            <Button variant="outline" onClick={handleDownloadTemplate}>
               Mẫu
             </Button>
           </div>
@@ -252,7 +250,7 @@ const MaintenancesManagement = () => {
                 >
                   Tải lên
                 </Button>
-                <Button size="sm" variant="secondary" onClick={() => setFile(null)}>
+                <Button size="sm" variant="outline" onClick={() => setFile(null)}>
                   Hủy
                 </Button>
               </div>
@@ -272,7 +270,6 @@ const MaintenancesManagement = () => {
       <Table
         data={maintenances as unknown as Record<string, unknown>[]}
         columns={columns as unknown as TableColumn<Record<string, unknown>>[]}
-        loading={loading}
         pagination={{
           current: pagination.current,
           pageSize: pagination.pageSize,
@@ -305,12 +302,10 @@ const MaintenancesManagement = () => {
           />
 
           <div className="flex justify-end space-x-2 pt-4">
-            <Button variant="secondary" onClick={() => setIsCreateModalOpen(false)}>
+            <Button variant="outline" onClick={() => setIsCreateModalOpen(false)}>
               Hủy
             </Button>
-            <Button onClick={handleCreateMaintenance} loading={loading}>
-              Tạo
-            </Button>
+            <Button onClick={handleCreateMaintenance}>Tạo</Button>
           </div>
         </div>
       </Modal>
@@ -342,7 +337,7 @@ const MaintenancesManagement = () => {
 
           <div className="flex justify-end space-x-2 pt-4">
             <Button
-              variant="secondary"
+              variant="outline"
               onClick={() => {
                 setIsEditModalOpen(false);
                 setSelectedMaintenance(null);
@@ -350,9 +345,7 @@ const MaintenancesManagement = () => {
             >
               Hủy
             </Button>
-            <Button onClick={handleUpdateMaintenance} loading={loading}>
-              Cập nhật
-            </Button>
+            <Button onClick={handleUpdateMaintenance}>Cập nhật</Button>
           </div>
         </div>
       </Modal>

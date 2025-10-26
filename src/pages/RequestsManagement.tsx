@@ -4,7 +4,12 @@ import Input from '../components/ui/input/Input';
 import Modal from '../components/ui/modal/Modal';
 import Table, { TableColumn } from '../components/ui/table/Table';
 import { useRequestsApi } from '../services/requests';
-import { Request, CreateRequestCommand, UpdateRequestCommand, QueryParams } from '../types/api';
+import {
+  Request,
+  CreateRequestCommand,
+  UpdateRequestCommand,
+  PaginationQueryParams,
+} from '../types/api';
 
 const RequestsManagement = () => {
   const {
@@ -25,15 +30,15 @@ const RequestsManagement = () => {
     pageSize: 10,
     total: 0,
   });
-  const [queryParams, setQueryParams] = useState<QueryParams>({
-    Page: 1,
-    PageSize: 10,
+  const [queryParams, setQueryParams] = useState<PaginationQueryParams>({
+    page: 1,
+    pageSize: 10,
   });
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
   const [formData, setFormData] = useState<CreateRequestCommand>({
-    assetId: '',
+    assetId: undefined,
     title: '',
     description: '',
     status: 0,
@@ -52,9 +57,9 @@ const RequestsManagement = () => {
       const response = await getRequests(queryParams);
       setRequests(response.items);
       setPagination({
-        current: response.page,
+        current: response.currentPage,
         pageSize: response.pageSize,
-        total: response.total,
+        total: response.rowCount,
       });
     } catch (err) {
       console.error('Failed to fetch requests:', err);
@@ -66,7 +71,7 @@ const RequestsManagement = () => {
       await createRequest(formData);
       setIsCreateModalOpen(false);
       setFormData({
-        assetId: '',
+        assetId: undefined,
         title: '',
         description: '',
         status: 0,
@@ -88,7 +93,7 @@ const RequestsManagement = () => {
       setIsEditModalOpen(false);
       setSelectedRequest(null);
       setFormData({
-        assetId: '',
+        assetId: undefined,
         title: '',
         description: '',
         status: 0,
@@ -127,7 +132,7 @@ const RequestsManagement = () => {
 
   const handleExportRequests = async () => {
     try {
-      const response = await exportRequests(queryParams);
+      const response = await exportRequests();
       const blob = new Blob([response]);
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -160,11 +165,11 @@ const RequestsManagement = () => {
   };
 
   const handlePageChange = (page: number, pageSize: number) => {
-    setQueryParams({ ...queryParams, Page: page, PageSize: pageSize });
+    setQueryParams({ ...queryParams, page: page, pageSize: pageSize });
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQueryParams({ ...queryParams, Q: e.target.value, Page: 1 });
+    setQueryParams({ ...queryParams, q: e.target.value, page: 1 });
   };
 
   const handleEdit = (request: Request) => {
@@ -187,16 +192,15 @@ const RequestsManagement = () => {
     { key: 'status', title: 'Trạng thái', sortable: true },
     { key: 'category', title: 'Loại', sortable: true },
     { key: 'priority', title: 'Mức độ', sortable: true },
-    { key: 'createdAt', title: 'Ngày tạo', sortable: true },
     {
       key: 'actions' as keyof Request,
       title: 'Thao tác',
       render: (_, record) => (
         <div className="flex space-x-2">
-          <Button variant="secondary" size="sm" onClick={() => handleEdit(record)}>
+          <Button variant="outline" size="sm" onClick={() => handleEdit(record)}>
             Sửa
           </Button>
-          <Button variant="danger" size="sm" onClick={() => handleDeleteRequest(record)}>
+          <Button variant="outline" size="sm" onClick={() => handleDeleteRequest(record)}>
             Xóa
           </Button>
         </div>
@@ -213,7 +217,7 @@ const RequestsManagement = () => {
         <div className="flex flex-col sm:flex-row gap-4 mb-4">
           <Input
             placeholder="Tìm kiếm yêu cầu..."
-            value={queryParams.Q || ''}
+            value={queryParams.q || ''}
             onChange={handleSearch}
             className="flex-1"
           />
@@ -227,7 +231,7 @@ const RequestsManagement = () => {
             </Button>
 
             <label className="relative cursor-pointer">
-              <Button variant="secondary">Tải lên</Button>
+              <Button variant="outline">Tải lên</Button>
               <input
                 type="file"
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
@@ -236,11 +240,11 @@ const RequestsManagement = () => {
               />
             </label>
 
-            <Button variant="secondary" onClick={handleExportRequests}>
+            <Button variant="outline" onClick={handleExportRequests}>
               Xuất
             </Button>
 
-            <Button variant="secondary" onClick={handleDownloadTemplate}>
+            <Button variant="outline" onClick={handleDownloadTemplate}>
               Mẫu
             </Button>
           </div>
@@ -259,7 +263,7 @@ const RequestsManagement = () => {
                 >
                   Tải lên
                 </Button>
-                <Button size="sm" variant="secondary" onClick={() => setFile(null)}>
+                <Button size="sm" variant="outline" onClick={() => setFile(null)}>
                   Hủy
                 </Button>
               </div>
@@ -362,12 +366,10 @@ const RequestsManagement = () => {
           </div>
 
           <div className="flex justify-end space-x-2 pt-4">
-            <Button variant="secondary" onClick={() => setIsCreateModalOpen(false)}>
+            <Button variant="outline" onClick={() => setIsCreateModalOpen(false)}>
               Hủy
             </Button>
-            <Button onClick={handleCreateRequest} loading={loading}>
-              Tạo
-            </Button>
+            <Button onClick={handleCreateRequest}>Tạo</Button>
           </div>
         </div>
       </Modal>
@@ -449,7 +451,7 @@ const RequestsManagement = () => {
 
           <div className="flex justify-end space-x-2 pt-4">
             <Button
-              variant="secondary"
+              variant="outline"
               onClick={() => {
                 setIsEditModalOpen(false);
                 setSelectedRequest(null);
@@ -457,9 +459,7 @@ const RequestsManagement = () => {
             >
               Hủy
             </Button>
-            <Button onClick={handleUpdateRequest} loading={loading}>
-              Cập nhật
-            </Button>
+            <Button onClick={handleUpdateRequest}>Cập nhật</Button>
           </div>
         </div>
       </Modal>

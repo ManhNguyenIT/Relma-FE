@@ -19,12 +19,32 @@ export const useApi = () => {
     }
   }, []);
 
+  const get = useCallback(
+    <T>(url: string, params?: object) => request(() => client.get<T>(url, params)),
+    [request],
+  );
+
+  const post = useCallback(
+    <T>(url: string, data?: object) => request(() => client.post<T>(url, data)),
+    [request],
+  );
+
+  const put = useCallback(
+    <T>(url: string, data?: object) => request(() => client.put<T>(url, data)),
+    [request],
+  );
+
+  const del = useCallback(
+    <T>(url: string, params?: object) => request(() => client.delete<T>(url, params)),
+    [request],
+  );
+
   return {
     loading,
     error,
-    get: <T>(url: string, params?: object) => request(() => client.get<T>(url, params)),
-    post: <T>(url: string, data?: object) => request(() => client.post<T>(url, data)),
-    put: <T>(url: string, data?: object) => request(() => client.put<T>(url, data)),
-    del: <T>(url: string, params?: object) => request(() => client.delete<T>(url, params)),
+    get,
+    post,
+    put,
+    del,
   };
 };

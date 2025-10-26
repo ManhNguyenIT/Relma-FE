@@ -5,13 +5,13 @@ import {
   UpdateRequestCommand,
   DeleteRequestCommand,
   PaginatedResponse,
-  QueryParams,
+  PaginationQueryParams,
 } from '../types/api';
 
 export const useRequestsApi = () => {
   const { get, post, put, del, loading, error } = useApi();
 
-  const getRequests = async (params?: QueryParams) => {
+  const getRequests = async (params?: PaginationQueryParams) => {
     return get<PaginatedResponse<Request>>('/api/v1/requests', { params });
   };
 
@@ -24,7 +24,7 @@ export const useRequestsApi = () => {
   };
 
   const updateRequest = async (data: UpdateRequestCommand) => {
-    return put<string>(`/api/v1/requests/${data.id}`, data);
+    return put<string>('/api/v1/requests', data);
   };
 
   const deleteRequest = async (data: DeleteRequestCommand) => {

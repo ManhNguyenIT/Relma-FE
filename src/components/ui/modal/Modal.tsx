@@ -87,7 +87,7 @@ const Modal = ({
             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               {footerActions || (
                 <div className="flex justify-end space-x-2">
-                  <Button variant="secondary" onClick={onClose}>
+                  <Button variant="outline" onClick={onClose}>
                     Đóng
                   </Button>
                 </div>

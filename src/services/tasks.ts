@@ -5,49 +5,41 @@ import {
   UpdateTaskCommand,
   DeleteTaskCommand,
   PaginatedResponse,
-  QueryParams,
+  PaginationQueryParams,
 } from '../types/api';
 
 export const useTasksApi = () => {
   const { get, post, put, del: deleteApi, loading, error } = useApi();
 
-  const getTasks = async (params?: QueryParams) => {
-    return get<PaginatedResponse<Task>>('/api/v1/tasks', { params });
+  const getTasks = async (params?: PaginationQueryParams) => {
+    return get<PaginatedResponse<Task>>('/api/v1/tasks', params);
   };
 
   const createTask = async (data: CreateTaskCommand) => {
-    return post<Task>('/api/v1/tasks', data);
+    return post<string>('/api/v1/tasks', data);
   };
 
   const updateTask = async (data: UpdateTaskCommand) => {
-    return put<Task>(`/api/v1/tasks/${data.id}`, data);
+    return put<string>(`/api/v1/tasks`, data);
   };
 
-  const deleteTask = async (data: DeleteTaskCommand) => {
-    return deleteApi<Task>('/api/v1/tasks', { data });
+  const deleteTask = async (params: DeleteTaskCommand) => {
+    return deleteApi<Task>('/api/v1/tasks', params);
   };
 
   const uploadTaskFile = async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    return post<Task>('/api/v1/tasks/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    return post<Task>('/api/v1/tasks/upload', formData);
   };
 
   const importTasks = async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    return post<Task>('/api/v1/tasks/import', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    return post<Task>('/api/v1/tasks/import', formData);
   };
 
-  const exportTasks = async (params?: QueryParams) => {
+  const exportTasks = async (params?: PaginationQueryParams) => {
     return get<Blob>('/api/v1/tasks/export', { params, responseType: 'blob' });
   };
 

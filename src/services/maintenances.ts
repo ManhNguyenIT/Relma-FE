@@ -5,13 +5,13 @@ import {
   UpdateMaintenanceCommand,
   DeleteMaintenanceCommand,
   PaginatedResponse,
-  QueryParams,
+  PaginationQueryParams,
 } from '../types/api';
 
 export const useMaintenancesApi = () => {
   const { get, post, put, del, loading, error } = useApi();
 
-  const getMaintenances = async (params?: QueryParams) => {
+  const getMaintenances = async (params?: PaginationQueryParams) => {
     return get<PaginatedResponse<Maintenance>>('/api/v1/maintenances', { params });
   };
 
@@ -20,7 +20,7 @@ export const useMaintenancesApi = () => {
   };
 
   const updateMaintenance = async (data: UpdateMaintenanceCommand) => {
-    return put<string>(`/api/v1/maintenances/${data.id}`, data);
+    return put<string>('/api/v1/maintenances', data);
   };
 
   const deleteMaintenance = async (data: DeleteMaintenanceCommand) => {

@@ -5,13 +5,13 @@ import {
   UpdateStorageCommand,
   DeleteStorageCommand,
   PaginatedResponse,
-  QueryParams,
+  PaginationQueryParams,
 } from '../types/api';
 
 export const useStoragesApi = () => {
   const { get, post, put, del, loading, error } = useApi();
 
-  const getStorages = async (params?: QueryParams) => {
+  const getStorages = async (params?: PaginationQueryParams) => {
     return get<PaginatedResponse<Storage>>('/api/v1/storages', { params });
   };
 
@@ -20,7 +20,7 @@ export const useStoragesApi = () => {
   };
 
   const updateStorage = async (data: UpdateStorageCommand) => {
-    return put<string>(`/api/v1/storages/${data.id}`, data);
+    return put<string>('/api/v1/storages', data);
   };
 
   const deleteStorage = async (data: DeleteStorageCommand) => {

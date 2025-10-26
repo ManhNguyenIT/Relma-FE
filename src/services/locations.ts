@@ -1,37 +1,51 @@
+import { useCallback } from 'react';
 import { useApi } from '../hooks/useApi';
 import {
   Location,
   CreateLocationCommand,
   UpdateLocationCommand,
-  DeleteLocationCommand,
   PaginatedResponse,
-  QueryParams,
+  PaginationQueryParams,
 } from '../types/api';
 
 export const useLocationsApi = () => {
   const { get, post, put, del: deleteApi, loading, error } = useApi();
 
-  const getLocations = async (params?: QueryParams) => {
-    return get<PaginatedResponse<Location>>('/api/v1/locations', { params });
-  };
+  const getLocations = useCallback(
+    async (params?: PaginationQueryParams) => {
+      return get<PaginatedResponse<Location>>('/api/v1/locations', params);
+    },
+    [get],
+  );
 
-  const createLocation = async (data: CreateLocationCommand) => {
-    return post<string>('/api/v1/locations', data);
-  };
+  const createLocation = useCallback(
+    async (data: CreateLocationCommand) => {
+      return post<string>('/api/v1/locations', data);
+    },
+    [post],
+  );
 
-  const updateLocation = async (data: UpdateLocationCommand) => {
-    return put<string>(`/api/v1/locations/${data.id}`, data);
-  };
+  const updateLocation = useCallback(
+    async (data: UpdateLocationCommand) => {
+      const { id, ...updateData } = data;
+      return put<string>(`/api/v1/locations/${id}`, updateData);
+    },
+    [put],
+  );
 
-  const deleteLocation = async (data: DeleteLocationCommand) => {
-    return deleteApi<boolean>('/api/v1/locations', { data });
-  };
+  const deleteLocations = useCallback(
+    async (ids: string[]) => {
+      console.log('🔧 Delete API call with ids:', ids);
+      return deleteApi<boolean>('/api/v1/locations', { ids: ids.join(',') });
+    },
+    [deleteApi],
+  );
 
   return {
     getLocations,
     createLocation,
     updateLocation,
-    deleteLocation,
+    deleteLocations,
     loading,
     error,
   };

@@ -1,10 +1,10 @@
 import { useApi } from '../hooks/useApi';
-import { User, PaginatedResponse, QueryParams } from '../types/api';
+import { User, PaginatedResponse, PaginationQueryParams } from '../types/api';
 
 export const useUsersApi = () => {
   const { get, post, del, loading, error } = useApi();
 
-  const getUsers = async (params?: QueryParams) => {
+  const getUsers = async (params?: PaginationQueryParams) => {
     return get<PaginatedResponse<User>>('/api/v1/users', { params });
   };
 

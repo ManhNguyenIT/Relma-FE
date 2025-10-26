@@ -8,11 +8,7 @@ export const useFilesApi = () => {
     files.forEach((file) => {
       formData.append('files', file);
     });
-    return post('/api/v1/files/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    return post('/api/v1/files/upload', formData);
   };
 
   const downloadFiles = async (fileName: string, ids: string[]) => {

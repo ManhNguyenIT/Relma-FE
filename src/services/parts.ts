@@ -5,13 +5,13 @@ import {
   UpdatePartCommand,
   DeletePartCommand,
   PaginatedResponse,
-  QueryParams,
+  PaginationQueryParams,
 } from '../types/api';
 
 export const usePartsApi = () => {
   const { get, post, put, del, loading, error } = useApi();
 
-  const getParts = async (params?: QueryParams) => {
+  const getParts = async (params?: PaginationQueryParams) => {
     return get<PaginatedResponse<Part>>('/api/v1/parts', { params });
   };
 
@@ -20,7 +20,7 @@ export const usePartsApi = () => {
   };
 
   const updatePart = async (data: UpdatePartCommand) => {
-    return put<string>(`/api/v1/parts/${data.id}`, data);
+    return put<string>('/api/v1/parts', data);
   };
 
   const deletePart = async (data: DeletePartCommand) => {

@@ -4,14 +4,12 @@ import Input from '../components/ui/input/Input';
 import Modal from '../components/ui/modal/Modal';
 import Table, { TableColumn } from '../components/ui/table/Table';
 import useMaterialsApi from '../services/materials';
-import { Material, CreateMaterialCommand, UpdateMaterialCommand, QueryParams } from '../types/api';
-
-interface ApiResponse<T> {
-  data: T;
-  page: number;
-  pageSize: number;
-  total: number;
-}
+import {
+  Material,
+  CreateMaterialCommand,
+  UpdateMaterialCommand,
+  PaginationQueryParams,
+} from '../types/api';
 
 interface ApiError {
   message: string;
@@ -22,11 +20,10 @@ const MaterialsManagement = () => {
     getMaterials,
     createMaterial,
     updateMaterial,
-    deleteMaterial,
     uploadMaterialFile,
+    deleteMaterials,
     exportMaterials,
     getMaterialTemplate,
-    loading,
     error,
   } = useMaterialsApi();
 
@@ -36,9 +33,9 @@ const MaterialsManagement = () => {
     pageSize: 10,
     total: 0,
   });
-  const [queryParams, setQueryParams] = useState<QueryParams>({
-    Page: 1,
-    PageSize: 10,
+  const [queryParams, setQueryParams] = useState<PaginationQueryParams>({
+    page: 1,
+    pageSize: 10,
   });
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -59,17 +56,12 @@ const MaterialsManagement = () => {
 
   const fetchMaterials = async () => {
     try {
-      const response = (await getMaterials(queryParams)) as ApiResponse<{
-        items: Material[];
-        page: number;
-        pageSize: number;
-        total: number;
-      }>;
-      setMaterials(response.data.items);
+      const response = await getMaterials(queryParams);
+      setMaterials(response.items);
       setPagination({
-        current: response.data.page,
-        pageSize: response.data.pageSize,
-        total: response.data.total,
+        current: response.currentPage,
+        pageSize: response.pageSize,
+        total: response.rowCount,
       });
     } catch (err) {
       console.error('Failed to fetch materials:', err);
@@ -119,7 +111,7 @@ const MaterialsManagement = () => {
     if (!window.confirm('Bạn có chắc chắn muốn xóa vật tư này?')) return;
 
     try {
-      await deleteMaterial({ ids: [material.id] });
+      await deleteMaterials({ ids: [material.id] });
       fetchMaterials();
     } catch (err) {
       console.error('Failed to delete material:', err);
@@ -140,8 +132,8 @@ const MaterialsManagement = () => {
 
   const handleExportMaterials = async () => {
     try {
-      const response = (await exportMaterials(queryParams)) as ApiResponse<Blob>;
-      const blob = new Blob([response.data], {
+      const response = await exportMaterials('');
+      const blob = new Blob([response], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
       const url = window.URL.createObjectURL(blob);
@@ -159,8 +151,8 @@ const MaterialsManagement = () => {
 
   const handleDownloadTemplate = async () => {
     try {
-      const response = (await getMaterialTemplate()) as ApiResponse<Blob>;
-      const blob = new Blob([response.data], {
+      const response = await getMaterialTemplate('');
+      const blob = new Blob([response], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
       const url = window.URL.createObjectURL(blob);
@@ -177,11 +169,11 @@ const MaterialsManagement = () => {
   };
 
   const handlePageChange = (page: number, pageSize: number) => {
-    setQueryParams({ ...queryParams, Page: page, PageSize: pageSize });
+    setQueryParams({ ...queryParams, page: page, pageSize: pageSize });
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQueryParams({ ...queryParams, Q: e.target.value, Page: 1 });
+    setQueryParams({ ...queryParams, q: e.target.value, page: 1 });
   };
 
   const handleEdit = (material: Material) => {
@@ -192,7 +184,7 @@ const MaterialsManagement = () => {
       status: material.status || 0,
       description: material.description || '',
       images: material.images || [],
-      parts: material.parts || [],
+      parts: material.parts?.map((part) => part.id) || [],
     });
     setIsEditModalOpen(true);
   };
@@ -202,16 +194,15 @@ const MaterialsManagement = () => {
     { key: 'code', title: 'Mã vật tư', sortable: true },
     { key: 'status', title: 'Trạng thái', sortable: true },
     { key: 'description', title: 'Mô tả', sortable: true },
-    { key: 'createdAt', title: 'Ngày tạo', sortable: true },
     {
       key: 'actions' as keyof Material,
       title: 'Thao tác',
       render: (_, record) => (
         <div className="flex space-x-2">
-          <Button variant="secondary" size="sm" onClick={() => handleEdit(record)}>
+          <Button variant="outline" size="sm" onClick={() => handleEdit(record)}>
             Sửa
           </Button>
-          <Button variant="danger" size="sm" onClick={() => handleDeleteMaterial(record)}>
+          <Button variant="outline" size="sm" onClick={() => handleDeleteMaterial(record)}>
             Xóa
           </Button>
         </div>
@@ -228,7 +219,7 @@ const MaterialsManagement = () => {
         <div className="flex flex-col sm:flex-row gap-4 mb-4">
           <Input
             placeholder="Tìm kiếm vật tư..."
-            value={queryParams.Q || ''}
+            value={queryParams.q || ''}
             onChange={handleSearch}
             className="flex-1"
           />
@@ -242,7 +233,7 @@ const MaterialsManagement = () => {
             </Button>
 
             <label className="relative cursor-pointer">
-              <Button variant="secondary">Tải lên</Button>
+              <Button variant="outline">Tải lên</Button>
               <input
                 type="file"
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
@@ -251,11 +242,11 @@ const MaterialsManagement = () => {
               />
             </label>
 
-            <Button variant="secondary" onClick={handleExportMaterials}>
+            <Button variant="outline" onClick={handleExportMaterials}>
               Xuất
             </Button>
 
-            <Button variant="secondary" onClick={handleDownloadTemplate}>
+            <Button variant="outline" onClick={handleDownloadTemplate}>
               Mẫu
             </Button>
           </div>
@@ -274,7 +265,7 @@ const MaterialsManagement = () => {
                 >
                   Tải lên
                 </Button>
-                <Button size="sm" variant="secondary" onClick={() => setFile(null)}>
+                <Button size="sm" variant="outline" onClick={() => setFile(null)}>
                   Hủy
                 </Button>
               </div>
@@ -294,7 +285,6 @@ const MaterialsManagement = () => {
       <Table
         data={materials as unknown as Record<string, unknown>[]}
         columns={columns as unknown as TableColumn<Record<string, unknown>>[]}
-        loading={loading}
         pagination={{
           current: pagination.current,
           pageSize: pagination.pageSize,
@@ -327,12 +317,10 @@ const MaterialsManagement = () => {
           />
 
           <div className="flex justify-end space-x-2 pt-4">
-            <Button variant="secondary" onClick={() => setIsCreateModalOpen(false)}>
+            <Button variant="outline" onClick={() => setIsCreateModalOpen(false)}>
               Hủy
             </Button>
-            <Button onClick={handleCreateMaterial} loading={loading}>
-              Tạo
-            </Button>
+            <Button onClick={handleCreateMaterial}>Tạo</Button>
           </div>
         </div>
       </Modal>
@@ -364,7 +352,7 @@ const MaterialsManagement = () => {
 
           <div className="flex justify-end space-x-2 pt-4">
             <Button
-              variant="secondary"
+              variant="outline"
               onClick={() => {
                 setIsEditModalOpen(false);
                 setSelectedMaterial(null);
@@ -372,9 +360,7 @@ const MaterialsManagement = () => {
             >
               Hủy
             </Button>
-            <Button onClick={handleUpdateMaterial} loading={loading}>
-              Cập nhật
-            </Button>
+            <Button onClick={handleUpdateMaterial}>Cập nhật</Button>
           </div>
         </div>
       </Modal>

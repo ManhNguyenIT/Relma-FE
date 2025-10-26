@@ -4,10 +4,15 @@ import Input from '../components/ui/input/Input';
 import Modal from '../components/ui/modal/Modal';
 import Table, { TableColumn } from '../components/ui/table/Table';
 import useLocationsApi from '../services/locations';
-import { Location, CreateLocationCommand, UpdateLocationCommand, QueryParams } from '../types/api';
+import {
+  Location,
+  CreateLocationCommand,
+  UpdateLocationCommand,
+  PaginationQueryParams,
+} from '../types/api';
 
 const LocationsManagement = () => {
-  const { getLocations, createLocation, updateLocation, deleteLocation, loading, error } =
+  const { getLocations, createLocation, updateLocation, deleteLocations, error } =
     useLocationsApi();
 
   const [locations, setLocations] = useState<Location[]>([]);
@@ -16,9 +21,9 @@ const LocationsManagement = () => {
     pageSize: 10,
     total: 0,
   });
-  const [queryParams, setQueryParams] = useState<QueryParams>({
-    Page: 1,
-    PageSize: 10,
+  const [queryParams, setQueryParams] = useState<PaginationQueryParams>({
+    page: 1,
+    pageSize: 10,
   });
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -34,11 +39,11 @@ const LocationsManagement = () => {
   const fetchLocations = async () => {
     try {
       const response = await getLocations(queryParams);
-      setLocations(response.data.items);
+      setLocations(response.items || []);
       setPagination({
-        current: response.data.page,
-        pageSize: response.data.pageSize,
-        total: response.data.total,
+        current: response.currentPage || 1,
+        pageSize: response.pageSize || 10,
+        total: response.rowCount || 0,
       });
     } catch (err) {
       console.error('Failed to fetch locations:', err);
@@ -78,7 +83,7 @@ const LocationsManagement = () => {
     if (!window.confirm('Bạn có chắc chắn muốn xóa vị trí này?')) return;
 
     try {
-      await deleteLocation({ ids: [location.id] });
+      await deleteLocations([location.id]);
       fetchLocations();
     } catch (err) {
       console.error('Failed to delete location:', err);
@@ -86,11 +91,11 @@ const LocationsManagement = () => {
   };
 
   const handlePageChange = (page: number, pageSize: number) => {
-    setQueryParams({ ...queryParams, Page: page, PageSize: pageSize });
+    setQueryParams({ ...queryParams, page: page, pageSize: pageSize });
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQueryParams({ ...queryParams, Q: e.target.value, Page: 1 });
+    setQueryParams({ ...queryParams, q: e.target.value, page: 1 });
   };
 
   const handleEdit = (location: Location) => {
@@ -103,16 +108,16 @@ const LocationsManagement = () => {
 
   const columns: TableColumn<Location>[] = [
     { key: 'name', title: 'Tên vị trí', sortable: true },
-    { key: 'createdAt', title: 'Ngày tạo', sortable: true },
+    { key: 'id', title: 'ID', sortable: true },
     {
       key: 'actions' as keyof Location,
       title: 'Thao tác',
       render: (_, record) => (
         <div className="flex space-x-2">
-          <Button variant="secondary" size="sm" onClick={() => handleEdit(record)}>
+          <Button variant="outline" size="sm" onClick={() => handleEdit(record)}>
             Sửa
           </Button>
-          <Button variant="danger" size="sm" onClick={() => handleDeleteLocation(record)}>
+          <Button variant="outline" size="sm" onClick={() => handleDeleteLocation(record)}>
             Xóa
           </Button>
         </div>
@@ -129,7 +134,7 @@ const LocationsManagement = () => {
         <div className="flex flex-col sm:flex-row gap-4 mb-4">
           <Input
             placeholder="Tìm kiếm vị trí..."
-            value={queryParams.Q || ''}
+            value={queryParams.q || ''}
             onChange={handleSearch}
             className="flex-1"
           />
@@ -156,7 +161,6 @@ const LocationsManagement = () => {
       <Table
         data={locations as unknown as Record<string, unknown>[]}
         columns={columns as unknown as TableColumn<Record<string, unknown>>[]}
-        loading={loading}
         pagination={{
           current: pagination.current,
           pageSize: pagination.pageSize,
@@ -182,12 +186,10 @@ const LocationsManagement = () => {
           />
 
           <div className="flex justify-end space-x-2 pt-4">
-            <Button variant="secondary" onClick={() => setIsCreateModalOpen(false)}>
+            <Button variant="outline" onClick={() => setIsCreateModalOpen(false)}>
               Hủy
             </Button>
-            <Button onClick={handleCreateLocation} loading={loading}>
-              Tạo
-            </Button>
+            <Button onClick={handleCreateLocation}>Tạo</Button>
           </div>
         </div>
       </Modal>
@@ -212,7 +214,7 @@ const LocationsManagement = () => {
 
           <div className="flex justify-end space-x-2 pt-4">
             <Button
-              variant="secondary"
+              variant="outline"
               onClick={() => {
                 setIsEditModalOpen(false);
                 setSelectedLocation(null);
@@ -220,9 +222,7 @@ const LocationsManagement = () => {
             >
               Hủy
             </Button>
-            <Button onClick={handleUpdateLocation} loading={loading}>
-              Cập nhật
-            </Button>
+            <Button onClick={handleUpdateLocation}>Cập nhật</Button>
           </div>
         </div>
       </Modal>

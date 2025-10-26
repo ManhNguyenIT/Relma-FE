@@ -4,18 +4,16 @@ import Input from '../components/ui/input/Input';
 import Modal from '../components/ui/modal/Modal';
 import Table, { TableColumn } from '../components/ui/table/Table';
 import useAssetsApi from '../services/assets';
-import { Asset, CreateAssetCommand, UpdateAssetCommand, QueryParams } from '../types/api';
+import { Asset, CreateAssetCommand, UpdateAssetCommand, PaginationQueryParams } from '../types/api';
 
 const AssetsManagement = () => {
   const {
     getAssets,
     createAsset,
     updateAsset,
-    deleteAsset,
     uploadAssetFile,
     exportAssets,
     getAssetTemplate,
-    loading,
     error,
   } = useAssetsApi();
 
@@ -25,9 +23,9 @@ const AssetsManagement = () => {
     pageSize: 10,
     total: 0,
   });
-  const [queryParams, setQueryParams] = useState<QueryParams>({
-    Page: 1,
-    PageSize: 10,
+  const [queryParams, setQueryParams] = useState<PaginationQueryParams>({
+    page: 1,
+    pageSize: 10,
   });
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -48,16 +46,16 @@ const AssetsManagement = () => {
 
   useEffect(() => {
     fetchAssets();
-  }, [queryParams]);
+  });
 
   const fetchAssets = async () => {
     try {
       const response = await getAssets(queryParams);
-      setAssets(response.data.items);
+      setAssets(response.items);
       setPagination({
-        current: response.data.page,
-        pageSize: response.data.pageSize,
-        total: response.data.total,
+        current: response.currentPage,
+        pageSize: response.pageSize,
+        total: response.rowCount,
       });
     } catch (err) {
       console.error('Failed to fetch assets:', err);
@@ -113,9 +111,9 @@ const AssetsManagement = () => {
 
   const handleDeleteAsset = async (asset: Asset) => {
     if (!window.confirm('Bạn có chắc chắn muốn xóa tài sản này?')) return;
-
+    console.log(asset);
     try {
-      await deleteAsset({ id: asset.id });
+      deleteAssets();
       fetchAssets();
     } catch (err) {
       console.error('Failed to delete asset:', err);
@@ -137,7 +135,7 @@ const AssetsManagement = () => {
   const handleExportAssets = async () => {
     try {
       const response = await exportAssets(queryParams);
-      const blob = new Blob([response.data], {
+      const blob = new Blob([response], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
       const url = window.URL.createObjectURL(blob);
@@ -156,7 +154,7 @@ const AssetsManagement = () => {
   const handleDownloadTemplate = async () => {
     try {
       const response = await getAssetTemplate();
-      const blob = new Blob([response.data], {
+      const blob = new Blob([response], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
       const url = window.URL.createObjectURL(blob);
@@ -173,11 +171,11 @@ const AssetsManagement = () => {
   };
 
   const handlePageChange = (page: number, pageSize: number) => {
-    setQueryParams({ ...queryParams, Page: page, PageSize: pageSize });
+    setQueryParams({ ...queryParams, page: page, pageSize: pageSize });
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQueryParams({ ...queryParams, Q: e.target.value, Page: 1 });
+    setQueryParams({ ...queryParams, q: e.target.value, page: 1 });
   };
 
   const handleEdit = (asset: Asset) => {
@@ -206,13 +204,12 @@ const AssetsManagement = () => {
     { key: 'manufacturerId', title: 'Nhà sản xuất', sortable: true },
     { key: 'barcode', title: 'Mã vạch', sortable: true },
     { key: 'area', title: 'Khu vực', sortable: true },
-    { key: 'createdAt', title: 'Ngày tạo', sortable: true },
     {
       key: 'actions' as keyof Asset,
       title: 'Thao tác',
       render: (_, record) => (
         <div className="flex space-x-2">
-          <Button variant="secondary" size="sm" onClick={() => handleEdit(record)}>
+          <Button variant="outline" size="sm" onClick={() => handleEdit(record)}>
             Sửa
           </Button>
           <Button variant="danger" size="sm" onClick={() => handleDeleteAsset(record)}>
@@ -232,7 +229,7 @@ const AssetsManagement = () => {
         <div className="flex flex-col sm:flex-row gap-4 mb-4">
           <Input
             placeholder="Tìm kiếm tài sản..."
-            value={queryParams.Q || ''}
+            value={queryParams.q || ''}
             onChange={handleSearch}
             className="flex-1"
           />
@@ -246,7 +243,7 @@ const AssetsManagement = () => {
             </Button>
 
             <label className="relative cursor-pointer">
-              <Button variant="secondary">Tải lên</Button>
+              <Button variant="outline">Tải lên</Button>
               <input
                 type="file"
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
@@ -255,11 +252,11 @@ const AssetsManagement = () => {
               />
             </label>
 
-            <Button variant="secondary" onClick={handleExportAssets}>
+            <Button variant="outline" onClick={handleExportAssets}>
               Xuất
             </Button>
 
-            <Button variant="secondary" onClick={handleDownloadTemplate}>
+            <Button variant="outline" onClick={handleDownloadTemplate}>
               Mẫu
             </Button>
           </div>
@@ -278,7 +275,7 @@ const AssetsManagement = () => {
                 >
                   Tải lên
                 </Button>
-                <Button size="sm" variant="secondary" onClick={() => setFile(null)}>
+                <Button size="sm" variant="outline" onClick={() => setFile(null)}>
                   Hủy
                 </Button>
               </div>
@@ -298,7 +295,6 @@ const AssetsManagement = () => {
       <Table
         data={assets as unknown as Record<string, unknown>[]}
         columns={columns as unknown as TableColumn<Record<string, unknown>>[]}
-        loading={loading}
         pagination={{
           current: pagination.current,
           pageSize: pagination.pageSize,
@@ -373,12 +369,10 @@ const AssetsManagement = () => {
           />
 
           <div className="flex justify-end space-x-2 pt-4">
-            <Button variant="secondary" onClick={() => setIsCreateModalOpen(false)}>
+            <Button variant="outline" onClick={() => setIsCreateModalOpen(false)}>
               Hủy
             </Button>
-            <Button onClick={handleCreateAsset} loading={loading}>
-              Tạo
-            </Button>
+            <Button onClick={handleCreateAsset}>Tạo</Button>
           </div>
         </div>
       </Modal>
@@ -452,7 +446,7 @@ const AssetsManagement = () => {
 
           <div className="flex justify-end space-x-2 pt-4">
             <Button
-              variant="secondary"
+              variant="outline"
               onClick={() => {
                 setIsEditModalOpen(false);
                 setSelectedAsset(null);
@@ -460,9 +454,7 @@ const AssetsManagement = () => {
             >
               Hủy
             </Button>
-            <Button onClick={handleUpdateAsset} loading={loading}>
-              Cập nhật
-            </Button>
+            <Button onClick={handleUpdateAsset}>Cập nhật</Button>
           </div>
         </div>
       </Modal>
@@ -471,3 +463,6 @@ const AssetsManagement = () => {
 };
 
 export default AssetsManagement;
+function deleteAssets() {
+  throw new Error('Function not implemented.');
+}

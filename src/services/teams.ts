@@ -5,13 +5,13 @@ import {
   UpdateTeamCommand,
   DeleteTeamCommand,
   PaginatedResponse,
-  QueryParams,
+  PaginationQueryParams,
 } from '../types/api';
 
 export const useTeamsApi = () => {
   const { get, post, put, del: deleteApi, loading, error } = useApi();
 
-  const getTeams = async (params?: QueryParams) => {
+  const getTeams = async (params?: PaginationQueryParams) => {
     return get<PaginatedResponse<Team>>('/api/v1/teams', { params });
   };
 
@@ -20,7 +20,7 @@ export const useTeamsApi = () => {
   };
 
   const updateTeam = async (data: UpdateTeamCommand) => {
-    return put<Team>(`/api/v1/teams/${data.id}`, data);
+    return put<Team>('/api/v1/teams', data);
   };
 
   const deleteTeam = async (data: DeleteTeamCommand) => {
@@ -30,24 +30,16 @@ export const useTeamsApi = () => {
   const uploadTeamFile = async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    return post<Team>('/api/v1/teams/upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    return post<Team>('/api/v1/teams/upload', formData);
   };
 
   const importTeams = async (file: File) => {
     const formData = new FormData();
     formData.append('file', file);
-    return post<Team>('/api/v1/teams/import', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    return post<Team>('/api/v1/teams/import', formData);
   };
 
-  const exportTeams = async (params?: QueryParams) => {
+  const exportTeams = async (params?: PaginationQueryParams) => {
     return get<Blob>('/api/v1/teams/export', { params, responseType: 'blob' });
   };
 

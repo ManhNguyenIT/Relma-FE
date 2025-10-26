@@ -1,15 +1,13 @@
+import { useState, useEffect } from 'react';
 import Label from '../form/Label';
 import { Modal } from '../ui/modal';
 import Select from '../form/Select';
 import { GoPlus } from 'react-icons/go';
 import Input from '../form/input/InputField';
-import TextArea from '../form/input/TextArea';
-import { RxDragHandleDots2 } from 'react-icons/rx';
-
-import { HiOutlineDotsVertical } from 'react-icons/hi';
-import { MinusIcon } from '../../icons';
 
 import TaskPreview from '../checklist/TaskPreview';
+import { useChecklistsApi } from '../../services/checklists';
+import { ChecklistResponse, UpdateChecklistCommand, Task } from '../../types/api';
 
 interface OptionType {
   value: string;
@@ -19,9 +17,57 @@ interface OptionType {
 interface ModalEditCheckListProps {
   isOpen: boolean;
   onClose: () => void;
+  checklist?: ChecklistResponse | null;
+  onChecklistUpdated?: () => void;
 }
 
-export default function ModalEditCheckList({ isOpen, onClose }: ModalEditCheckListProps) {
+export default function ModalEditCheckList({
+  isOpen,
+  onClose,
+  checklist,
+  onChecklistUpdated,
+}: ModalEditCheckListProps) {
+  const { updateChecklist, loading } = useChecklistsApi();
+
+  const [formData, setFormData] = useState<UpdateChecklistCommand>({
+    id: '',
+    name: '',
+    description: '',
+    workOrderId: undefined,
+    tasks: [],
+  });
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Load checklist data when modal opens
+  useEffect(() => {
+    if (checklist && isOpen) {
+      console.log('📋 Loading checklist data:', checklist);
+      console.log('📋 Checklist tasks:', checklist.tasks);
+      console.log('📋 Checklist tags:', checklist.tags);
+      console.log(
+        '📋 Checklist workOrderId:',
+        checklist.workOrderId,
+        'type:',
+        typeof checklist.workOrderId,
+      );
+
+      setFormData({
+        id: checklist.id,
+        name: checklist.name || '',
+        description: checklist.description || '',
+        workOrderId: checklist.workOrderId,
+        tasks: checklist.tasks?.map((task) => task.id) || [],
+      });
+      setTasks(checklist.tasks || []);
+      setSelectedTags(checklist.tags || []); // Load tags from checklist
+
+      console.log('📋 Tasks set to:', checklist.tasks || []);
+      console.log('📋 Tags set to:', checklist.tags || []);
+    }
+  }, [checklist, isOpen]);
+
   const options12: OptionType[] = [
     { value: 'tranlinh', label: 'Trần Linh' },
     { value: 'template', label: 'A' },
@@ -30,6 +76,99 @@ export default function ModalEditCheckList({ isOpen, onClose }: ModalEditCheckLi
 
   const handleSelectChange12 = (value: string) => {
     console.log('Selected value:', value);
+  };
+
+  const handleInputChange =
+    (field: keyof UpdateChecklistCommand) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      setFormData((prev) => ({
+        ...prev,
+        [field]: e.target.value,
+      }));
+    };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+  };
+
+  const handleConfirm = async () => {
+    if (!formData.name?.trim()) {
+      alert('Please enter a checklist name');
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      const updateData = {
+        ...formData,
+        tasks: tasks.map((task) => task.id),
+        tags: selectedTags,
+      };
+
+      // Filter out undefined values
+      const filteredUpdateData = Object.fromEntries(
+        Object.entries(updateData).filter(([, value]) => value !== undefined),
+      ) as unknown as UpdateChecklistCommand;
+
+      console.log('📝 Updating checklist with data:', updateData);
+      console.log('📝 Filtered data:', filteredUpdateData);
+      console.log(
+        '📝 workOrderId value:',
+        updateData.workOrderId,
+        'type:',
+        typeof updateData.workOrderId,
+      );
+      console.log(
+        '📝 formData.workOrderId:',
+        formData.workOrderId,
+        'type:',
+        typeof formData.workOrderId,
+      );
+
+      const result = await updateChecklist(filteredUpdateData);
+      console.log('✅ Checklist updated successfully:', result);
+
+      // Reset form
+      setFormData({
+        id: '',
+        name: '',
+        description: '',
+        workOrderId: undefined,
+        tasks: [],
+      });
+      setTasks([]);
+      setSelectedTags([]);
+
+      // Close modal
+      onClose();
+
+      // Notify parent to refresh checklist list
+      if (onChecklistUpdated) {
+        onChecklistUpdated();
+      }
+
+      // Show success message
+      alert('Checklist updated successfully!');
+    } catch (error) {
+      console.error('❌ Failed to update checklist:', error);
+      alert('Failed to update checklist. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setFormData({
+      id: '',
+      name: '',
+      description: '',
+      workOrderId: undefined,
+      tasks: [],
+    });
+    setTasks([]);
+    setSelectedTags([]);
+    onClose();
   };
 
   return (
@@ -42,18 +181,28 @@ export default function ModalEditCheckList({ isOpen, onClose }: ModalEditCheckLi
         </div>
         <div className="w-full border-b border-[#F3F3F3]" />
 
-        <form className="flex flex-col">
+        <form className="flex flex-col" onSubmit={handleFormSubmit}>
           <div className="custom-scrollbar overflow-y-auto px-2 pb-3">
             <div className="mt-7 grid grid-cols-1 gap-3 md:flex items-center w-full md:gap-3">
               <div className="flex-1">
                 <div className="flex flex-col items-center md:gap-3 gap-3 w-full mx-auto md:max-w-xl">
                   <div className="w-full">
                     <Label>Name</Label>
-                    <Input />
+                    <Input
+                      value={formData.name || ''}
+                      onChange={handleInputChange('name')}
+                      placeholder="Enter checklist name"
+                    />
                   </div>
                   <div className="w-full">
-                    <Label>Description </Label>
-                    <TextArea />
+                    <Label>Description</Label>
+                    <textarea
+                      value={formData.description || ''}
+                      onChange={handleInputChange('description')}
+                      placeholder="Enter checklist description"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      rows={3}
+                    />
                   </div>
                   <div className="w-full">
                     <Label>Tags</Label>
@@ -73,54 +222,34 @@ export default function ModalEditCheckList({ isOpen, onClose }: ModalEditCheckLi
                       Add Task
                     </button>
                   </div>
-                  <div className="flex items-center w-full border rounded-lg overflow-hidden">
-                    <div className="flex items-center px-3 border-r">
-                      <RxDragHandleDots2 className="text-gray-400 cursor-move mr-2" size={18} />
-                      <span className="text-sm font-medium">1</span>
-                    </div>
-
-                    <div className="w-full flex items-center justify-between p-1">
-                      <div className="border border-[#C2C2C2] px-[8px] py-[16px] bg-white rounded-[16px]  ">
-                        <input
-                          type="text"
-                          defaultValue="Nhìn bên ngoài máy xem thế nào"
-                          className="flex-1 px-3 py-2 outline-none border-none"
-                        />
-                      </div>
-
-                      <a href="#" className="text-blue-600 font-medium whitespace-nowrap px-3">
-                        Sub-task Status
-                      </a>
-
-                      <button className="p-2 hover:bg-gray-100 rounded-full" type="button">
-                        <MinusIcon className="text-gray-600" />
-                      </button>
-
-                      <button className="p-2 hover:bg-gray-100 rounded-full" type="button">
-                        <HiOutlineDotsVertical className="text-gray-500" size={18} />
-                      </button>
-                    </div>
-                  </div>
                 </div>
               </div>
               <div className="flex-1 w-full mx-auto">
-                <TaskPreview />
+                <TaskPreview
+                  key={checklist?.id || 'new'}
+                  tasks={checklist?.tasks || []}
+                  onTasksChange={setTasks}
+                />
               </div>
             </div>
 
             <div className="w-full flex items-center justify-end gap-2 md:gap-4 md:mt-3 mt-3">
               <button
                 type="button"
-                onClick={onClose}
+                onClick={handleCancel}
                 className="bg-white px-2 py-2 rounded border border-gray-300"
               >
                 Cancel
               </button>
               <button
-                className="border border-[#1677FF] bg-[#1677FF] text-white flex items-center justify-center px-2 py-2 rounded-[4px]"
+                className={`border border-[#1677FF] bg-[#1677FF] text-white flex items-center justify-center px-2 py-2 rounded-[4px] hover:bg-[#0d5bb8] ${
+                  isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
                 type="button"
+                onClick={handleConfirm}
+                disabled={isSubmitting || loading}
               >
-                Save Checklist
+                {isSubmitting || loading ? 'Updating...' : 'Save Checklist'}
               </button>
             </div>
           </div>
