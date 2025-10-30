@@ -1,11 +1,14 @@
 import { PlusOutlinedIcon, MoreIcon, ScanIcon } from '../../icons';
-
 import { useModal } from '../../hooks/useModal';
 import ModalQr from '../modal/ModalQr';
 import ModalCreateRequest from '../modal/ModalCreateRequest';
 import ModalScanQr from '../modal/ModalScanQr';
 
-export default function RequestHeader() {
+interface RequestHeaderProps {
+  onRequestCreated?: () => void;
+}
+
+export default function RequestHeader({ onRequestCreated }: RequestHeaderProps) {
   const { isOpen: isModalQrOpen, openModal: openModalQr, closeModal: closeModalQr } = useModal();
   const {
     isOpen: isModalCreateRequestOpen,
@@ -18,17 +21,27 @@ export default function RequestHeader() {
     closeModal: closeModalScanQr,
   } = useModal();
 
+  const handleCreateRequest = () => {
+    openModalCreateRequest();
+  };
+
+  const handleRequestCreated = () => {
+    if (onRequestCreated) {
+      onRequestCreated();
+    }
+  };
+
   return (
     <div>
       <div className="w-full flex items-center justify-between">
         <div>Requests</div>
         <div className="flex items-center md:gap-10 gap-5">
           <button
-            onClick={openModalCreateRequest}
+            onClick={handleCreateRequest}
             className="flex items-center gap-2 justify-center text-white bg-[#1677ff] px-2 py-2 rounded-[8px] hover:bg-blue-light-300 cursor-pointer"
           >
             <PlusOutlinedIcon />
-            <p>Creater Request</p>
+            <p>Create Request</p>
           </button>
 
           <div className="cursor-pointer">
@@ -40,7 +53,11 @@ export default function RequestHeader() {
         </div>
       </div>
       <ModalQr isOpen={isModalQrOpen} onClose={closeModalQr} />
-      <ModalCreateRequest isOpen={isModalCreateRequestOpen} onClose={closeModalCreateRequest} />
+      <ModalCreateRequest
+        isOpen={isModalCreateRequestOpen}
+        onClose={closeModalCreateRequest}
+        onRequestCreated={handleRequestCreated}
+      />
       <ModalScanQr
         isOpen={isModalScanQrOpen}
         onClose={closeModalScanQr}

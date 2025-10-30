@@ -17,16 +17,16 @@ const handleSelectChange10 = (value: string) => {
   console.log('Selected value:', value);
 };
 
-interface ModalFiless {
+interface ModalFiles {
   isOpen: boolean;
   onClose: () => void;
 }
-interface ModalFilessProps {
+interface ModalFilesProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function ModalFiless({ isOpen, onClose }: ModalFilessProps) {
+export default function ModalFiles({ isOpen, onClose }: ModalFilesProps) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="max-w-[900px] m-4">
       <div className="no-scrollbar relative w-full max-w-[900px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">

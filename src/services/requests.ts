@@ -7,47 +7,58 @@ import {
   PaginatedResponse,
   PaginationQueryParams,
 } from '../types/api';
+import { useCallback } from 'react';
 
 export const useRequestsApi = () => {
   const { get, post, put, del, loading, error } = useApi();
 
-  const getRequests = async (params?: PaginationQueryParams) => {
-    return get<PaginatedResponse<Request>>('/api/v1/requests', { params });
-  };
+  const getRequests = useCallback(
+    async (params?: PaginationQueryParams) => {
+      return get<PaginatedResponse<Request>>('/api/v1/requests', { params });
+    },
+    [get],
+  );
 
-  const getRequestById = async (id: string) => {
-    return get<Request>(`/api/v1/requests/${id}`);
-  };
+  const getRequestById = useCallback(
+    async (id: string) => get<Request>(`/api/v1/requests/${id}`),
+    [get],
+  );
 
-  const createRequest = async (data: CreateRequestCommand) => {
-    return post<string>('/api/v1/requests', data);
-  };
+  const createRequest = useCallback(
+    async (data: CreateRequestCommand) => post<string>('/api/v1/requests', data),
+    [post],
+  );
 
-  const updateRequest = async (data: UpdateRequestCommand) => {
-    return put<string>('/api/v1/requests', data);
-  };
+  const updateRequest = useCallback(
+    async (data: UpdateRequestCommand) => put<string>('/api/v1/requests', data),
+    [put],
+  );
 
-  const deleteRequest = async (data: DeleteRequestCommand) => {
-    return del<boolean>('/api/v1/requests', { data });
-  };
+  const deleteRequest = useCallback(
+    async (data: DeleteRequestCommand) => del<boolean>('/api/v1/requests', data),
+    [del],
+  );
 
-  const uploadRequestFile = async (file: File) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    return post<Request>('/api/v1/requests/upload', formData);
-  };
+  const uploadRequestFile = useCallback(
+    async (file: File) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      return post<Request>('/api/v1/requests/upload', formData);
+    },
+    [post],
+  );
 
-  const importRequests = async () => {
-    return post<Request>('/api/v1/requests/import');
-  };
+  const importRequests = useCallback(async () => post<Request>('/api/v1/requests/import'), [post]);
 
-  const exportRequests = async () => {
-    return get<Blob>('/api/v1/requests/export', { responseType: 'blob' });
-  };
+  const exportRequests = useCallback(
+    async () => get<Blob>('/api/v1/requests/export', { responseType: 'blob' }),
+    [get],
+  );
 
-  const getRequestTemplate = async () => {
-    return get<Blob>('/api/v1/requests/template', { responseType: 'blob' });
-  };
+  const getRequestTemplate = useCallback(
+    async () => get<Blob>('/api/v1/requests/template', { responseType: 'blob' }),
+    [get],
+  );
 
   return {
     getRequests,

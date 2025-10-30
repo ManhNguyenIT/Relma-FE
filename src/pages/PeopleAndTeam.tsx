@@ -13,7 +13,7 @@ import ModalDeactive from '../components/modal/ModalDeactive';
 import ModalDeletePerson from '../components/modal/ModalDeletePerson';
 
 import AccountTypeButton from '../components/people-teams/AccountTypeButton';
-export default function PeoPleTeam() {
+export default function PeopleAndTeam() {
   const [showMenu, setShowMenu] = useState(false);
 
   const {

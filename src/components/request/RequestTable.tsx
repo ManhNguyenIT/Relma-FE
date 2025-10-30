@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
 import ModalRequestDetails from '../modal/ModalRequestDetails';
-import DataTable, { TableColumn } from '../common/DataTable';
+import ModalEditRequest from '../modal/ModalEditRequest';
+import DataTable, { TableColumn, TableAction } from '../common/DataTable';
+import { useRequestsApi } from '../../services/requests';
+import { Request } from '../../types/api';
 
-interface Request {
+interface RowData {
   id: string;
   title: string;
   asset: string;
@@ -21,75 +24,34 @@ interface Request {
   image?: string;
 }
 
-const requests: Request[] = [
-  {
-    id: '1',
-    title: 'Linh',
-    asset: 'ABC',
-    status: {
-      text: 'Declined',
-      color: 'text-red-600',
-      bgColor: 'bg-red-100',
-    },
-    workOrderStatus: 'Open',
-    submittedCreated: '07/01/25 - 02:23...',
-    category: 'ABC',
-    submittedBy: 'Tran Linh',
-    priority: '',
-    workOrder: '007',
-  },
-  {
-    id: '2',
-    title: 'Linh',
-    asset: 'ABC',
-    status: {
-      text: 'Approved',
-      color: 'text-green-600',
-      bgColor: 'bg-green-100',
-    },
-    workOrderStatus: 'Open',
-    submittedCreated: '07/01/25 - 02:23...',
-    category: 'ABC',
-    submittedBy: 'Tran Linh',
-    priority: '',
-    workOrder: '007',
-  },
-  {
-    id: '3',
-    title: 'Linh',
-    asset: 'ABC',
-    status: {
-      text: 'Declined',
-      color: 'text-red-600',
-      bgColor: 'bg-red-100',
-    },
-    workOrderStatus: 'Open',
-    submittedCreated: '07/01/25 - 02:23...',
-    category: 'ABC',
-    submittedBy: 'Tran Linh',
-    priority: '',
-    workOrder: '007',
-  },
-  {
-    id: '4',
-    title: 'Linh',
-    asset: 'ABC',
-    status: {
-      text: 'Declined',
-      color: 'text-red-600',
-      bgColor: 'bg-red-100',
-    },
-    workOrderStatus: 'Open',
-    submittedCreated: '07/01/25 - 02:23...',
-    category: 'ABC',
-    submittedBy: 'Tran Linh',
-    priority: '',
-    workOrder: '007',
-  },
-];
-
-const RequestTable = () => {
+const RequestTable = forwardRef<{ refresh: () => void }, Record<string, never>>((_, ref) => {
+  const { getRequests, deleteRequest, error } = useRequestsApi();
+  const [requests, setRequests] = useState<Request[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingRequest, setEditingRequest] = useState<Request | undefined>(undefined);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  // Load requests function
+  const loadRequests = async () => {
+    try {
+      console.log('📋 Loading requests...');
+      const response = await getRequests();
+      console.log('✅ Requests loaded:', response);
+      setRequests(response.items || []);
+    } catch (error) {
+      console.error('❌ Failed to load requests:', error);
+    }
+  };
+
+  // Load requests on component mount
+  useEffect(() => {
+    loadRequests();
+  }, []); // Empty dependency array ensures this only runs once on mount
+
+  // Expose refresh function to parent
+  useImperativeHandle(ref, () => ({
+    refresh: loadRequests,
+  }));
 
   const handleRowClick = () => {
     setIsModalOpen(true);
@@ -99,7 +61,24 @@ const RequestTable = () => {
     setIsModalOpen(false);
   };
 
-  const columns: TableColumn<Request>[] = [
+  const handleEditClick = (row: RowData) => {
+    const request = requests.find((r) => r.id === row.id);
+    if (request) {
+      setEditingRequest(request);
+      setIsEditModalOpen(true);
+    }
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+    setEditingRequest(undefined);
+  };
+
+  const handleRequestUpdated = () => {
+    loadRequests();
+  };
+
+  const columns: TableColumn<RowData>[] = [
     {
       key: 'title',
       label: 'Title',
@@ -182,18 +161,76 @@ const RequestTable = () => {
     },
   ];
 
+  const actions: TableAction<RowData>[] = [
+    {
+      label: 'Edit',
+      onClick: handleEditClick,
+    },
+    {
+      label: 'Delete',
+      onClick: async (row: RowData) => {
+        if (window.confirm('Are you sure you want to delete this request?')) {
+          try {
+            await deleteRequest({ ids: [row.id] });
+            console.log('✅ Request deleted:', row.id);
+            // Reload requests after deletion
+            await loadRequests();
+          } catch (error) {
+            console.error('❌ Failed to delete request:', error);
+            alert('Failed to delete request. Please try again.');
+          }
+        }
+      },
+      variant: 'danger',
+    },
+  ];
+
+  // Convert requests to RowData format
+  const tableData: RowData[] = requests.map((request) => ({
+    id: request.id,
+    title: request.title || '',
+    asset: request.asset?.name || '',
+    status: {
+      text: request.status?.toString() || '',
+      color: 'text-gray-600',
+      bgColor: 'bg-gray-100',
+    },
+    workOrderStatus: request.workOrder?.status?.toString() || '',
+    submittedCreated: '',
+    category: request.category?.toString() || '',
+    submittedBy: '',
+    priority: request.priority?.toString() || '',
+    workOrder: request.workOrder?.no || '',
+  }));
+
   return (
     <>
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          Error: {error.message}
+        </div>
+      )}
+
       <DataTable
-        data={requests}
+        data={tableData}
         columns={columns}
+        actions={actions}
         selectable={true}
         onRowClick={handleRowClick}
+        showActions={true}
         className="w-full bg-white rounded-lg border border-gray-200"
       />
       <ModalRequestDetails isOpen={isModalOpen} onClose={handleCloseModal} />
+      <ModalEditRequest
+        isOpen={isEditModalOpen}
+        onClose={handleCloseEditModal}
+        onRequestUpdated={handleRequestUpdated}
+        request={editingRequest}
+      />
     </>
   );
-};
+});
+
+RequestTable.displayName = 'RequestTable';
 
 export default RequestTable;

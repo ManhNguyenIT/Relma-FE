@@ -78,7 +78,7 @@ const navItems: NavItem[] = [
   {
     icon: <FilesIcon />,
     name: 'Files',
-    path: '/filess',
+    path: '/files',
   },
 ];
 

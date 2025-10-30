@@ -23,10 +23,10 @@ import VerdorsCustomers from './pages/VerdorsCustomers';
 import Filess from './pages/File';
 import CheckList from './pages/CheckList';
 import Warehouse from './pages/Warehouse';
-import PeoPleTeam from './pages/PeoPleTeam';
+import PeopleAndTeam from './pages/PeopleAndTeam';
 import Assets from './pages/Assets';
 import AssetsTask1 from './components/assets/AssetsTask1';
-import Requestss from './pages/Requestss';
+import Requests from './pages/Requests';
 import WareHouseInventoryDetails from './components/warehouse/ui-inventory/WareHouseInventoryDetails';
 import WorkOrderClickTable from './components/workorder/WorkOrderClickTable';
 import Location from './pages/Location';
@@ -54,10 +54,10 @@ export default function App() {
             <Route path="/form-elements" element={<FormElements />} />
             <Route path="/checklist" element={<CheckList />} />
             <Route path="/warehouse" element={<Warehouse />} />
-            <Route path="/people-teams" element={<PeoPleTeam />} />
+            <Route path="/people-teams" element={<PeopleAndTeam />} />
             <Route path="/assets" element={<Assets />} />
             <Route path="/assets-task1" element={<AssetsTask1 />} />
-            <Route path="/request" element={<Requestss />} />
+            <Route path="/request" element={<Requests />} />
             <Route path="/ware-house-inventory-details" element={<WareHouseInventoryDetails />} />
             <Route path="/work-order-click-table" element={<WorkOrderClickTable />} />
             <Route path="/location" element={<Location />} />

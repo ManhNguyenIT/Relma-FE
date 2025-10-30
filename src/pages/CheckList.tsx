@@ -6,13 +6,14 @@ import TagButton from '../components/files/ui/files-button/TagButton';
 import CheckListTable from '../components/tables/CheckListTable';
 import { useModal } from '../hooks/useModal';
 import ModalCreateCheckList from '../components/modal/ModalCreateCheckList';
+
 export default function CheckList() {
   const {
     isOpen: isModalCreateCheckListOpen,
     openModal: openModalCreateCheckList,
     closeModal: closeModalCreateCheckList,
   } = useModal();
-  const [activeTab, setActiveTab] = useState('start');
+  const [activeTab, setActiveTab] = useState('yourchecklists');
   const checkListTableRef = useRef<{ refresh: () => void }>(null);
 
   const handleChecklistCreated = () => {
@@ -85,7 +86,7 @@ export default function CheckList() {
                 <p className="text-[#0071FF] cursor-pointer">Reset</p>
               </div>
               <div>
-                <CheckListTable />
+                <CheckListTable ref={checkListTableRef} />
               </div>
             </div>
           )}

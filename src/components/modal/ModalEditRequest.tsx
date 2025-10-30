@@ -5,21 +5,23 @@ import Input from '../form/input/InputField';
 import TextArea from '../form/input/TextArea';
 import UpFile10 from '../upload/UpFile10';
 import { useRequestsApi } from '../../services/requests';
-import { useState } from 'react';
-import { CreateRequestCommand } from '../../types/api';
+import { useState, useEffect } from 'react';
+import { Request, UpdateRequestCommand } from '../../types/api';
 
-interface ModalCreateRequestProps {
+interface ModalEditRequestProps {
   isOpen: boolean;
   onClose: () => void;
-  onRequestCreated?: () => void;
+  onRequestUpdated?: () => void;
+  request?: Request;
 }
 
-export default function ModalCreateRequest({
+export default function ModalEditRequest({
   isOpen,
   onClose,
-  onRequestCreated,
-}: ModalCreateRequestProps) {
-  const { createRequest, loading, error } = useRequestsApi();
+  onRequestUpdated,
+  request,
+}: ModalEditRequestProps) {
+  const { updateRequest, loading, error } = useRequestsApi();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -28,6 +30,26 @@ export default function ModalCreateRequest({
     assetId: '',
     images: [] as string[],
   });
+
+  useEffect(() => {
+    if (request) {
+      setFormData({
+        title: request.title || '',
+        description: request.description || '',
+        priority:
+          request.priority === 0
+            ? 'low'
+            : request.priority === 1
+              ? 'medium'
+              : request.priority === 2
+                ? 'high'
+                : 'urgent',
+        category: request.category || 0,
+        assetId: request.assetId?.toString() || '',
+        images: request.images || [],
+      });
+    }
+  }, [request]);
 
   const handleSelectChange12 = (value: string) => {
     console.log('Selected value:', value);
@@ -42,11 +64,17 @@ export default function ModalCreateRequest({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!request) {
+      console.error('No request data provided');
+      return;
+    }
+
     try {
-      const requestData: CreateRequestCommand = {
+      const requestData: UpdateRequestCommand = {
+        id: request.id,
         title: formData.title || undefined,
         description: formData.description || undefined,
-        status: 0, // Default status
+        status: request.status,
         priority:
           formData.priority === 'low'
             ? 0
@@ -60,20 +88,20 @@ export default function ModalCreateRequest({
         images: formData.images,
       };
 
-      console.log('Submitting request:', requestData);
-      await createRequest(requestData);
-      console.log('✅ Request created successfully');
+      console.log('Updating request:', requestData);
+      await updateRequest(requestData);
+      console.log('✅ Request updated successfully');
 
       // Close modal
       onClose();
 
       // Call callback to refresh the table
-      if (onRequestCreated) {
-        onRequestCreated();
+      if (onRequestUpdated) {
+        onRequestUpdated();
       }
     } catch (error) {
-      console.error('❌ Failed to create request:', error);
-      alert('Failed to create request. Please try again.');
+      console.error('❌ Failed to update request:', error);
+      alert('Failed to update request. Please try again.');
     }
   };
 
@@ -82,7 +110,7 @@ export default function ModalCreateRequest({
       <div className="no-scrollbar relative w-full max-w-[900px] overflow-y-auto rounded-3xl bg-white dark:bg-gray-900 lg:p-11">
         <div className="px-2 pr-14">
           <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
-            Create Request
+            Edit Request
           </h4>
         </div>
         <div className="w-full border-b border-[#F3F3F3]" />
@@ -192,7 +220,7 @@ export default function ModalCreateRequest({
                     : 'border border-gray-300 bg-white hover:bg-gray-50'
                 }`}
               >
-                {loading ? 'Creating...' : 'Submit Request'}
+                {loading ? 'Updating...' : 'Update Request'}
               </button>
             </div>
           </div>

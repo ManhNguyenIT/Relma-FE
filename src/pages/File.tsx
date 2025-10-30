@@ -2,14 +2,14 @@ import WorkOrderTask from '../components/workorder/work-order-task/WorkOrderTask
 import FilterButton from '../components/workorder/work-order-button/FilterButton';
 import TagButton from '../components/files/ui/files-button/TagButton';
 import FilesTable from '../components/files/files-table/FilesTable';
-import ModalFiless from '../components/modal/ModalFiless';
+import ModalFiles from '../components/modal/ModalFiles';
 import { useModal } from '../hooks/useModal';
 
-export default function Filess() {
+export default function Files() {
   const {
-    isOpen: isModalFilessOpen,
-    openModal: openModalFiless,
-    closeModal: closeModalFiless,
+    isOpen: isModalFilesOpen,
+    openModal: openModalFiles,
+    closeModal: closeModalFiles,
   } = useModal();
   return (
     <div className="w-full flex flex-col md:gap-4 gap-3">
@@ -19,7 +19,7 @@ export default function Filess() {
           <button
             className="border border-[#0C6FF9] bg-[#0C6FF9] text-white flex items-center justify-center px-2 py-2 rounded-[4px]"
             type="button"
-            onClick={openModalFiless}
+            onClick={openModalFiles}
           >
             Add Files
           </button>
@@ -38,7 +38,7 @@ export default function Filess() {
       <div>
         <FilesTable />
       </div>
-      <ModalFiless isOpen={isModalFilessOpen} onClose={closeModalFiless} />
+      <ModalFiles isOpen={isModalFilesOpen} onClose={closeModalFiles} />
     </div>
   );
 }

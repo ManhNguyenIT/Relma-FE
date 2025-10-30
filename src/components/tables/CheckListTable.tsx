@@ -13,7 +13,7 @@ interface RowData {
   tags?: string;
 }
 
-const CheckListTable = forwardRef<{ refresh: () => void }, Record<string, never>>((_, ref) => {
+const CheckListTable = forwardRef<{ refresh: () => void }>((_, ref) => {
   const {
     isOpen: isModalEditCheckListOpen,
     openModal: openModalEditCheckList,
