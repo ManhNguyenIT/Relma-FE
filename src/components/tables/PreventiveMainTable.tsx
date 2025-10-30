@@ -1,10 +1,12 @@
-import { useState } from 'react';
-import { FaImage } from 'react-icons/fa';
+import { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { useNavigate } from 'react-router';
+import { useMaintenancesApi } from '../../services/maintenances';
+import { Maintenance } from '../../types/api';
+import DataTable, { TableColumn, TableAction } from '../common/DataTable';
 
 interface RowData {
-  name: string;
   id: string;
+  name: string;
   title: string;
   description: string;
   assets: number;
@@ -15,140 +17,166 @@ interface RowData {
   priorityColor: string;
 }
 
-export default function PreventiveMainTable() {
+const PreventiveMainTable = forwardRef<{ refresh: () => void }, Record<string, never>>((_, ref) => {
   const navigate = useNavigate();
+  const { getMaintenances, deleteMaintenance, error } = useMaintenancesApi();
+  const [maintenances, setMaintenances] = useState<Maintenance[]>([]);
 
-  const [tableData, setTableData] = useState<RowData[]>([
-    {
-      name: 'kiểm tra máy điều hòa',
-      id: '6863fb69392...',
-      title: 'HVAC Monthly Preventive M...',
-      description: 'Monthly HVAC preventative...',
-      assets: 3,
-      category: 'Meter Reading',
-      priority: 'High',
-      paused: 'No',
-      checklist: 'Test 1',
-      priorityColor: 'bg-red-100 text-red-500',
-    },
-    {
-      name: 'truyền một',
-      id: '6863fb69392...',
-      title: 'kiểm tra máy điều hòa',
-      description: 'kiểm tra máy điều hòa',
-      assets: 3,
-      category: 'Meter Reading',
-      priority: 'None',
-      paused: 'No',
-      checklist: 'Test 1',
-      priorityColor: 'bg-gray-100 text-gray-500',
-    },
-    {
-      name: 'HVAC Preventive Maintenance',
-      id: '6863fb69392...',
-      title: 'kiểm tra máy điều hòa',
-      description: 'kiểm tra máy điều hòa',
-      assets: 3,
-      category: 'Meter Reading',
-      priority: 'Medium',
-      paused: 'No',
-      checklist: 'Test 1',
-      priorityColor: 'bg-yellow-100 text-yellow-600',
-    },
-  ]);
-
-  const [selected, setSelected] = useState<number[]>([]);
-  const isAllSelected = selected.length === tableData.length;
-
-  const toggleSelectAll = () => {
-    if (isAllSelected) {
-      setSelected([]);
-    } else {
-      setSelected(tableData.map((_, idx) => idx));
+  // Load maintenances function
+  const loadMaintenances = async () => {
+    try {
+      console.log('📋 Loading maintenances...');
+      const response = await getMaintenances();
+      console.log('✅ Maintenances loaded:', response);
+      setMaintenances(response.items || []);
+    } catch (error) {
+      console.error('❌ Failed to load maintenances:', error);
     }
   };
 
-  const toggleSelect = (index: number) => {
-    if (selected.includes(index)) {
-      setSelected(selected.filter((i) => i !== index));
-    } else {
-      setSelected([...selected, index]);
+  // Load maintenances on component mount
+  useEffect(() => {
+    loadMaintenances();
+  }, []);
+
+  // Expose refresh function to parent
+  useImperativeHandle(ref, () => ({
+    refresh: loadMaintenances,
+  }));
+
+  const handleRowClick = () => {
+    navigate('/preventive-details');
+  };
+
+  const handleEditClick = (row: RowData) => {
+    console.log('Edit maintenance', row);
+    // TODO: Implement edit maintenance functionality
+  };
+
+  const handleDeleteClick = async (row: RowData) => {
+    if (window.confirm('Are you sure you want to delete this maintenance?')) {
+      try {
+        await deleteMaintenance({ ids: [row.id] });
+        console.log('✅ Maintenance deleted:', row.id);
+        await loadMaintenances();
+      } catch (error) {
+        console.error('❌ Failed to delete maintenance:', error);
+        alert('Failed to delete maintenance. Please try again.');
+      }
     }
   };
 
-  const handleAssetChange = (index: number, value: number) => {
-    const updatedData = [...tableData];
-    updatedData[index].assets = value;
-    setTableData(updatedData);
-  };
+  const columns: TableColumn<RowData>[] = [
+    {
+      key: 'name',
+      label: 'Name',
+    },
+    {
+      key: 'id',
+      label: 'ID',
+    },
+    {
+      key: 'title',
+      label: 'Work Order Title',
+    },
+    {
+      key: 'description',
+      label: 'Work Order Description',
+    },
+    {
+      key: 'assets',
+      label: 'Assets & Location',
+      render: (value) => (
+        <select
+          value={value}
+          onChange={(e) => console.log('Asset changed to:', e.target.value)}
+          className="border rounded px-2 py-1 text-sm"
+        >
+          <option value={1}>1</option>
+          <option value={2}>2</option>
+          <option value={3}>3</option>
+          <option value={4}>4</option>
+        </select>
+      ),
+    },
+    {
+      key: 'category',
+      label: 'Category',
+    },
+    {
+      key: 'priority',
+      label: 'Priority',
+      render: (value) => {
+        const priorityColor =
+          value === 'High'
+            ? 'bg-red-100 text-red-500'
+            : value === 'Medium'
+              ? 'bg-yellow-100 text-yellow-600'
+              : value === 'Low'
+                ? 'bg-green-100 text-green-600'
+                : 'bg-gray-100 text-gray-500';
+
+        return <span className={`px-2 py-1 text-xs rounded ${priorityColor}`}>{value}</span>;
+      },
+    },
+    {
+      key: 'paused',
+      label: 'Paused',
+    },
+    {
+      key: 'checklist',
+      label: 'Checklist',
+      render: (value) => <span className="text-blue-500 cursor-pointer">{value}</span>,
+    },
+  ];
+
+  const actions: TableAction<RowData>[] = [
+    {
+      label: 'Edit',
+      onClick: handleEditClick,
+    },
+    {
+      label: 'Delete',
+      onClick: handleDeleteClick,
+      variant: 'danger',
+    },
+  ];
+
+  // Convert maintenances to RowData format
+  const tableData: RowData[] = maintenances.map((maintenance) => ({
+    id: maintenance.id,
+    name: 'Maintenance Name', // Placeholder - adjust based on actual Maintenance type
+    title: 'Work Order Title', // Placeholder - adjust based on actual Maintenance type
+    description: 'Work Order Description', // Placeholder - adjust based on actual Maintenance type
+    assets: maintenance.assets?.length || 0,
+    category: 'Category', // Placeholder - adjust based on actual Maintenance type
+    priority: 'Medium', // Placeholder - adjust based on actual Maintenance type
+    paused: 'No', // Placeholder - adjust based on actual Maintenance type
+    checklist: 'Test 1', // Placeholder - adjust based on actual Maintenance type
+    priorityColor: 'bg-yellow-100 text-yellow-600', // Default color for Medium priority
+  }));
 
   return (
-    <div className="bg-white rounded-xl shadow p-4 overflow-x-auto">
-      <table className="w-full text-left border-collapse">
-        <thead className="text-gray-500 text-sm">
-          <tr>
-            <th className="p-3">
-              <input type="checkbox" checked={isAllSelected} onChange={toggleSelectAll} />
-            </th>
-            <th className="p-3">Name</th>
-            <th className="p-3">ID</th>
-            <th className="p-3">Work Order Title</th>
-            <th className="p-3">Work Order Description</th>
-            <th className="p-3">Image</th>
-            <th className="p-3">Assets & Location</th>
-            <th className="p-3">Category</th>
-            <th className="p-3">Priority</th>
-            <th className="p-3">Paused</th>
-            <th className="p-3">Checklist</th>
-          </tr>
-        </thead>
-        <tbody className="text-sm">
-          {tableData.map((row, idx) => {
-            const isSelected = selected.includes(idx);
-            return (
-              <tr
-                key={idx}
-                className={`border-t hover:bg-gray-50 ${isSelected ? 'bg-blue-50' : ''}`}
-              >
-                <td className="p-3">
-                  <input type="checkbox" checked={isSelected} onChange={() => toggleSelect(idx)} />
-                </td>
-                <td className="p-3 cursor-pointer" onClick={() => navigate('/preventive-details')}>
-                  {row.name}
-                </td>
-                <td className="p-3">{row.id}</td>
-                <td className="p-3">{row.title}</td>
-                <td className="p-3">{row.description}</td>
-                <td className="p-3">
-                  <div className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center">
-                    <FaImage className="text-gray-500" />
-                  </div>
-                </td>
-                <td className="p-3">
-                  <select
-                    value={row.assets}
-                    onChange={(e) => handleAssetChange(idx, Number(e.target.value))}
-                    className="border rounded px-2 py-1 text-sm"
-                  >
-                    <option value={1}>1</option>
-                    <option value={2}>2</option>
-                    <option value={3}>3</option>
-                    <option value={4}>4</option>
-                  </select>
-                </td>
-                <td className="p-3">{row.category}</td>
-                <td className="p-3">
-                  <span className={`px-2 py-1 text-xs rounded ${row.priorityColor}`}>
-                    {row.priority}
-                  </span>
-                </td>
-                <td className="p-3">{row.paused}</td>
-                <td className="p-3 text-blue-500 cursor-pointer">{row.checklist}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+    <>
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          Error: {error.message}
+        </div>
+      )}
+
+      <DataTable
+        data={tableData}
+        columns={columns}
+        actions={actions}
+        selectable={true}
+        onRowClick={handleRowClick}
+        showActions={true}
+        className="w-full bg-white rounded-lg border border-gray-200"
+      />
+    </>
   );
-}
+});
+
+PreventiveMainTable.displayName = 'PreventiveMainTable';
+
+export default PreventiveMainTable;
